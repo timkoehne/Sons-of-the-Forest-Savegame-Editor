@@ -51,7 +51,12 @@ def listboxSelect(index: int):
 
 def setAmount():
     global inventory
-    itemId = findIdFromName(selectedItem.get())
+    
+    if selectedItem.get() in possibleItems: 
+        itemId = findIdFromName(selectedItem.get())
+    else:
+        itemId = int(selectedItem.get().split("-")[-1])
+        
     amount =  int(amountEntry.get())
     print(f"Setting item {findNameFromId(itemId)} (id {itemId}) to amount {amount}")
     found = False
@@ -60,17 +65,10 @@ def setAmount():
             found = True
             item["TotalCount"] = amount
             listboxSelect(index)
-    if not found: 
-
-        if selectedItem.get() in possibleItems:        
+    if not found:      
             inventory.append({'ItemId': itemId, 'TotalCount': amount, 'UniqueItems': []})
-            itemIndex = possibleItems.index(selectedItem.get())
-            listboxSelect(itemIndex)
-        else:
-            #unknown item id
-            itemId = selectedItem.get().split("-")[-1]
-            print(itemId)
-            inventory.append({'ItemId': itemId, 'TotalCount': amount, 'UniqueItems': []})
+            #itemIndex = possibleItems.index(selectedItem.get())
+            #listboxSelect(itemIndex)
             
     refreshInventoryText()
         

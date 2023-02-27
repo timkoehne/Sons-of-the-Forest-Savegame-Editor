@@ -1,8 +1,8 @@
  38 : Combat Knife
  78 : Log
 351 : Grab Bag
-353 : Stun Gun Item
-355 : Pistol Item
+353 : Stun Gun
+355 : Pistol
 358 : Shotgun
 362 : Pistol Ammo
 368 : Crossbow Bolt
@@ -13,15 +13,19 @@
 373 : Carbon Fiber Arrow
 374 : Pistol Supressor
 379 : Tactical Axe
-386 : Revolver Item
+381 : Grenade
+386 : Revolver
 390 : Printer Resin
 392 : Stick
 393 : Rock
 394 : Chainsaw
 395 : Log Plank
+397 : Shiitake
+399 : Hydnum Repandum
 400 : Fly Amanita
 402 : Backpack
 403 : Rope
+405 : Bone
 406 : Log Quarter 1x
 408 : Log Quarter 2x
 409 : Log Quarter 3x
@@ -30,27 +34,40 @@
 413 : Plasma Lighter
 414 : Vodka
 415 : Cloth
+416 : Circuit Board
+417 : Time Bomb
 418 : Wire
 419 : Duct Tape
 420 : C4
+421 : Ramen Noodles
+425 : Crunchie Wunchies
 426 : Printed Flask
 428 : Printed Sled
+430 : Skull
+433 : Meat Raw/Cooked/Burned 
+434 : Canned Food
 436 : Fish
-437 : Medicine
+437 : Meds
 438 : MRE
 439 : Energy Drink
 440 : Flare
+441 : Energy Bar
 444 : Rebreather
 445 : Blueberry
 447 : Salmonberries
-451 : Aloe Vera
+451 : Aloevera
+452 : Yarrow
+453 : Fireweed
+454 : Arrowleaf
 455 : Health Mix
 456 : Health Mix Plus
 461 : Energy Mix
 462 : Energy Mix Plus
 465 : Chicory
-469 : Air Canister
+466 : Oyster
+469 : Air Tank
 471 : Flashlight
+472 : Animal Hide
 474 : Crafted Spear
 476 : Small Rock
 479 : Feather
@@ -65,22 +82,29 @@
 503 : Torch
 504 : Tarp
 506 : Turtle Shell
-508 : Loot Pouch
+507 : Stone Arrow
+508 : Skin Pouch
 512 : Food Tray Filled
 517 : Cooking Pot
+518 : Paper Target
 522 : Ropegun
 523 : Zipline Rope
 527 : Batteries
 529 : Gps Locator
 552 : Blueprint Book
 554 : Tech Armor
+570 : Steak Bite
 572 : Golden Armor
 576 : Log Plank Quarter 1x
 577 : Log Plank Quarter 2x
 578 : Log Plank Quarter 3x
-589 : Tutorial Book
+589 : Guide Book
 590 : Radio
 593 : Creepy Armor
+596 : Aloevera Seed
+597 : Arrowleaf Seed
 599 : Blueberry Seed
+604 : Salmonberry Seed
+605 : Chicory Seed
 606 : Yarrow Seed
 619 : Swim Suit
