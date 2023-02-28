@@ -2,15 +2,10 @@ import json
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog as tkfiledialog
+from tkinter import messagebox as tkmessagebox
 import os
-
-class KnownItem:
-    def __init__(self, id: int, name: str):
-        self.id = int(id)
-        self.name = name
-        
-    def __eq__(self, anotherId):
-        return self.id == anotherId
+from KnownItem import KnownItem
+from TkEditJsonDialog import TkEditJsonDialog
 
 def loadKnownItemIds(filepath: str):
     global knownItems
@@ -130,9 +125,24 @@ def refreshInventoryText():
         listboxSelect(s)
     inventoryListbox.yview_moveto(yview[0])
 
-def doubleclick(event):
-    selected = inventoryListbox.curselection()
-    print(selected)
+def viewItemJson(event):
+    if inventoryListbox.curselection():
+        selectedIndex = inventoryListbox.curselection()[0]
+        selectedId = inventory[selectedIndex]["ItemId"]
+        selectedName = findNameFromId(selectedId)
+    
+        result = TkEditJsonDialog(window, title=selectedName, 
+                                    text=json.dumps(inventory[selectedIndex], indent=4)).show()
+    
+        try:
+            json.loads(result)
+            print(f"Item {selectedName} ({selectedId}) was changed")
+        except ValueError:
+            tkmessagebox.showerror("Json Format Error", "Change could not be saved since it was not in json format.")
+        else:
+            print()
+            inventory[selectedIndex] = json.loads(result)
+            refreshInventoryText()
 
 def comboboxSelected(event):
     selectedId = findIdFromName(selectedItem.get())
@@ -205,7 +215,7 @@ def createUiElements():
     inventoryScrollbar.pack(side="right", fill="y")
     inventoryListbox = tk.Listbox(inventoryFrame, yscrollcommand=inventoryScrollbar.set)
     inventoryListbox.pack(side="left", expand=True, fill="both")
-    inventoryListbox.bind("<Double-1>", doubleclick)
+    inventoryListbox.bind("<Double-1>", viewItemJson)
     inventoryListbox.bind("<<ListboxSelect>>", listboxSelected)
     inventoryScrollbar.config(command=inventoryListbox.yview)
     
