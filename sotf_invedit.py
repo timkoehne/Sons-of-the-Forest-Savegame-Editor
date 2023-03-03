@@ -1,20 +1,14 @@
 import json
 import tkinter as tk
 from tkinter import ttk
-from tkinter import filedialog as tkfiledialog
 from tkinter import messagebox as tkmessagebox
-import os
-from KnownItem import KnownItem
 from TkEditJsonDialog import TkEditJsonDialog
 from ItemIdLoader import ItemIdLoader
+from InventoryLoader import InventoryLoader
 
 def reloadItemIds():
     itemIdLoader.loadIdsFromGamefiles()
     itemCombobox['values'] = sorted([item.name for item in itemIdLoader.getIds()])
-          
-def listInventory():
-    for item in inventory:
-        print("Item %s exists %d times" %(item["ItemId"], item["TotalCount"]))
 
 def listboxSelect(index: int):
     inventoryListbox.selection_set(index)
@@ -22,79 +16,25 @@ def listboxSelect(index: int):
     inventoryListbox.see(index)
 
 def setAmount():
-    global inventory
+    selected = selectedItem.get()
+    amount = int(amountEntry.get())
+    inventoryLoader.setAmount(selected, amount)
     
-    if selectedItem.get() in possibleItems: 
-        itemId = itemIdLoader.findIdFromName(selectedItem.get())
-    else:
-        itemId = int(selectedItem.get().split("-")[-1])
-        
-    amount =  int(amountEntry.get())
-    print(f"Setting item {itemIdLoader.findNameFromId(itemId)} (id {itemId}) to amount {amount}")
-    found = False
-    for index, item in enumerate(inventory):
-        if item["ItemId"] == itemId:
-            found = True
-            item["TotalCount"] = amount
-            listboxSelect(index)
-    if not found:      
-            inventory.append({'ItemId': itemId, 'TotalCount': amount, 'UniqueItems': []})
-            #itemIndex = possibleItems.index(selectedItem.get())
-            #listboxSelect(itemIndex)
-            
-    refreshInventoryText()
-        
+    listboxSelect(inventoryLoader.findIndexInInventory(selected))
+    refreshInventoryList()
+    
 def getAmount(itemId: int) -> int:
-    for item in inventory:
+    for item in inventoryLoader.inventory:
         if item["ItemId"] == itemId:
             return item["TotalCount"]
     return 0
         
-def loadInventory():
-    global playerdataFilepath
-    global playerSaveData
-    global entireInventoryData
-    global inventory
-    
-    filetypes = (
-    ('json file', '*.json'),
-    ('All files', '*.*')
-    )
-    playerdataFilepath = tkfiledialog.askopenfilename(title="Select PlayerInventorySaveData.json", 
-                                          initialdir=f"C:/Users/{os.getlogin()}/AppData/LocalLow/Endnight/SonsOfTheForest/Saves/", 
-                                          filetypes=filetypes)
-    
-    with open(playerdataFilepath, "r") as file:
-        playerSaveData = json.loads(file.read())
-    entireInventoryData = json.loads(playerSaveData["Data"]["PlayerInventory"])
-    inventory = entireInventoryData["ItemInstanceManagerData"]["ItemBlocks"]
-    refreshInventoryText()
-    print("Inventory loaded")
-        
-def saveInventory():
-    entireInventoryData["ItemInstanceManagerData"]["ItemBlocks"] = inventory
-    playerSaveData["Data"]["PlayerInventory"] = json.dumps(entireInventoryData)
-    strPlayerSaveData = json.dumps(playerSaveData)
-     
-    filetypes = (
-    ('json file', '*.json'),
-    ('All files', '*.*')
-    )
-    savefilepath = tkfiledialog.asksaveasfilename(title="Save Inventory as...", 
-                                          initialdir=playerdataFilepath, 
-                                          filetypes=filetypes)
-    with open(savefilepath, "w") as file:
-        file.write(strPlayerSaveData)
-        print("Inventory saved")
-
-def refreshInventoryText():
-    global inventory
+def refreshInventoryList():
     selected = inventoryListbox.curselection()
     yview = inventoryListbox.yview()
     inventoryListbox.delete(0, tk.END)
-    inventory = sorted(inventory, key=lambda item: itemIdLoader.findNameFromId(item["ItemId"]))
     
-    for index, item in enumerate(inventory):
+    for index, item in enumerate(inventoryLoader.inventory):
         name = itemIdLoader.findNameFromId(item["ItemId"])
         amount = item["TotalCount"]
         inventoryListbox.insert(index+1, name + " " + str(amount) + "x")
@@ -102,30 +42,37 @@ def refreshInventoryText():
         listboxSelect(s)
     inventoryListbox.yview_moveto(yview[0])
 
+def loadInventory():
+    inventoryLoader.loadInventory()
+    refreshInventoryList()
+
+def saveInventory():
+    inventoryLoader.saveInventory()
+
 def viewItemJson(event):
     if inventoryListbox.curselection():
         selectedIndex = inventoryListbox.curselection()[0]
-        selectedId = inventory[selectedIndex]["ItemId"]
+        selectedId = inventoryLoader.inventory[selectedIndex]["ItemId"]
         selectedName = itemIdLoader.findNameFromId(selectedId)
     
         result = TkEditJsonDialog(window, title=selectedName, 
-                                    text=json.dumps(inventory[selectedIndex], indent=4)).show()
+                                    text=json.dumps(inventoryLoader.inventory[selectedIndex], indent=4)).show()
         try:
             result = json.loads(result)
             
-            if inventory[selectedIndex] != result:
+            if inventoryLoader.inventory[selectedIndex] != result:
                 print(f"Item {selectedName} ({selectedId}) was changed")
         except ValueError:
             tkmessagebox.showerror("Json Format Error", 
                                    "Change could not be saved since it was not in json format.")
         else:
-            inventory[selectedIndex] = result
-            refreshInventoryText()
+            inventoryLoader.inventory[selectedIndex] = result
+            refreshInventoryList()
 
 def comboboxSelected(event):
     selectedId = itemIdLoader.findIdFromName(selectedItem.get())
     found = False
-    for index, item in enumerate(inventory):
+    for index, item in enumerate(inventoryLoader.inventory):
         if item["ItemId"] == selectedId:
             listboxSelect(index)
             amountSetText(item["TotalCount"])
@@ -141,10 +88,10 @@ def amountSetText(text: str):
 def listboxSelected(event):
     if inventoryListbox.curselection():
         selectedIndex = inventoryListbox.curselection()
-        selectedId = inventory[selectedIndex[0]]["ItemId"]
+        selectedId = inventoryLoader.inventory[selectedIndex[0]]["ItemId"]
         selectedName = itemIdLoader.findNameFromId(selectedId)
         itemCombobox.set(selectedName)
-        amountSetText(inventory[selectedIndex[0]]["TotalCount"])
+        amountSetText(inventoryLoader.inventory[selectedIndex[0]]["TotalCount"])
 
 def createUiElements():
     global inventoryListbox
@@ -205,12 +152,12 @@ def createUiElements():
     inventoryScrollbar.config(command=inventoryListbox.yview)
     
     comboboxSelected("")
-    refreshInventoryText()
+    refreshInventoryList()
 
 itemIdLoader = ItemIdLoader()
 itemIdLoader.loadIds()
-    
-inventory = []
+
+inventoryLoader = InventoryLoader(itemIdLoader)
 
 window = tk.Tk()
 window.title("SotF Inventory Editor")
