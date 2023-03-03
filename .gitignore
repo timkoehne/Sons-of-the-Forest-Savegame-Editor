@@ -1,6 +1,5 @@
-test.json
-PlayerInventorySaveData.json
 sotf inventory editor.code-workspace
-currentInventory.json
 __pycache__/KnownItem.cpython-310.pyc
 __pycache__/TkEditJsonDialog.cpython-310.pyc
+__pycache__/ItemIdLoader.cpython-310.pyc
+__pycache__/IdExtractor.cpython-310.pyc
