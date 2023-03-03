@@ -8,7 +8,7 @@ from InventoryLoader import InventoryLoader
 
 def reloadItemIds():
     itemIdLoader.loadIdsFromGamefiles()
-    itemCombobox['values'] = sorted([item.name for item in itemIdLoader.getIds()])
+    itemCombobox['values'] = sorted([item["name"] for item in itemIdLoader.getIds()])
 
 def listboxSelect(index: int):
     inventoryListbox.selection_set(index)
@@ -22,13 +22,7 @@ def setAmount():
     
     listboxSelect(inventoryLoader.findIndexInInventory(selected))
     refreshInventoryList()
-    
-def getAmount(itemId: int) -> int:
-    for item in inventoryLoader.inventory:
-        if item["ItemId"] == itemId:
-            return item["TotalCount"]
-    return 0
-        
+
 def refreshInventoryList():
     selected = inventoryListbox.curselection()
     yview = inventoryListbox.yview()
@@ -80,7 +74,7 @@ def comboboxSelected(event):
             
     if not found:
         amountSetText(str(1))
-        
+
 def amountSetText(text: str):
     amountEntry.delete(0, tk.END)
     amountEntry.insert(tk.END, text)
@@ -103,7 +97,7 @@ def createUiElements():
     #left part of ui
     addItemFrame = tk.Frame(window)
     addItemFrame.pack(expand=True, fill="both", side="left", padx=10, pady=10)
-    possibleItems = [item.name for item in itemIdLoader.getIds()]
+    possibleItems = [item["name"] for item in itemIdLoader.getIds()]
     selectedItem = tk.StringVar(addItemFrame)
     selectedItem.set(possibleItems[0])
     itemCombobox = ttk.Combobox(addItemFrame, textvariable=selectedItem)
@@ -124,7 +118,7 @@ def createUiElements():
     
     knownItemsFrame = tk.Frame(addItemFrame)
     knownItemsFrame.pack(side="bottom")
-    
+
     reloadKnownItemsButton = tk.Button(knownItemsFrame, text="Reload Item Ids", command=reloadItemIds)
     reloadKnownItemsButton.pack(side="left", ipadx=5, ipady=5, padx=5, pady=5)
     saveKnownItemsButton = tk.Button(knownItemsFrame, text="Save Item Ids", command=itemIdLoader.saveIds)

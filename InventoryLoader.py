@@ -56,19 +56,27 @@ class InventoryLoader:
             print("Item %s exists %d times" %(item["ItemId"], item["TotalCount"]))
             
     def setAmount(self, selectedItem, amount):
-        if selectedItem in [item.name for item in self.itemIdLoader.getIds()]: 
+        
+        if selectedItem in [item["name"] for item in self.itemIdLoader.getIds()]: 
             itemId = self.itemIdLoader.findIdFromName(selectedItem)
         else:
             itemId = int(selectedItem.split("-")[-1])
             
+        allUniqueItems = []
+        singleUniqueItem = self.itemIdLoader.findEntryFromId(itemId)["UniqueItems"]
+        for x in range(0, amount):                
+            allUniqueItems.append(singleUniqueItem)
+            
         print(f"Setting item {self.itemIdLoader.findNameFromId(itemId)} (id {itemId}) to amount {amount}")
         found = False
-        for index, item in enumerate(self.inventory):
+        for item in self.inventory:
             if item["ItemId"] == itemId:
                 found = True
                 item["TotalCount"] = amount
+                item["UniqueItems"] = allUniqueItems
+                
         if not found:      
-                self.inventory.append({'ItemId': itemId, 'TotalCount': amount, 'UniqueItems': []})
+                self.inventory.append({'ItemId': itemId, 'TotalCount': amount, 'UniqueItems': allUniqueItems})
                 self.inventory.sort(key=lambda item: self.itemIdLoader.findNameFromId(item["ItemId"]))
             
     def getAmount(self, itemId: int) -> int:

@@ -1,6 +1,6 @@
-from KnownItem import KnownItem
 import regex
 import os
+import json
 from tkinter import filedialog as tkfiledialog
 
 class ItemIdLoader: 
@@ -9,12 +9,8 @@ class ItemIdLoader:
         self.itemIds = []
 
     def loadIdsFromFile(self):
-        with open("itemIds.txt", "r") as file:
-            self.itemIds = []
-            lines = file.readlines()
-            for line in lines:
-                id, name = line.strip().split(":")
-                self.itemIds.append(KnownItem(id, name))
+        with open("itemIds.json", "r") as file:
+            self.itemIds = json.loads(file.read())
 
     def loadIdsFromGamefiles(self, sotfInstallDir=None):
         if sotfInstallDir is None:
@@ -22,7 +18,6 @@ class ItemIdLoader:
                 title="Select Sons of the Forest installation location")
         
         path = sotfInstallDir + "/SonsOfTheForest_Data/resources.assets"
-        self.itemIds = []
         
         print("Extracting Item Ids...")
         with open(path, "rb",) as file:
@@ -39,13 +34,19 @@ class ItemIdLoader:
                     name = name.removeprefix("x00")
                     id = id[3:-1]
                     
-                    
-                    self.itemIds.append(KnownItem(id, name))
+                    if not self.isKnownId(id):
+                        print(f"{id} is not a known id")
+                        self.itemIds.append({
+                            "id" : id, 
+                            "name" : name, 
+                            "max" : 1,
+                            "UniqueItems" : {}
+                        })
                     
         print(f"Done. Found {len(self.itemIds)} Ids.")
          
     def loadIds(self, sotfInstallDir=None):
-        if sotfInstallDir is None and os.path.exists("itemIds.txt"):
+        if sotfInstallDir is None and os.path.exists("itemIds.json"):
             self.loadIdsFromFile()
             if self.itemIds == []:
                 self.loadIdsFromGamefiles(sotfInstallDir)
@@ -53,11 +54,9 @@ class ItemIdLoader:
             self.loadIdsFromGamefiles(sotfInstallDir)
             
     def saveIds(self, sotfInstallDir=None):
-        with open("itemIds.txt", "w") as file:
-            for index, item in enumerate(self.itemIds, 1):
-                file.write(str(item.id) + " : " + item.name)
-                if index < len(self.itemIds):
-                    file.write("\n")
+        self.itemIds.sort(key=lambda item: item["name"])
+        with open("itemIds.json", "w") as file:
+            file.write(json.dumps(self.itemIds, indent=4))
             print("Save complete.")
     
     def getIds(self):
@@ -65,23 +64,31 @@ class ItemIdLoader:
         
     def findNameFromId(self, id: int) -> str:
         for item in self.itemIds:
-            if item.id == id:
-                return item.name
+            if item["id"] == str(id):
+                return item["name"]
         return f"?-UnknownId-{id}"
-
-    def findItemFromId(self, id: int) -> KnownItem:
-        for item in self.item:
-            if item.id == id:
-                return item
-    
-            return self.itemIds
         
     def findIdFromName(self, name: str) -> int:
         for item in self.itemIds:
-            if item.name == name:
-                return item.id
+            if item["name"] == name:
+                return item["id"]
 
-    def isKnownId(self, itemId: int):
-        return any(item == itemId for item in self.itemIds)
+    def findEntryFromName(self, name: str):
+        for item in self.itemIds:
+            if item["name"] == name:
+                return item
+            
+    def findEntryFromId(self, id: str):
+        for item in self.itemIds:
+            if item["id"] == id:
+                return item
+
+
+    def isKnownId(self, itemId: str):
+        found = False
+        for item in self.itemIds:
+            if item["id"] == itemId:
+                found = True
+        return found
 
         
