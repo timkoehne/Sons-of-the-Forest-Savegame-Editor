@@ -65,19 +65,21 @@ def viewItemJson(event):
 
 def comboboxSelected(event):
     selectedId = itemIdLoader.findIdFromName(selectedItem.get())
-    found = False
     for index, item in enumerate(inventoryLoader.inventory):
         if item["ItemId"] == selectedId:
             listboxSelect(index)
-            amountSetText(item["TotalCount"])
-            found = True
             
-    if not found:
-        amountSetText(str(1))
+    amountSetKnownItem(itemIdLoader.findEntryFromId(selectedId))
 
-def amountSetText(text: str):
+def amountSetKnownItem(item):
     amountEntry.delete(0, tk.END)
-    amountEntry.insert(tk.END, text)
+    
+    if inventoryLoader.containsId(item["id"]):
+        amountEntry.insert(tk.END, inventoryLoader.findItemFromId(item["id"])["TotalCount"])
+    else:
+        amountEntry.insert(tk.END, "1")
+        
+    maxLabel.config(text=f'max {itemIdLoader.findEntryFromId(item["id"])["max"]}')
 
 def listboxSelected(event):
     if inventoryListbox.curselection():
@@ -85,14 +87,15 @@ def listboxSelected(event):
         selectedId = inventoryLoader.inventory[selectedIndex[0]]["ItemId"]
         selectedName = itemIdLoader.findNameFromId(selectedId)
         itemCombobox.set(selectedName)
-        amountSetText(inventoryLoader.inventory[selectedIndex[0]]["TotalCount"])
-
+        amountSetKnownItem(itemIdLoader.findEntryFromId(selectedId))
+        
 def createUiElements():
     global inventoryListbox
     global amountEntry
     global itemCombobox
     global possibleItems
     global selectedItem
+    global maxLabel
     
     #left part of ui
     addItemFrame = tk.Frame(window)
@@ -100,7 +103,7 @@ def createUiElements():
     possibleItems = [item["name"] for item in itemIdLoader.getIds()]
     selectedItem = tk.StringVar(addItemFrame)
     selectedItem.set(possibleItems[0])
-    itemCombobox = ttk.Combobox(addItemFrame, textvariable=selectedItem)
+    itemCombobox = ttk.Combobox(addItemFrame, textvariable=selectedItem, width=30)
     itemCombobox['values'] = possibleItems
     itemCombobox['state'] = 'readonly'
     itemCombobox.bind("<<ComboboxSelected>>", comboboxSelected)
@@ -109,9 +112,11 @@ def createUiElements():
     amountFrame.pack(ipadx=5, ipady=5, padx=5, pady=5)
     amountLabel = ttk.Label(amountFrame, text="Amount")
     amountLabel.pack(side="left")
-    amountEntry = tk.Entry(amountFrame)
-    amountSetText(str(1))
-    amountEntry.pack(side="right")
+    amountEntry = tk.Entry(amountFrame, width="8")
+    amountEntry.pack(side="left")
+    maxLabel = ttk.Label(amountFrame, text="max 1", width=10)
+    maxLabel.pack(side="right")
+    amountSetKnownItem(itemIdLoader.itemIds[0])
     addButton = tk.Button(addItemFrame, text="Set Amount", 
                           command=setAmount)
     addButton.pack(ipadx=5, ipady=5, padx=5, pady=5)

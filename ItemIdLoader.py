@@ -68,7 +68,7 @@ class ItemIdLoader:
                 return item["name"]
         return f"?-UnknownId-{id}"
         
-    def findIdFromName(self, name: str) -> int:
+    def findIdFromName(self, name: str) -> str:
         for item in self.itemIds:
             if item["name"] == name:
                 return item["id"]
@@ -80,7 +80,7 @@ class ItemIdLoader:
             
     def findEntryFromId(self, id: str):
         for item in self.itemIds:
-            if item["id"] == id:
+            if str(item["id"]) == str(id):
                 return item
 
 

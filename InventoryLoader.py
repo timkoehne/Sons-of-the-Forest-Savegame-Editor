@@ -70,7 +70,7 @@ class InventoryLoader:
         print(f"Setting item {self.itemIdLoader.findNameFromId(itemId)} (id {itemId}) to amount {amount}")
         found = False
         for item in self.inventory:
-            if item["ItemId"] == itemId:
+            if str(item["ItemId"]) == str(itemId):
                 found = True
                 item["TotalCount"] = amount
                 item["UniqueItems"] = allUniqueItems
@@ -90,3 +90,14 @@ class InventoryLoader:
             if itemName == self.itemIdLoader.findNameFromId(item["ItemId"]):
                 return index
         return -1
+    
+    def findItemFromId(self, id):
+        for item in self.inventory:
+            if str(item["ItemId"]) == str(id):
+                return item
+            
+    def containsId(self, id):
+        for item in self.inventory:
+            if str(item["ItemId"]) == str(id):
+                return True
+        return False
