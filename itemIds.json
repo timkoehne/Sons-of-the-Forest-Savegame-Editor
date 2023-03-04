@@ -3,18 +3,21 @@
         "id": "618",
         "name": "3dPrintedArrow",
         "max": 20,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "559",
         "name": "3dPrintedArrowHeads",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "426",
         "name": "3dPrintedFlask",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {
             "Modules": [
                 {
@@ -30,96 +33,114 @@
         "id": "561",
         "name": "3dPrintedFlowerPot",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "560",
         "name": "3dPrintedGrapplingHook",
-        "max": 1,
-        "UniqueItems": {}
+        "max": 10,
+        "manuallyVerified": true,
+        "UniqueItems": {
+        }
     },
     {
         "id": "427",
         "name": "3dPrintedKnife",
         "max": 1,
-        "UniqueItems": {}
+        "manuallyVerified": false,
+        "UniqueItems": {
+        }
     },
     {
         "id": "428",
         "name": "3dPrintedSled",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "429",
         "name": "3dPrintedUnderwaterMask",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "390",
         "name": "3dPrinterResin",
-        "max": 1,
+        "max": 1000,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "362",
         "name": "9mmAmmo",
         "max": 1000,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "469",
         "name": "AirCanister",
         "max": 4,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "357",
         "name": "Airgun",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "470",
         "name": "AirgunScope",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "467",
         "name": "AlbumCover",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "451",
         "name": "AloeVera",
         "max": 20,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "596",
         "name": "AloeVeraSeed",
         "max": 20,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "454",
         "name": "ArrowleafBalsamroot",
         "max": 20,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "597",
         "name": "ArrowleafSeed",
         "max": 20,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "402",
         "name": "Backpack",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {
             "Modules": [
                 {
@@ -139,234 +160,273 @@
         "id": "527",
         "name": "Batteries",
         "max": 6,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "458",
         "name": "BatteryCharger",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "460",
         "name": "BatteryPack",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "341",
         "name": "Binoculars",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "595",
         "name": "Blackberries",
         "max": 20,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "598",
         "name": "BlackberrySeed",
         "max": 20,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "488",
         "name": "BlueTShirt",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "445",
         "name": "Blueberries",
         "max": 20,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "599",
         "name": "BlueberrySeed",
         "max": 20,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "581",
         "name": "BlueprintBirdHouse",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "579",
         "name": "BlueprintBoneChair",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "588",
         "name": "BlueprintBoneChandelier",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "552",
         "name": "BlueprintBook",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "530",
         "name": "BlueprintDryingRack",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "582",
         "name": "BlueprintFishTrap",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "625",
         "name": "BlueprintHangingSkullLight",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "584",
         "name": "BlueprintMannequin",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "587",
         "name": "BlueprintPlanterFloor",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "586",
         "name": "BlueprintPlanterWall",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "622",
         "name": "BlueprintRockPath",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "585",
         "name": "BlueprintScarecrow",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "621",
         "name": "BlueprintShelf",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "591",
         "name": "BlueprintSmallLogCabin",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "532",
         "name": "BlueprintStickBed",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "531",
         "name": "BlueprintStickChair",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "580",
         "name": "BlueprintStickLadder",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "608",
         "name": "BlueprintStorageBones",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "583",
         "name": "BlueprintStorageBox",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "609",
         "name": "BlueprintStorageLogs",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "607",
         "name": "BlueprintStorageRocks",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "610",
         "name": "BlueprintStorageSticks",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "620",
         "name": "BlueprintTable",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "549",
         "name": "BlueprintTrapBoneMaker",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "550",
         "name": "BlueprintTrapFlySwatter",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "551",
         "name": "BlueprintTrapSmallAnimalCatcher",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "623",
         "name": "BlueprintWallShelf",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "624",
         "name": "BlueprintWallTorch",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "533",
         "name": "BlueprintWeaponRack",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "405",
         "name": "Bone",
         "max": 15,
+        "manuallyVerified": true,
         "UniqueItems": {
             "Modules": [
                 {
@@ -386,90 +446,105 @@
         "id": "494",
         "name": "BoneArmour",
         "max": 10,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "364",
         "name": "BuckshotAmmo",
         "max": 1000,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "509",
         "name": "BunkerPamphlet",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "420",
         "name": "C4Brick",
         "max": 10,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "432",
         "name": "CanOpener",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "434",
         "name": "CannedFood",
         "max": 6,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "464",
         "name": "CatFood",
         "max": 5,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "425",
         "name": "CerealBox",
         "max": 4,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "465",
         "name": "Chicory",
         "max": 20,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "605",
         "name": "ChicorySeed",
         "max": 20,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "416",
         "name": "CircuitBoard",
         "max": 10,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "478",
         "name": "ClimbingAxe",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "415",
         "name": "Cloth",
-        "max": 1,
+        "max": 1000,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "502",
         "name": "Coins",
         "max": 1000,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "380",
         "name": "CombatKnife",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {
             "Modules": [
                 {
@@ -489,6 +564,7 @@
         "id": "355",
         "name": "CompactPistol",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {
             "Modules": [
                 {
@@ -508,36 +584,42 @@
         "id": "376",
         "name": "CompactPistolRail",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "514",
         "name": "ContactSpringTrigger",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "511",
         "name": "ContactTrigger",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "517",
         "name": "CookingPot",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "507",
         "name": "CraftedArrow",
-        "max": 1,
+        "max": 20,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "443",
         "name": "CraftedBow",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {
             "Modules": [
                 {
@@ -554,12 +636,27 @@
         "id": "477",
         "name": "CraftedClub",
         "max": 1,
-        "UniqueItems": {}
+        "manuallyVerified": true,
+        "UniqueItems": {
+            "Modules": [
+                {
+                    "ChannelWeights": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0,
+                        "w": 0.0
+                    },
+                    "Version": "0.0.0",
+                    "ModuleId": 0
+                }
+            ]
+        }
     },
     {
         "id": "474",
         "name": "CraftedSpear",
-        "max": 1,
+        "max": 5,
+        "manuallyVerified": true,
         "UniqueItems": {
             "Modules": [
                 {
@@ -586,240 +683,280 @@
         "id": "593",
         "name": "CreepyArmour",
         "max": 10,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "592",
         "name": "CreepySkin",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "468",
         "name": "Cross",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "365",
         "name": "Crossbow",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "368",
         "name": "CrossbowAmmoBolt",
         "max": 15,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "384",
         "name": "CrossbowQuiverMod",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "472",
         "name": "DeerHide",
         "max": 10,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "519",
         "name": "DeerHideArmour",
         "max": 10,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "449",
         "name": "DevilsClub",
         "max": 20,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "600",
         "name": "DevilsClubSeed",
         "max": 20,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "419",
         "name": "DuctTape",
-        "max": 1,
+        "max": 100,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "520",
         "name": "Element",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "539",
         "name": "EmailPrintoutAstrologyA",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "540",
         "name": "EmailPrintoutAstrologyB",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "541",
         "name": "EmailPrintoutAstrologyC",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "545",
         "name": "EmailPrintoutBalletA",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "521",
         "name": "EmailPrintoutCaveLighting",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "534",
         "name": "EmailPrintoutGolfA",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "535",
         "name": "EmailPrintoutGolfB",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "536",
         "name": "EmailPrintoutGolfC",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "537",
         "name": "EmailPrintoutGolfD",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "614",
         "name": "EmailPrintoutGovernmentA",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "615",
         "name": "EmailPrintoutGovernmentB",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "616",
         "name": "EmailPrintoutGovernmentC",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "528",
         "name": "EmailPrintoutMrPuffyFinancial",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "526",
         "name": "EmailPrintoutMrPuffyWill",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "538",
         "name": "EmailPrintoutPaintingA",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "542",
         "name": "EmailPrintoutPoliticianA",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "543",
         "name": "EmailPrintoutPoliticianB",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "544",
         "name": "EmailPrintoutPoliticianC",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "546",
         "name": "EmailPrintoutSqueakyShoesA",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "547",
         "name": "EmailPrintoutSqueakyShoesB",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "548",
         "name": "EmailPrintoutSqueakyShoesC",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "483",
         "name": "EmergencyPack",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "441",
         "name": "EnergyBar",
         "max": 10,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "439",
         "name": "EnergyDrink",
         "max": 10,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "461",
         "name": "EnergyMix",
-        "max": 1,
+        "max": 3,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "462",
         "name": "EnergyMixPlus",
-        "max": 1,
+        "max": 3,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "479",
         "name": "Feather",
         "max": 1000,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "431",
         "name": "FireAxe",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {
             "Modules": [
                 {
@@ -839,30 +976,45 @@
         "id": "453",
         "name": "Fireweed",
         "max": 20,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "601",
         "name": "FireweedSeed",
         "max": 20,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "436",
         "name": "Fish",
-        "max": 1,
-        "UniqueItems": {}
+        "max": 3,
+        "manuallyVerified": true,
+        "UniqueItems": {
+            "Modules": [
+                {
+                    "CurrentState": 5,
+                    "TimeRemainingInState": 84609.31,
+                    "PauseDecay": false,
+                    "Version": "0.0.0",
+                    "ModuleId": 3
+                }
+            ]
+        }
     },
     {
         "id": "440",
         "name": "Flare",
         "max": 10,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "471",
         "name": "Flashlight",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {
             "Modules": [
                 {
@@ -878,210 +1030,121 @@
         "id": "378",
         "name": "FlashlightMod",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "475",
         "name": "Flask",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "463",
         "name": "Flippers",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "400",
         "name": "FlyAmanitaMushroom",
-        "max": 1,
+        "max": 20,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "569",
         "name": "FoodCubeBrain",
         "max": 10,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "570",
         "name": "FoodCubeSteak",
         "max": 10,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "571",
         "name": "FoodCubeSteakAndBacon",
         "max": 10,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "497",
         "name": "FoodTray",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "512",
         "name": "FoodTrayFilled",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "529",
         "name": "GPSLocator",
         "max": 10,
-        "UniqueItems": {}
+        "manuallyVerified": true,
+        "UniqueItems": {
+            "Modules": [
+                {
+                    "IconIndex": 0,
+                    "ShowBreadcrumbs": false,
+                    "Version": "0.0.0",
+                    "ModuleId": 2
+                }
+            ]
+        }
     },
     {
         "id": "412",
         "name": "GPSTracker",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "498",
         "name": "GRABSLaserPointer",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "435",
         "name": "GoldMask",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "572",
         "name": "GoldenArmour",
-        "max": 10,
+        "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "524",
         "name": "GolfBall",
-        "max": 1,
+        "max": 20,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "525",
         "name": "GolfPutter",
         "max": 1,
-        "UniqueItems": {}
-    },
-    {
-        "id": "351",
-        "name": "GrabBag",
-        "max": 1,
-        "UniqueItems": {}
-    },
-    {
-        "id": "381",
-        "name": "Grenade",
-        "max": 10,
-        "UniqueItems": {}
-    },
-    {
-        "id": "382",
-        "name": "GrenadeAmmo",
-        "max": 1,
-        "UniqueItems": {}
-    },
-    {
-        "id": "594",
-        "name": "GuaranaBerries",
-        "max": 20,
-        "UniqueItems": {}
-    },
-    {
-        "id": "602",
-        "name": "GuaranaSeed",
-        "max": 20,
-        "UniqueItems": {}
-    },
-    {
-        "id": "340",
-        "name": "Guitar",
-        "max": 1,
-        "UniqueItems": {}
-    },
-    {
-        "id": "408",
-        "name": "HalfLog",
-        "max": 1,
-        "UniqueItems": {}
-    },
-    {
-        "id": "577",
-        "name": "HalfLogPlank",
-        "max": 1,
-        "UniqueItems": {}
-    },
-    {
-        "id": "455",
-        "name": "HealthMix",
-        "max": 1,
-        "UniqueItems": {}
-    },
-    {
-        "id": "456",
-        "name": "HealthMixPlus",
-        "max": 1,
-        "UniqueItems": {}
-    },
-    {
-        "id": "562",
-        "name": "HolovilleNoticeA",
-        "max": 1,
-        "UniqueItems": {}
-    },
-    {
-        "id": "563",
-        "name": "HolovilleNoticeB",
-        "max": 1,
-        "UniqueItems": {}
-    },
-    {
-        "id": "564",
-        "name": "HolovilleNoticeC",
-        "max": 1,
-        "UniqueItems": {}
-    },
-    {
-        "id": "565",
-        "name": "HolovilleNoticeD",
-        "max": 1,
-        "UniqueItems": {}
-    },
-    {
-        "id": "490",
-        "name": "Hoodie",
-        "max": 1,
-        "UniqueItems": {}
-    },
-    {
-        "id": "450",
-        "name": "Horsetail",
-        "max": 20,
-        "UniqueItems": {}
-    },
-    {
-        "id": "603",
-        "name": "HorsetailSeed",
-        "max": 20,
-        "UniqueItems": {}
-    },
-    {
-        "id": "399",
-        "name": "HydnumRepandumMushroom",
-        "max": 1,
-        "UniqueItems": {}
-    },
-    {
-        "id": "367",
-        "name": "Katana",
-        "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {
             "Modules": [
                 {
@@ -1098,87 +1161,260 @@
         }
     },
     {
+        "id": "351",
+        "name": "GrabBag",
+        "max": 1,
+        "manuallyVerified": true,
+        "UniqueItems": {}
+    },
+    {
+        "id": "381",
+        "name": "Grenade",
+        "max": 10,
+        "manuallyVerified": true,
+        "UniqueItems": {}
+    },
+    {
+        "id": "382",
+        "name": "GrenadeAmmo",
+        "max": 1,
+        "manuallyVerified": false,
+        "UniqueItems": {}
+    },
+    {
+        "id": "594",
+        "name": "GuaranaBerries",
+        "max": 20,
+        "manuallyVerified": true,
+        "UniqueItems": {}
+    },
+    {
+        "id": "602",
+        "name": "GuaranaSeed",
+        "max": 20,
+        "manuallyVerified": true,
+        "UniqueItems": {}
+    },
+    {
+        "id": "340",
+        "name": "Guitar",
+        "max": 1,
+        "manuallyVerified": true,
+        "UniqueItems": {
+            "Modules": [
+                {
+                    "ChannelWeights": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0,
+                        "w": 0.0
+                    },
+                    "Version": "0.0.0",
+                    "ModuleId": 0
+                }
+            ]
+        }
+    },
+    {
+        "id": "408",
+        "name": "HalfLog",
+        "max": 1,
+        "manuallyVerified": false,
+        "UniqueItems": {}
+    },
+    {
+        "id": "577",
+        "name": "HalfLogPlank",
+        "max": 1,
+        "manuallyVerified": false,
+        "UniqueItems": {}
+    },
+    {
+        "id": "455",
+        "name": "HealthMix",
+        "max": 1,
+        "manuallyVerified": false,
+        "UniqueItems": {}
+    },
+    {
+        "id": "456",
+        "name": "HealthMixPlus",
+        "max": 1,
+        "manuallyVerified": false,
+        "UniqueItems": {}
+    },
+    {
+        "id": "562",
+        "name": "HolovilleNoticeA",
+        "max": 1,
+        "manuallyVerified": false,
+        "UniqueItems": {}
+    },
+    {
+        "id": "563",
+        "name": "HolovilleNoticeB",
+        "max": 1,
+        "manuallyVerified": false,
+        "UniqueItems": {}
+    },
+    {
+        "id": "564",
+        "name": "HolovilleNoticeC",
+        "max": 1,
+        "manuallyVerified": false,
+        "UniqueItems": {}
+    },
+    {
+        "id": "565",
+        "name": "HolovilleNoticeD",
+        "max": 1,
+        "manuallyVerified": false,
+        "UniqueItems": {}
+    },
+    {
+        "id": "490",
+        "name": "Hoodie",
+        "max": 1,
+        "manuallyVerified": false,
+        "UniqueItems": {}
+    },
+    {
+        "id": "450",
+        "name": "Horsetail",
+        "max": 20,
+        "manuallyVerified": true,
+        "UniqueItems": {}
+    },
+    {
+        "id": "603",
+        "name": "HorsetailSeed",
+        "max": 20,
+        "manuallyVerified": true,
+        "UniqueItems": {}
+    },
+    {
+        "id": "399",
+        "name": "HydnumRepandumMushroom",
+        "max": 20,
+        "manuallyVerified": true,
+        "UniqueItems": {}
+    },
+    {
+        "id": "367",
+        "name": "Katana",
+        "max": 1,
+        "manuallyVerified": false,
+        "UniqueItems": {}
+    },
+    {
         "id": "567",
         "name": "KeyCardGuest",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "566",
         "name": "KeyCardMaintenance",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "568",
         "name": "KeyCardVIP",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "398",
         "name": "KingOysterMushroom",
-        "max": 1,
+        "max": 20,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "505",
         "name": "LaserMeasureTool",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "375",
         "name": "LaserSightMod",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "484",
         "name": "Leaf",
         "max": 1000,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "473",
         "name": "LeafArmour",
         "max": 10,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "493",
         "name": "LeatherJacket",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "78",
         "name": "Legacy",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "395",
         "name": "LogPlank",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "508",
         "name": "LootPouch",
         "max": 6,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "359",
         "name": "Machete2",
         "max": 1,
-        "UniqueItems": {}
+        "manuallyVerified": true,
+        "UniqueItems": {
+            "Modules": [
+                {
+                    "ChannelWeights": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0,
+                        "w": 0.0
+                    },
+                    "Version": "0.0.0",
+                    "ModuleId": 0
+                }
+            ]
+        }
     },
     {
         "id": "433",
         "name": "Meat",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {
             "Modules": [
                 {
@@ -1195,6 +1431,7 @@
         "id": "356",
         "name": "ModernAxe",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {
             "Modules": [
                 {
@@ -1213,151 +1450,176 @@
     {
         "id": "388",
         "name": "Molotov",
-        "max": 1,
+        "max": 6,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "389",
         "name": "MolotovAmmo",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "496",
         "name": "Money",
         "max": 1000,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "438",
         "name": "MrePack",
         "max": 6,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "612",
         "name": "NewspaperCutout",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "613",
         "name": "NewspaperCutoutOutbid",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "354",
         "name": "NightVisionGoggles",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "423",
         "name": "NovelA",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "424",
         "name": "NovelB",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "574",
         "name": "NovelC",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "575",
         "name": "NovelD",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "611",
         "name": "NumbersPrintout",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "491",
         "name": "OldJacket",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "466",
         "name": "Oyster",
         "max": 5,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "518",
         "name": "PaperTarget",
-        "max": 1,
+        "max": 50,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "437",
         "name": "Pills",
         "max": 6,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "370",
         "name": "PistolAmmoBox",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "374",
         "name": "PistolSuppressor",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "413",
         "name": "PlasmaLighter",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "500",
         "name": "PuffyJacket",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "406",
         "name": "QuarterLog",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "576",
         "name": "QuarterLogPlank",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "590",
         "name": "Radio",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "421",
         "name": "RamenNoodles",
         "max": 10,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "444",
         "name": "Rebreather",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {
             "Modules": [
                 {
@@ -1373,12 +1635,14 @@
         "id": "391",
         "name": "RedMask",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "422",
         "name": "RepairTool",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {
             "Modules": [
                 {
@@ -1398,30 +1662,35 @@
         "id": "386",
         "name": "Revolver",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "361",
         "name": "Rifle",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "387",
         "name": "RifleAmmo",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "383",
         "name": "RifleRailMod",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "393",
         "name": "Rock",
         "max": 10,
+        "manuallyVerified": true,
         "UniqueItems": {
             "Modules": [
                 {
@@ -1441,12 +1710,14 @@
         "id": "403",
         "name": "Rope",
         "max": 10,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "522",
         "name": "RopeGun",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {
             "Modules": [
                 {
@@ -1463,72 +1734,150 @@
         "id": "447",
         "name": "Salmonberries",
         "max": 20,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "604",
         "name": "SalmonberrySeed",
         "max": 20,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "377",
         "name": "ScopeMod",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "480",
         "name": "SeveredArm",
-        "max": 1,
-        "UniqueItems": {}
+        "max": 2,
+        "manuallyVerified": true,
+        "UniqueItems": {
+            
+            "Modules": [
+                {
+                    "SourceActorType": 12,
+                    "Version": "0.0.0",
+                    "ModuleId": 1
+                },
+                {
+                    "CurrentState": 1,
+                    "TimeRemainingInState": 86017.64,
+                    "PauseDecay": false,
+                    "Version": "0.0.0",
+                    "ModuleId": 3
+                },
+                {
+                    "ChannelWeights": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0,
+                        "w": 0.0
+                    },
+                    "Version": "0.0.0",
+                    "ModuleId": 0
+                }
+            ]
+        }
     },
     {
         "id": "482",
         "name": "SeveredHead",
         "max": 1,
-        "UniqueItems": {}
+        "manuallyVerified": true,
+        "UniqueItems": {
+            "Modules": [
+                {
+                    "SourceActorType": 16,
+                    "Version": "0.0.0",
+                    "ModuleId": 1
+                },
+                {
+                    "CurrentState": 1,
+                    "TimeRemainingInState": 83531.52,
+                    "PauseDecay": false,
+                    "Version": "0.0.0",
+                    "ModuleId": 3
+                }
+            ]
+        }
     },
     {
         "id": "481",
         "name": "SeveredLeg",
-        "max": 1,
-        "UniqueItems": {}
+        "max": 2,
+        "manuallyVerified": true,
+        "UniqueItems": {
+            "Modules": [
+                {
+                    "SourceActorType": 12,
+                    "Version": "0.0.0",
+                    "ModuleId": 1
+                },
+                {
+                    "CurrentState": 1,
+                    "TimeRemainingInState": 85965.66,
+                    "PauseDecay": false,
+                    "Version": "0.0.0",
+                    "ModuleId": 3
+                },
+                {
+                    "ChannelWeights": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0,
+                        "w": 0.0
+                    },
+                    "Version": "0.0.0",
+                    "ModuleId": 0
+                }
+            ]
+        }
     },
     {
         "id": "397",
         "name": "ShiitakeMushroom",
-        "max": 1,
+        "max": 20,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "371",
         "name": "ShotgunAmmoBoxBuckshot",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "372",
         "name": "ShotgunAmmoBoxSlug",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "358",
         "name": "ShotgunPumpAction",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "346",
         "name": "ShotgunRail",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "485",
         "name": "Shovel",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {
             "Modules": [
                 {
@@ -1548,24 +1897,28 @@
         "id": "487",
         "name": "SilkPyjamas",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "430",
         "name": "Skull",
         "max": 3,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "573",
         "name": "SleepingBag",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "459",
         "name": "Slingshot",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {
             "Modules": [
                 {
@@ -1581,31 +1934,36 @@
     {
         "id": "363",
         "name": "SlugAmmo",
-        "max": 1,
+        "max": 1000,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "476",
         "name": "SmallRock",
-        "max": 20,
+        "max": 30,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "448",
         "name": "Snowberries",
         "max": 20,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "513",
         "name": "Spring",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "392",
         "name": "Stick",
         "max": 20,
+        "manuallyVerified": true,
         "UniqueItems": {
             "Modules": [
                 {
@@ -1625,12 +1983,14 @@
         "id": "617",
         "name": "StockPricePrintout",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "353",
         "name": "StunGun",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {
             "Modules": [
                 {
@@ -1646,19 +2006,22 @@
     {
         "id": "369",
         "name": "StunGunAmmo",
-        "max": 1,
+        "max": 1000,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "457",
         "name": "StunGunAmmoBox",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "379",
         "name": "TacticalAxe",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {
             "Modules": [
                 {
@@ -1678,48 +2041,85 @@
         "id": "501",
         "name": "TacticalBoots",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "360",
         "name": "TacticalBow",
         "max": 1,
-        "UniqueItems": {}
+        "manuallyVerified": true,
+        "UniqueItems": {
+            "Modules": [
+                {
+                    "AmmoType": 373,
+                    "CurrentAmmo": 0,
+                    "WeaponModIds": [],
+                    "Version": "0.0.0",
+                    "ModuleId": 4
+                }
+            ]
+        }
     },
     {
         "id": "373",
         "name": "TacticalBowAmmo",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "394",
         "name": "TacticalChainsaw",
         "max": 1,
-        "UniqueItems": {}
+        "manuallyVerified": true,
+        "UniqueItems": {
+            "Modules": [
+                {
+                    "RecipeId": -1,
+                    "CurrentVolume": 100,
+                    "Version": "0.0.0",
+                    "ModuleId": 7
+                },
+                {
+                    "ChannelWeights": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0,
+                        "w": 0.0
+                    },
+                    "Version": "0.0.0",
+                    "ModuleId": 0
+                }
+            ]
+        }
     },
     {
         "id": "495",
         "name": "TacticalJacket",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "489",
         "name": "TacticalPants",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "504",
         "name": "Tarp",
         "max": 5,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "396",
         "name": "TaserStick",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {
             "Modules": [
                 {
@@ -1745,162 +2145,202 @@
         "id": "554",
         "name": "TechArmour",
         "max": 10,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "553",
         "name": "TechMesh",
-        "max": 1,
+        "max": 10,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "409",
         "name": "ThreeQuarterLog",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "578",
         "name": "ThreeQuarterLogPlank",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "417",
         "name": "TimeBomb",
         "max": 3,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "503",
         "name": "Torch",
         "max": 1,
-        "UniqueItems": {}
+        "manuallyVerified": true,
+        "UniqueItems": {
+            "Modules": [
+                {
+                    "ChannelWeights": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0,
+                        "w": 0.0
+                    },
+                    "Version": "0.0.0",
+                    "ModuleId": 0
+                }
+            ]
+        }
     },
     {
         "id": "366",
         "name": "TrackerDart",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "401",
         "name": "TurtleEgg",
-        "max": 1,
+        "max": 10,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "506",
         "name": "TurtleShell",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "589",
         "name": "TutorialBook",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "515",
         "name": "TutorialPageBasicBuilding",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "516",
         "name": "TutorialPageTarpTent",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "492",
         "name": "Tuxedo",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "446",
         "name": "Twinberries",
         "max": 20,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "558",
         "name": "VirginiaCamoSuit",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "556",
         "name": "VirginiaDress",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "557",
         "name": "VirginiaLeatherSuit",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "619",
         "name": "VirginiaSwimSuit",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "555",
         "name": "VirginiaTrackSuit",
         "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
         "id": "414",
         "name": "VodkaBottle",
         "max": 6,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "486",
         "name": "WalkieTalkie",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "499",
         "name": "Wetsuit",
         "max": 1,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "418",
         "name": "Wire",
         "max": 100,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "410",
         "name": "Wristwatch",
         "max": 50,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "452",
         "name": "Yarro",
         "max": 20,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "606",
         "name": "YarroSeed",
         "max": 20,
+        "manuallyVerified": true,
         "UniqueItems": {}
     },
     {
         "id": "523",
         "name": "ZiplineRope",
-        "max": 1,
+        "max": 10,
+        "manuallyVerified": true,
         "UniqueItems": {}
     }
 ]

@@ -40,6 +40,7 @@ class ItemIdLoader:
                             "id" : id, 
                             "name" : name, 
                             "max" : 1,
+                            "manuallyVerified" : False,
                             "UniqueItems" : {}
                         })
                     
