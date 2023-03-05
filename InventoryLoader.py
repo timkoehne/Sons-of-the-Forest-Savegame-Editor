@@ -69,9 +69,17 @@ class InventoryLoader:
             
         print(f"Setting item {self.itemIdLoader.findNameFromId(itemId)} (id {itemId}) to amount {amount}")
         found = False
-        for item in self.inventory:
+        for index, item in enumerate(self.inventory):
             if str(item["ItemId"]) == str(itemId):
                 found = True
+                
+                if amount == 0:
+                    self.inventory.pop(index)
+                
+                
+                if amount == 0:
+                    self.inventory.pop(index)
+                
                 item["TotalCount"] = amount
                 item["UniqueItems"] = allUniqueItems
                 
@@ -101,3 +109,9 @@ class InventoryLoader:
             if str(item["ItemId"]) == str(id):
                 return True
         return False
+    
+    def deleteFromInventory(self, selectionIndexTuple):
+            it = iter(self.inventory)
+            for index, i in enumerate(it):
+                if index in selectionIndexTuple:
+                    self.inventory.pop(index)

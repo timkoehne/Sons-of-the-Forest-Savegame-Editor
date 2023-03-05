@@ -19,6 +19,7 @@ def listboxSelect(index: int):
 def setAmount():
     selected = selectedItem.get()
     amount = int(amountEntry.get())
+    
     inventoryLoader.setAmount(selected, amount)
     
     listboxSelect(inventoryLoader.findIndexInInventory(selected))
@@ -92,6 +93,12 @@ def listboxSelected(event):
         
 def comboboxKeyPressed(event):
     print(event)
+
+def inventoryKeyPressed(event):
+    if event.keysym == "Delete":
+        selection = inventoryListbox.curselection()
+        inventoryLoader.deleteFromInventory(selection)
+        refreshInventoryList()
         
 def createUiElements():
     global inventoryListbox
@@ -153,6 +160,7 @@ def createUiElements():
     inventoryListbox.pack(side="left", expand=True, fill="both")
     inventoryListbox.bind("<Double-1>", viewItemJson)
     inventoryListbox.bind("<<ListboxSelect>>", listboxSelected)
+    inventoryListbox.bind("<KeyRelease>", inventoryKeyPressed)
     inventoryScrollbar.config(command=inventoryListbox.yview)
     
     comboboxSelected("")
