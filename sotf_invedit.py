@@ -5,6 +5,7 @@ from tkinter import messagebox as tkmessagebox
 from TkEditJsonDialog import TkEditJsonDialog
 from ItemIdLoader import ItemIdLoader
 from InventoryLoader import InventoryLoader
+from TkSearchableCombobox import TkSearchableCombobox
 
 def reloadItemIds():
     itemIdLoader.loadIdsFromGamefiles()
@@ -89,6 +90,9 @@ def listboxSelected(event):
         itemCombobox.set(selectedName)
         amountSetKnownItem(itemIdLoader.findEntryFromId(selectedId))
         
+def comboboxKeyPressed(event):
+    print(event)
+        
 def createUiElements():
     global inventoryListbox
     global amountEntry
@@ -103,10 +107,11 @@ def createUiElements():
     possibleItems = [item["name"] for item in itemIdLoader.getIds()]
     selectedItem = tk.StringVar(addItemFrame)
     selectedItem.set(possibleItems[0])
-    itemCombobox = ttk.Combobox(addItemFrame, textvariable=selectedItem, width=30)
+    itemCombobox = TkSearchableCombobox(addItemFrame, textvariable=selectedItem, width=30)
     itemCombobox['values'] = possibleItems
     itemCombobox['state'] = 'readonly'
     itemCombobox.bind("<<ComboboxSelected>>", comboboxSelected)
+    itemCombobox.bind("<KeyRelease>", itemCombobox.popup_key_pressed)
     itemCombobox.pack(ipadx=5, ipady=5, padx=5, pady=5)
     amountFrame = tk.Frame(addItemFrame)
     amountFrame.pack(ipadx=5, ipady=5, padx=5, pady=5)
