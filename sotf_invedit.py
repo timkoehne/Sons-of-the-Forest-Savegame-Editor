@@ -4,7 +4,7 @@ from tkinter import ttk
 from tkinter import messagebox as tkmessagebox
 from TkEditJsonDialog import TkEditJsonDialog
 from ItemIdLoader import ItemIdLoader
-from InventoryLoader import InventoryLoader
+from SavefileLoader import SavefileLoader
 from TkSearchableCombobox import TkSearchableCombobox
 
 def reloadItemIds():
@@ -38,12 +38,12 @@ def refreshInventoryList():
         listboxSelect(s)
     inventoryListbox.yview_moveto(yview[0])
 
-def loadInventory():
-    inventoryLoader.loadInventory()
+def loadSavefile():
+    savefileLoader.load()
     refreshInventoryList()
 
-def saveInventory():
-    inventoryLoader.saveInventory()
+def saveSavefile():
+    savefileLoader.save()
 
 def viewItemJson(event):
     if inventoryListbox.curselection():
@@ -91,9 +91,6 @@ def listboxSelected(event):
         itemCombobox.set(selectedName)
         amountSetKnownItem(itemIdLoader.findEntryFromId(selectedId))
         
-def comboboxKeyPressed(event):
-    print(event)
-
 def inventoryKeyPressed(event):
     if event.keysym == "Delete":
         selection = inventoryListbox.curselection()
@@ -148,11 +145,11 @@ def createUiElements():
     inventoryLabel.pack(side="top")
     saveLoadFrame = tk.Frame(inventoryFrame)
     saveLoadFrame.pack(side="bottom", padx=5, pady=5)
-    loadButton = tk.Button(saveLoadFrame, text="Load Inventory", 
-                           command=loadInventory)
+    loadButton = tk.Button(saveLoadFrame, text="Load Savefolder", 
+                           command=loadSavefile)
     loadButton.pack(side="left", padx=5, ipadx=5, ipady=5)
-    saveButton = tk.Button(saveLoadFrame, text="Save Inventory", 
-                           command=saveInventory)
+    saveButton = tk.Button(saveLoadFrame, text="Save Savefolder", 
+                           command=saveSavefile)
     saveButton.pack(side="left", padx=5, ipadx=5, ipady=5)
     inventoryScrollbar = tk.Scrollbar(inventoryFrame)
     inventoryScrollbar.pack(side="right", fill="y")
@@ -169,11 +166,16 @@ def createUiElements():
 itemIdLoader = ItemIdLoader()
 itemIdLoader.loadIds()
 
-inventoryLoader = InventoryLoader(itemIdLoader)
+savefileLoader = SavefileLoader(itemIdLoader, 
+                                "C:/Users/Tim/AppData/LocalLow/Endnight/SonsOfTheForest/Saves/76561198042133385/SinglePlayer/1445249876")
+inventoryLoader = savefileLoader.inventoryLoader
 
 window = tk.Tk()
 window.title("SotF Inventory Editor")
 window.geometry("700x350")
 createUiElements()
+
+
+
 
 window.mainloop()

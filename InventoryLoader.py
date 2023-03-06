@@ -15,39 +15,23 @@ class InventoryLoader:
         self.entireInventoryData = []
         self.itemIdLoader = itemIdLoader
         self.playerdataFilepath = ""
-        self.loadInventory(True)
     
-    def loadInventory(self, loadDefaultInventory=False):
-        if loadDefaultInventory:
-            path = "defaultInventory.json"
-        else:
-            path = tkfiledialog.askopenfilename(title="Select PlayerInventorySaveData.json", 
-                                            initialdir=f"C:/Users/{os.getlogin()}/AppData/LocalLow/Endnight/SonsOfTheForest/Saves/", 
-                                            filetypes=jsonFiletypes)
-            self.playerdataFilepath = path
+    def loadInventory(self, savefilePath):
+        self.playerdataFilepath = savefilePath
+        print("Loading Inventory...")
         
-        with open(path, "r") as file:
+        with open(savefilePath, "r") as file:
             self.playerSaveData = json.loads(file.read())
         self.entireInventoryData = json.loads(self.playerSaveData["Data"]["PlayerInventory"])
         self.inventory = sorted(self.entireInventoryData["ItemInstanceManagerData"]["ItemBlocks"], 
                                 key=lambda item: self.itemIdLoader.findNameFromId(item["ItemId"]))
-        print("Inventory loaded")
         
-    def saveInventory(self):
+    def saveInventory(self, savefilePath):
         self.entireInventoryData["ItemInstanceManagerData"]["ItemBlocks"] = self.inventory
         self.playerSaveData["Data"]["PlayerInventory"] = json.dumps(self.entireInventoryData)
         strPlayerSaveData = json.dumps(self.playerSaveData)
         
-        if self.playerdataFilepath == "":
-            initialDir = f"C:/Users/{os.getlogin()}/AppData/LocalLow/Endnight/SonsOfTheForest/Saves/"
-        else:
-            initialDir = self.playerdataFilepath
-                
-        savefilepath = tkfiledialog.asksaveasfilename(title="Save Inventory as...", 
-                                                initialdir=initialDir, 
-                                                filetypes=jsonFiletypes)
-        
-        with open(savefilepath, "w") as file:
+        with open(savefilePath, "w") as file:
             file.write(strPlayerSaveData)
             print("Inventory saved")
 
