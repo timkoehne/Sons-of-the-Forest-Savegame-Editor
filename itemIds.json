@@ -1413,7 +1413,7 @@
     {
         "id": "433",
         "name": "Meat",
-        "max": 1,
+        "max": 7,
         "manuallyVerified": true,
         "UniqueItems": {
             "Modules": [

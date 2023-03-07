@@ -25,6 +25,7 @@ class InventoryLoader:
         self.entireInventoryData = json.loads(self.playerSaveData["Data"]["PlayerInventory"])
         self.inventory = sorted(self.entireInventoryData["ItemInstanceManagerData"]["ItemBlocks"], 
                                 key=lambda item: self.itemIdLoader.findNameFromId(item["ItemId"]))
+        print("loaded", len(self.inventory), "items")
         
     def saveInventory(self, savefilePath):
         self.entireInventoryData["ItemInstanceManagerData"]["ItemBlocks"] = self.inventory

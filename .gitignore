@@ -7,3 +7,6 @@ actors.json
 gameState.json
 GameStateSaveData.json
 SaveData.json
+weatherSystem.json
+gameSetup.json
+test.json
