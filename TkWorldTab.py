@@ -22,21 +22,7 @@ class TkWorldTab(tk.Frame):
 
         tk.Label(mainFrame.interior, text="Kelvin is").grid(column=0, row=1, padx=5, pady=5)
         tk.Label(mainFrame.interior, text="Virginia is").grid(column=0, row=2, padx=5, pady=5)
-        tk.Label(mainFrame.interior, text="Difficulty").grid(column=0, row=3, padx=5, pady=5)
-        tk.Label(mainFrame.interior, text="Crashsite").grid(column=0, row=4, padx=5, pady=5)
-        tk.Label(mainFrame.interior, text="Enemy Spawnrate").grid(column=0, row=5, padx=5, pady=5)
-        tk.Label(mainFrame.interior, text="Enemy Health").grid(column=0, row=6, padx=5, pady=5)
-        tk.Label(mainFrame.interior, text="Enemy Damage").grid(column=0, row=7, padx=5, pady=5)
-        tk.Label(mainFrame.interior, text="Enemy Armor").grid(column=0, row=8, padx=5, pady=5)
-        tk.Label(mainFrame.interior, text="Enemy Aggresion").grid(column=0, row=9, padx=5, pady=5)
-        tk.Label(mainFrame.interior, text="Animal Spawnrate").grid(column=0, row=10, padx=5, pady=5)
-        tk.Label(mainFrame.interior, text="Starting Season").grid(column=0, row=11, padx=5, pady=5)
-        tk.Label(mainFrame.interior, text="Season Length").grid(column=0, row=12, padx=5, pady=5)
-        tk.Label(mainFrame.interior, text="Day Length").grid(column=0, row=13, padx=5, pady=5)
-        tk.Label(mainFrame.interior, text="Precipitation Frequency").grid(column=0, row=14, padx=5, pady=5)
-        tk.Label(mainFrame.interior, text="Consumable Effects").grid(column=0, row=15, padx=5, pady=5)
-        tk.Label(mainFrame.interior, text="PlayerStats Damage").grid(column=0, row=16, padx=5, pady=5)
-        
+
         self.kelvinStatusVar = tk.StringVar(self)
         self.kelvinStatus = TkSearchableCombobox(mainFrame.interior, width=15, textvariable=self.kelvinStatusVar)
         self.kelvinStatus['values'] = ["alive", "dead"]
@@ -58,6 +44,7 @@ class TkWorldTab(tk.Frame):
         self.settingVars = []
         self.settingCombobox = []
         for index, settingTitle in enumerate(SETTINGS):
+            tk.Label(mainFrame.interior, text=settingTitle).grid(column=0, row=3+index, padx=5, pady=5)
             self.settingVars.append(tk.StringVar(self))
             self.settingCombobox.append(TkSearchableCombobox(mainFrame.interior, width=15, 
                                                              textvariable=self.settingVars[index]))
@@ -69,10 +56,6 @@ class TkWorldTab(tk.Frame):
                                              lambda event, s=settingTitle, v=self.settingVars[index]: self.setSetting(s, v))
             self.settingCombobox[index].bind("<KeyRelease>", self.settingCombobox[index].popup_key_pressed)
             self.settingCombobox[index].grid(column=1, row=3+index, ipadx=5, ipady=5, padx=5, pady=5)
-        
-        
-    
-    
     
     def setCrashsite(self, event):
         self.saveFileLoader.setCrashsite(self.crashsiteVar.get())

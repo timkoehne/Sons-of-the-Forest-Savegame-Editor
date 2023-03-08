@@ -17,7 +17,7 @@ class TkVerticalScrolledFrame(tk.Frame):
         self.interior.bind('<Configure>', self._configureInterior)
         self.interior_id = self.canvas.create_window(0, 0, window=self.interior, anchor="nw")
         self.canvas.bind('<Configure>', self._configureCanvas)
-        self.canvas.bind("<MouseWheel>", self._onMousewheel)
+        self.canvas.bind_all("<MouseWheel>", self._onMousewheel)
         
     def _configureInterior(self, event):
         # Update the scrollbars to match the size of the inner frame.
