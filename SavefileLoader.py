@@ -82,6 +82,12 @@ class SavefileLoader:
         
         self.inventoryLoader.saveInventory(saveFolderPath + INVENTORYFILE)
 
+    def setTime(self, callback):
+        day = self.gamestate["GameDays"]
+        hour = self.gamestate["GameHours"]
+        minute = self.gamestate["GameMinutes"]
+        callback(day, hour, minute)
+
     def isKelvinAlive(self) -> bool:
         for actor in self.actors:
             if actor["TypeId"] == 9:
