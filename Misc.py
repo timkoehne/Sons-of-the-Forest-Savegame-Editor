@@ -28,6 +28,8 @@ SEASONS = {
 }
 
 SETTINGS = {
+    "KelvinAlive": Setting("", "IsRobbyDead", ["alive", "dead"], "alive"),
+    "VirginiaAlive": Setting("", "IsVirginiaDead", ["alive", "dead"], "alive"),
     "Difficulty": Setting("", "Mode", ["Custom", "Hard", "Normal", "Peaceful"], "Normal"),
     "CrashSite": Setting("gameStateFile", "CrashSite", ["tree", "ocean", "snow"], "ocean"),
     # "EnemySpawn": Setting("gameSetupFile", "GameSetting.Vail.EnemySpawn", [], ""),
@@ -47,7 +49,7 @@ SETTINGS = {
 }
 
 def seasonStart(season: str, seasonLength: str) -> int:
-    print(f"In {seasonLength}, {season} starts at day {SEASONS[season] * SEASONLENGTH[seasonLength]}")
+    # print(f"In {seasonLength}, {season} starts at day {SEASONS[season] * SEASONLENGTH[seasonLength]}")
     return SEASONS[season] * SEASONLENGTH[seasonLength]
 
 def selectFolder():

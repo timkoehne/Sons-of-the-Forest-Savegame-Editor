@@ -22,55 +22,43 @@ class TkWorldTab(tk.Frame):
         tk.Label(self.mainFrame.interior, text="Status").grid(column=4, row=0, padx=5, pady=5)
         
         tk.Label(self.mainFrame.interior, text="Day").grid(column=0, row=1, padx=5, pady=5, sticky="e")
-        tk.Label(self.mainFrame.interior, text="Hour").grid(column=0, row=2, padx=5, pady=5, sticky="e")
-        tk.Label(self.mainFrame.interior, text="Minutes").grid(column=0, row=3, padx=5, pady=5, sticky="e")
-        
+        tk.Label(self.mainFrame.interior, text="Time").grid(column=0, row=2, padx=5, pady=5, sticky="e")
+    
+        self.dayFrame = tk.Frame(self.mainFrame.interior)
+        self.dayFrame.grid(column=1, row=1, padx=5, pady=5, sticky="ew")
         self.dayVar = tk.IntVar(self)
-        self.dayEntry = tk.Entry(self.mainFrame.interior, text="Day", textvariable=self.dayVar).grid(column=1, row=1, padx=5, pady=5)
-        self.hourVar = tk.IntVar(self)
-        self.hourEntry = tk.Entry(self.mainFrame.interior, text="Hour", textvariable=self.hourVar).grid(column=1, row=2, padx=5, pady=5)
-        self.minuteVar = tk.IntVar(self)
-        self.minuteEntry = tk.Entry(self.mainFrame.interior, text="Minutes", textvariable=self.minuteVar).grid(column=1, row=3, padx=5, pady=5)
-        self.saveFileLoader.setTime(self.setTime)
+        self.dayEntry = tk.Entry(self.dayFrame, textvariable=self.dayVar, width=5)
+        self.dayEntry.bind("<KeyRelease>", self.checkDayEntry)
+        self.dayEntry.pack(side="left", ipadx=2, ipady=2, padx=5)
+        self.dayButton = tk.Button(self.dayFrame, text="Set", command=self.setDay)
+        self.dayButton["state"] = "disabled"
+        self.dayButton.pack(side="left", ipadx=2, ipady=2)
         
-        tk.Label(self.mainFrame.interior, text="Kelvin is").grid(column=0, row=4, padx=5, pady=5, sticky="e")
-        tk.Label(self.mainFrame.interior, text="Virginia is").grid(column=0, row=5, padx=5, pady=5, sticky="e")
-
-        self.kelvinStatusVar = tk.StringVar(self)
-        self.kelvinStatus = TkSearchableCombobox(self.mainFrame.interior, width=15, textvariable=self.kelvinStatusVar)
-        self.kelvinStatus['values'] = ["alive", "dead"]
-        self.kelvinStatusVar.set("alive" if self.saveFileLoader.isKelvinAlive() else "dead")
-        self.kelvinStatus['state'] = 'readonly'
-        self.kelvinStatus.bind("<<ComboboxSelected>>", self.kelvinComboboxSelected)
-        self.kelvinStatus.bind("<MouseWheel>", self.comboboxScroll) 
-        self.kelvinStatus.bind("<KeyRelease>", self.kelvinStatus.popup_key_pressed)
-        self.kelvinStatus.grid(column=1, row=4, ipadx=5, ipady=5, padx=5, pady=5)
+        self.timeFrame = tk.Frame(self.mainFrame.interior)
+        self.timeFrame.grid(column=1, row=2, padx=5, pady=5, sticky="ew")
+        self.timeVar = tk.StringVar(self)
+        self.timeEntry = tk.Entry(self.timeFrame, textvariable=self.timeVar, width=5)
+        self.timeEntry.bind("<KeyRelease>", self.checkTimeEntry)
+        self.timeEntry.pack(side="left", ipadx=2, ipady=2, padx=5)
+        self.timeButton = tk.Button(self.timeFrame, text="Set", command=self.setTime)
+        self.timeButton["state"] = "disabled"
+        self.timeButton.pack(side="left", ipadx=2, ipady=2)
         
-        self.virginiaStatusVar = tk.StringVar(self)
-        self.virginiaStatus = TkSearchableCombobox(self.mainFrame.interior, width=15, textvariable=self.virginiaStatusVar)
-        self.virginiaStatus['values'] = ["alive", "dead"]
-        self.virginiaStatusVar.set("alive" if self.saveFileLoader.isVirginiaAlive() else "dead")
-        self.virginiaStatus['state'] = 'readonly'
-        self.virginiaStatus.bind("<<ComboboxSelected>>", self.virginiaComboboxSelected)
-        self.virginiaStatus.bind("<MouseWheel>", self.comboboxScroll) 
-        self.virginiaStatus.bind("<KeyRelease>", self.kelvinStatus.popup_key_pressed)
-        self.virginiaStatus.grid(column=1, row=5, ipadx=5, ipady=5, padx=5, pady=5)
+        self.saveFileLoader.entrySetTimeAndDayCallback(self.entrySetTimeAndDay)
         
+        firstPosition = 3 #number of grid rows that are manually added before
+        
+        self.initSettings(firstPosition)
+    
+    def initSettings(self, firstPosition):
         self.settingVars = []
         self.settingCombobox = []
         
-        
-        firstPosition = 6
-        rowLength = math.ceil((len(SETTINGS) + firstPosition)/2)
+        rowLength = math.floor((len(SETTINGS) + firstPosition)/2)
         ttk.Separator(self.mainFrame.interior, orient="vertical").grid(column=2, row=0, rowspan=rowLength+1, sticky="ns")
-        firstRow = rowLength - firstPosition
+        
         for index, settingTitle in enumerate(SETTINGS):
-            if index <= firstRow:
-                x = 0
-                y = index % rowLength
-            else:
-                x = 3
-                y = index - rowLength
+            x, y = findXY(index, firstPosition, rowLength)
             
             tk.Label(self.mainFrame.interior, text=settingTitle).grid(column=0+x, row=firstPosition+y, padx=5, pady=5, sticky="e")
             self.settingVars.append(tk.StringVar(self))
@@ -86,11 +74,37 @@ class TkWorldTab(tk.Frame):
             self.settingCombobox[index].bind("<KeyRelease>", self.settingCombobox[index].popup_key_pressed)
             self.settingCombobox[index].grid(column=1+x, row=firstPosition+y, ipadx=5, ipady=5, padx=5, pady=5)
     
-    def setTime(self, day: int, hour: int, minute: int):
+    def checkTimeEntry(self, event=None):
+        time = self.timeVar.get()
+        if time == self.saveFileLoader.getTime():
+            self.timeButton["state"] = "disabled"
+        else:
+            self.timeButton["state"] = "normal"
+        pass
+    
+    def checkDayEntry(self, event=None):
+        day = self.dayVar.get()
+        if day == self.saveFileLoader.getDay():
+            self.dayButton["state"] = "disabled"
+        else:
+            self.dayButton["state"] = "normal"
+        pass
+    
+    def setTime(self):
+        print(f"Setting time to {self.timeVar.get()}")
+        self.saveFileLoader.setTime(self.timeVar.get())
+        self.checkTimeEntry()
         
-        self.dayVar.set(str(day))
-        self.hourVar.set(str(hour))
-        self.minuteVar.set(str(minute))
+    def setDay(self):
+        print(f"Setting day to {self.dayVar.get()}")
+        currentSeason = self.saveFileLoader.getSetting("CurrentSeason")
+        self.saveFileLoader.setDay(self.dayVar.get())
+        self.checkDayEntry()
+        self.saveFileLoader.setSeason(currentSeason)
+    
+    def entrySetTimeAndDay(self, day: int, hour: int, minute: int):
+        self.dayVar.set(day)
+        self.timeVar.set(str(hour) + ":" + str(minute))
     
     def setCrashsite(self, event):
         self.saveFileLoader.setCrashsite(self.crashsiteVar.get())
@@ -101,22 +115,21 @@ class TkWorldTab(tk.Frame):
     def setSetting(self, setting, valueVar):
         self.saveFileLoader.setSetting(setting, valueVar.get())
     
+    def refreshSettings(self):
+        self.saveFileLoader.entrySetTimeAndDayCallback(self.entrySetTimeAndDay)
+        for index, settingTitle in enumerate(SETTINGS):
+            self.settingVars[index].set(self.saveFileLoader.getSetting(settingTitle))
+    
     def comboboxScroll(self, event):
         self.mainFrame._onMousewheel(event)
         return "break"
     
-    def kelvinComboboxSelected(self, event):
-        if self.kelvinStatusVar.get() == "alive": 
-            self.saveFileLoader.revive(kelvin=True)
-            print("Kelvin was revived")
-        else: 
-            self.saveFileLoader.kill(kelvin=True)
-            print("Kelvin was killed")
-        
-    def virginiaComboboxSelected(self, event):
-        if self.virginiaStatusVar.get() == "alive": 
-            self.saveFileLoader.revive(virginia=True)
-            print("Virginia was revived")
-        else: 
-            self.saveFileLoader.kill(virginia=True)
-            print("Virginia was killed")
+def findXY(index, firstPosition, rowLength):
+    firstRow = rowLength - firstPosition
+    if index <= firstRow:
+        x = 0
+        y = index % rowLength
+    else:
+        x = 3
+        y = index - rowLength
+    return x,y

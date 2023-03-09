@@ -1,15 +1,15 @@
-# SotF Inventory Editor
-Sons of the Forest Inventory Editor in Python with tkinter GUI.
+# Sons of the Forest Save File Editor
+Written in Python with tkinter GUI.
 
 # How to Use
 Run `python3 sotf_invedit.py`
 
-Load an inventory using the "Load Inventory" button from your save files.  
-Save files are usually located at `C:/Users/%USERNAME%/AppData/LocalLow/Endnight/SonsOfTheForest/Saves/`  
-Select the `PlayerInventorySaveData.json` file in the Multiplayer, MultiplayerClient or SinglePlayer subfolder.
+You can find your save files at `C:/Users/%USERNAME%/AppData/LocalLow/Endnight/SonsOfTheForest/Saves/`  
+Select the Multiplayer, MultiplayerClient or SinglePlayer subfolder in the dialog.
 
-To save you just use the "Save Inventory" button the same way.  
-**I highly suggest backing up your previous save file before overwriting it.**
+**I highly recommend backing up your previous save file before overwriting it.**
 
-# Screenshot
-![GUI Screenshot](screenshot.png)
+# Screenshots
+![GUI Screenshot](screenshot1.png)
+
+![GUI Screenshot](screenshot2.png)

@@ -82,7 +82,25 @@ class SavefileLoader:
         
         self.inventoryLoader.saveInventory(saveFolderPath + INVENTORYFILE)
 
-    def setTime(self, callback):
+    def setDay(self, day):
+        self.gamestate["GameDays"] = day
+
+    def setTime(self, time):
+        hour, minute = time.split(":")
+        hour = int(hour)
+        minute = int(minute)
+        self.gamestate["GameHours"] = hour
+        self.gamestate["GameMinutes"] = minute
+    
+    def getTime(self) -> str:
+        hour = self.gamestate["GameHours"]
+        minute = self.gamestate["GameMinutes"]
+        return str(hour) + ":" + str(minute)
+    
+    def getDay(self) -> int:
+        return self.gamestate["GameDays"]
+    
+    def entrySetTimeAndDayCallback(self, callback):
         day = self.gamestate["GameDays"]
         hour = self.gamestate["GameHours"]
         minute = self.gamestate["GameMinutes"]
@@ -107,36 +125,6 @@ class SavefileLoader:
         if self.gamestate["IsVirginiaDead"] == True or virginiaActor["State"] == 6 or virginiaActor["Stats"]["Health"] < 1:
             return False
         return True
-
-    def revive(self, kelvin=False, virginia=False):
-        if kelvin:
-            self.gamestate["IsRobbyDead"] = False
-            for actor in self.actors:
-                if actor["TypeId"] == 9:
-                    actor["State"] = 2
-                    actor["Stats"]["Health"] = 100
-                    break
-        if virginia:
-            self.gamestate["IsVirginiaDead"] = False
-            for actor in self.actors:
-                if actor["TypeId"] == 10:
-                    actor["State"] = 2
-                    actor["Stats"]["Health"] = 100
-
-    def kill(self, kelvin=False, virginia=False):
-        if kelvin:
-            self.gamestate["IsRobbyDead"] = True
-            for actor in self.actors:
-                if actor["TypeId"] == 9:
-                    actor["State"] = 6
-                    actor["Stats"]["Health"] = 0.0
-                    break
-        if virginia:
-            self.gamestate["IsVirginiaDead"] = True
-            for actor in self.actors:
-                if actor["TypeId"] == 10:
-                    actor["State"] = 6
-                    actor["Stats"]["Health"] = 0.0
 
     def countNumActors(self):
         typeIds = {}
@@ -165,8 +153,15 @@ class SavefileLoader:
     def getSetting(self, settingTitle: str) -> str:
         
         settingsFile = SETTINGS[settingTitle].file
+        if settingTitle == "KelvinAlive":
+            status = self.isKelvinAlive()
+            return "alive" if status else "dead"
         
-        if settingTitle == "Difficulty":
+        elif settingTitle == "VirginiaAlive":
+            status = self.isKelvinAlive()
+            return "alive" if status else "dead"
+        
+        elif settingTitle == "Difficulty":
             return self.gamestate["GameType"]
         
         elif settingsFile == "gameStateFile":
@@ -187,8 +182,8 @@ class SavefileLoader:
                 return str(self.weatherSystem[setting])
         return SETTINGS[settingTitle].default
         
-    def setSeason(self, settingTitle, value):
-        setting = SETTINGS[settingTitle].name
+    def setSeason(self, value):
+        setting = SETTINGS["CurrentSeason"].name
         
         # the game calculates the season from these
         currentDay = self.gamestate["GameDays"]
@@ -197,7 +192,6 @@ class SavefileLoader:
         self.weatherSystem["_startingDayOffset"] = offset
     
         #  this is not actually used by the game to set the season
-        seasonKeys = list(SEASONS.keys())
         value = SEASONS[value]
         self.weatherSystem[setting] = value
         
@@ -211,13 +205,54 @@ class SavefileLoader:
         else:
             newValue = False
         self.weatherSystem[setting] = newValue
+    
+    def setKelvinStatus(self, value):
+        if value == "alive": 
+            self.gamestate["IsRobbyDead"] = False
+            for actor in self.actors:
+                if actor["TypeId"] == 9:
+                    actor["State"] = 2
+                    actor["Stats"]["Health"] = 100
+                    break
+            print("Kelvin was revived")
+        else: 
+            self.gamestate["IsRobbyDead"] = True
+            for actor in self.actors:
+                if actor["TypeId"] == 9:
+                    actor["State"] = 6
+                    actor["Stats"]["Health"] = 0.0
+                    break
+            print("Kelvin was killed")
+        
+    def setVirginiaStatus(self, value):
+        if value == "alive": 
+            self.gamestate["IsVirginiaDead"] = False
+            for actor in self.actors:
+                if actor["TypeId"] == 10:
+                    actor["State"] = 2
+                    actor["Stats"]["Health"] = 100
+                    break
+            print("Virginia was revived")
+        else: 
+            self.gamestate["IsVirginiaDead"] = True
+            for actor in self.actors:
+                if actor["TypeId"] == 10:
+                    actor["State"] = 6
+                    actor["Stats"]["Health"] = 0.0
+            print("Virginia was killed")
         
     def setSetting(self, settingTitle: str, value: str):
         print(f"Setting {settingTitle} to {value}")
         
         settingsFile = SETTINGS[settingTitle].file
         
-        if settingTitle == "Difficulty":
+        if settingTitle == "KelvinAlive":
+            self.setKelvinStatus(value)
+        
+        elif settingTitle == "VirginiaAlive":
+            self.setVirginiaStatus(value)
+        
+        elif settingTitle == "Difficulty":
             self.gamestate["GameType"] = value
             setting = self._findGameSetupSettingOrCreate(SETTINGS[settingTitle].name)
             setting["StringValue"] = value
@@ -231,7 +266,7 @@ class SavefileLoader:
             
         elif settingsFile == "weatherSystem":
             if settingTitle == "CurrentSeason":
-                self.setSeason(settingTitle, value)
+                self.setSeason(value)
                 
             elif settingTitle == "IsRaining":
                 self.setRaining(settingTitle, value)

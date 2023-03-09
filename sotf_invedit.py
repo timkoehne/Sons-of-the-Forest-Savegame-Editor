@@ -15,7 +15,7 @@ def createUiElements():
     inventoryTab = TkInventoryTab(itemIdLoader, inventoryLoader)
     settingsTab = TkSettingsTab(inventoryTab)
     worldTab = TkWorldTab(savefileLoader)
-    saveFileTab = TkSaveLoadTab(savefileLoader, inventoryTab)
+    saveFileTab = TkSaveLoadTab(savefileLoader, inventoryTab, worldTab)
     
     tabsystem.add(saveFileTab, text="saveFile")
     tabsystem.add(worldTab, text="World")
@@ -27,8 +27,9 @@ def createUiElements():
 itemIdLoader = ItemIdLoader()
 itemIdLoader.loadIds()
 
-savefileLoader = SavefileLoader(itemIdLoader, 
-                                "C:/Users/Tim/AppData/LocalLow/Endnight/SonsOfTheForest/Saves/76561198042133385/SinglePlayer/1445249876")
+savefileLoader = SavefileLoader(itemIdLoader)
+
+
 inventoryLoader = savefileLoader.inventoryLoader
 
 window = tk.Tk()
