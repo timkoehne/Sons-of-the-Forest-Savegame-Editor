@@ -1,5 +1,6 @@
 import os
 from tkinter import filedialog as tkfiledialog
+import json
 
 jsonFiletypes = (
     ('json file', '*.json'),
@@ -68,10 +69,11 @@ def selectFolder():
             saveFolderPath = subfolders[0]
         return saveFolderPath
 
-def createGameSetupSettingsEntry(name):
+def createGameSetupSettingsEntry(name, settingType: int):
+    #settingstype defines which is the relavant value for this setting, 0=bool, 1=int, ...
     return {        
         "Name": name,
-        "SettingType": 3,
+        "SettingType": settingType,
         "Version": 0,
         "BoolValue": False,
         "IntValue": 0,
@@ -81,3 +83,31 @@ def createGameSetupSettingsEntry(name):
         "FloatArrayValue": [],
         "IsSet": False
     }
+    
+def countNumActors(self, actors):
+    typeIds = {}
+    for actor in actors:
+        if not actor["TypeId"] in typeIds:
+            typeIds[actor["TypeId"]] = 0
+        typeIds[actor["TypeId"]] += 1
+
+    typeIds = dict(sorted(typeIds.items()))
+    for key, value in typeIds.items():
+        print(f'{key} exists {value} times')
+        
+
+def saveTestdata(actors, gamestate, gameSetupSettings, weatherSystem, playerState):
+    with open("actors.json", "w") as file:
+        file.write(json.dumps(actors, indent=4))
+        
+    with open("gameState.json", "w") as file:
+        file.write(json.dumps(gamestate, indent=4))
+        
+    with open("gameSetup.json", "w") as file:
+        file.write(json.dumps(gameSetupSettings, indent=4))
+        
+    with open("weatherSystem.json", "w") as file:
+        file.write(json.dumps(weatherSystem, indent=4))
+        
+    with open("playerState.json", "w") as file:
+        file.write(json.dumps(playerState, indent=4))

@@ -8,6 +8,7 @@ GAMESETUPFILE =  "/GameSetupSaveData.json"
 SAVEDATAFILE = "/SaveData.json"
 INVENTORYFILE = "/PlayerInventorySaveData.json"
 WEATHERFILE = "/WeatherSystemSaveData.json"
+PLAYERFILE = "/PlayerStateSaveData.json"
 
 
 class SavefileLoader:
@@ -23,6 +24,7 @@ class SavefileLoader:
         gameSavePath = saveFolderPath + SAVEDATAFILE
         gameSetupPath = saveFolderPath + GAMESETUPFILE
         weatherPath = saveFolderPath + WEATHERFILE
+        playerPath = saveFolderPath + PLAYERFILE
         
         with open(gameStatePath, "r") as file:
             self.gameStateContent = json.loads(file.read())
@@ -44,9 +46,16 @@ class SavefileLoader:
             self.weatherSystemSaveDataContent = json.loads(file.read())
             self.weatherData = self.weatherSystemSaveDataContent["Data"]
             self.weatherSystem = json.loads(self.weatherData["WeatherSystem"])
+            
+            
+        with open(playerPath, "r") as file:
+            self.playerStateSaveDataContent = json.loads(file.read())
+            self.playerStateSaveData = self.playerStateSaveDataContent["Data"]
+            self.playerState = json.loads(self.playerStateSaveData["PlayerState"])
         
         self.inventoryLoader.loadInventory(saveFolderPath + INVENTORYFILE)
-        self.saveTestdata()
+        saveTestdata(self.actors, self.gamestate, 
+                     self.gameSetupSettings, self.weatherSystem, self.playerState)
 
     def save(self, saveFolderPath=None):
         if saveFolderPath is None:
@@ -56,6 +65,7 @@ class SavefileLoader:
         gameSavePath = saveFolderPath + SAVEDATAFILE
         gameSetupPath = saveFolderPath + GAMESETUPFILE
         weatherPath = saveFolderPath + WEATHERFILE
+        playerPath = saveFolderPath + PLAYERFILE
         
         with open(gameStatePath, "w") as file:
             self.gameStateContent["Data"]["GameState"] = json.dumps(self.gamestate)
@@ -77,8 +87,13 @@ class SavefileLoader:
             self.weatherData["WeatherSystem"] = json.dumps(self.weatherSystem)
             self.weatherSystemSaveDataContent["Data"] = self.weatherData
             file.write(json.dumps(self.weatherSystemSaveDataContent))
-        
-        self.saveTestdata()
+            
+        with open(playerPath, "w") as file:
+            self.playerStateSaveData["PlayerState"] = json.dumps(self.playerState)
+            self.playerStateSaveDataContent["Data"] = self.playerStateSaveData
+            file.write(json.dumps(self.playerStateSaveDataContent))
+            
+        saveTestdata(self.actors, self.gamestate, self.gameSetupSettings, self.weatherSystem, self.playerState)
         
         self.inventoryLoader.saveInventory(saveFolderPath + INVENTORYFILE)
 
@@ -125,28 +140,23 @@ class SavefileLoader:
         if self.gamestate["IsVirginiaDead"] == True or virginiaActor["State"] == 6 or virginiaActor["Stats"]["Health"] < 1:
             return False
         return True
-
-    def countNumActors(self):
-        typeIds = {}
-        for actor in self.actors:
-            if not actor["TypeId"] in typeIds:
-                typeIds[actor["TypeId"]] = 0
-            typeIds[actor["TypeId"]] += 1
-
-        typeIds = dict(sorted(typeIds.items()))
-        for key, value in typeIds.items():
-            print(f'{key} exists {value} times')
        
-    def _findGameSetupSetting(self, s: str):
+    def _findGameSetupSetting(self, settingTitle: str):
         for entry in self.gameSetupSettings:
-            if entry["Name"] == s:
+            if entry["Name"] == SETTINGS[settingTitle].name:
                 return entry
         return None
     
-    def _findGameSetupSettingOrCreate(self, s: str):
-        setting = self._findGameSetupSetting(s)
+    def _findGameSetupSettingOrCreate(self, settingTitle: str):
+        setting = self._findGameSetupSetting(settingTitle)
         if setting is None:
-            self.gameSetupSettings.append(createGameSetupSettingsEntry(s))
+            
+            if settingTitle == "EnemySpawn":
+                settingType = 0
+            else:
+                settingType = 3
+            
+            self.gameSetupSettings.append(createGameSetupSettingsEntry(SETTINGS[settingTitle].name, settingType))
             setting = self.gameSetupSettings[-1]
         return setting
             
@@ -158,7 +168,7 @@ class SavefileLoader:
             return "alive" if status else "dead"
         
         elif settingTitle == "VirginiaAlive":
-            status = self.isKelvinAlive()
+            status = self.isVirginiaAlive()
             return "alive" if status else "dead"
         
         elif settingTitle == "Difficulty":
@@ -168,14 +178,16 @@ class SavefileLoader:
             return self.gamestate["CrashSite"]
         
         elif settingsFile == "gameSetupFile":
-            setting = self._findGameSetupSetting(SETTINGS[settingTitle].name)
+            setting = self._findGameSetupSetting(settingTitle)
             if setting is None:
                 return SETTINGS[settingTitle].default
             
+            relevantValue = getRelevantSettingsValue(setting)
+            
             if settingTitle == "EnemySpawn":
-                return "Enabled" if setting['BoolValue'] else "Disabled"
+                return "Enabled" if relevantValue else "Disabled"
             else:
-                return setting['StringValue']
+                return relevantValue
         
         elif settingsFile == "weatherSystem":
             setting = SETTINGS[settingTitle].name
@@ -258,19 +270,19 @@ class SavefileLoader:
         
         elif settingTitle == "Difficulty":
             self.gamestate["GameType"] = value
-            setting = self._findGameSetupSettingOrCreate(SETTINGS[settingTitle].name)
+            setting = self._findGameSetupSettingOrCreate(settingTitle)
             setting["StringValue"] = value
             
         elif settingsFile == "gameStateFile":
             self.gamestate["CrashSite"] = value
             
         elif settingsFile == "gameSetupFile":
-            setting = self._findGameSetupSettingOrCreate(SETTINGS[settingTitle].name)
-            
+            setting = self._findGameSetupSettingOrCreate(settingTitle)
+        
             if settingTitle == "EnemySpawn":
-                setting["BoolValue"] = True if value == "Enabled" else False
-            else:
-                setting["StringValue"] = value
+                value = True if value == "Enabled" else False
+            
+            setRelevantSettingsValue(setting, value)
             
         elif settingsFile == "weatherSystem":
             if settingTitle == "CurrentSeason":
@@ -278,16 +290,23 @@ class SavefileLoader:
                 
             elif settingTitle == "IsRaining":
                 self.setRaining(settingTitle, value)
-            
-    def saveTestdata(self):
-        with open("actors.json", "w") as file:
-            file.write(json.dumps(self.vailworldsim, indent=4))
-            
-        with open("gameState.json", "w") as file:
-            file.write(json.dumps(self.gamestate, indent=4))
-            
-        with open("gameSetup.json", "w") as file:
-            file.write(json.dumps(self.gameSetupSettings, indent=4))
-            
-        with open("weatherSystem.json", "w") as file:
-            file.write(json.dumps(self.weatherSystem, indent=4))
+    
+def getRelevantSettingsValue(setting):
+    if setting["SettingType"] == 0:
+        return bool(setting["BoolValue"])
+    elif setting["SettingType"] == 1:
+        return int(setting["IntValue"])
+    elif setting["SettingType"] == 2:
+        return float(setting["FloatValue"])
+    elif setting["SettingType"] == 3:
+        return str(setting["StringValue"])
+    
+def setRelevantSettingsValue(setting, value):
+    if setting["SettingType"] == 0:
+        setting["BoolValue"] = bool(value)
+    elif setting["SettingType"] == 1:
+        setting["IntValue"] = int(value)
+    elif setting["SettingType"] == 2:
+        setting["FloatValue"] = float(value)
+    elif setting["SettingType"] == 3:
+        setting["StringValue"] = str(value)
