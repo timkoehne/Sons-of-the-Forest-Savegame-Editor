@@ -27,9 +27,8 @@ def createUiElements():
 itemIdLoader = ItemIdLoader()
 itemIdLoader.loadIds()
 
-savefileLoader = SavefileLoader(itemIdLoader)
-
-
+savefileLoader = SavefileLoader(itemIdLoader, 
+                                "C:/Users/Tim/AppData/LocalLow/Endnight/SonsOfTheForest/Saves/76561198042133385/SinglePlayer/1445249876")
 inventoryLoader = savefileLoader.inventoryLoader
 
 window = tk.Tk()

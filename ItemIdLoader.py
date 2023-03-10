@@ -84,7 +84,6 @@ class ItemIdLoader:
             if str(item["id"]) == str(id):
                 return item
 
-
     def isKnownId(self, itemId: str):
         found = False
         for item in self.itemIds:

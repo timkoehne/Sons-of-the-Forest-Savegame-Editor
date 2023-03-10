@@ -32,7 +32,7 @@ SETTINGS = {
     "VirginiaAlive": Setting("", "IsVirginiaDead", ["alive", "dead"], "alive"),
     "Difficulty": Setting("", "Mode", ["Custom", "Hard", "Normal", "Peaceful"], "Normal"),
     "CrashSite": Setting("gameStateFile", "CrashSite", ["tree", "ocean", "snow"], "ocean"),
-    # "EnemySpawn": Setting("gameSetupFile", "GameSetting.Vail.EnemySpawn", [], ""),
+    "EnemySpawn": Setting("gameSetupFile", "GameSetting.Vail.EnemySpawn", ["Enabled", "Disabled"], "Enabled"),
     "EnemyHealth": Setting("gameSetupFile", "GameSetting.Vail.EnemyHealth", ["High", "Normal", "Low"], "Normal"),
     "EnemyDamage": Setting("gameSetupFile", "GameSetting.Vail.EnemyDamage", ["High", "Normal", "Low"], "Normal"),
     "EnemyArmour": Setting("gameSetupFile", "GameSetting.Vail.EnemyArmour", ["High", "Normal", "Low"], "Normal"),

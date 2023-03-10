@@ -171,7 +171,11 @@ class SavefileLoader:
             setting = self._findGameSetupSetting(SETTINGS[settingTitle].name)
             if setting is None:
                 return SETTINGS[settingTitle].default
-            return setting['StringValue']
+            
+            if settingTitle == "EnemySpawn":
+                return "Enabled" if setting['BoolValue'] else "Disabled"
+            else:
+                return setting['StringValue']
         
         elif settingsFile == "weatherSystem":
             setting = SETTINGS[settingTitle].name
@@ -262,7 +266,11 @@ class SavefileLoader:
             
         elif settingsFile == "gameSetupFile":
             setting = self._findGameSetupSettingOrCreate(SETTINGS[settingTitle].name)
-            setting["StringValue"] = value
+            
+            if settingTitle == "EnemySpawn":
+                setting["BoolValue"] = True if value == "Enabled" else False
+            else:
+                setting["StringValue"] = value
             
         elif settingsFile == "weatherSystem":
             if settingTitle == "CurrentSeason":

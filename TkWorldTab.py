@@ -47,7 +47,6 @@ class TkWorldTab(tk.Frame):
         self.saveFileLoader.entrySetTimeAndDayCallback(self.entrySetTimeAndDay)
         
         firstPosition = 3 #number of grid rows that are manually added before
-        
         self.initSettings(firstPosition)
     
     def initSettings(self, firstPosition):
