@@ -7,6 +7,7 @@ from TkInventoryTab import TkInventoryTab
 from TkSaveLoadTab import TkSaveLoadTab
 from TkSettingsTab import TkSettingsTab
 from TkWorldTab import TkWorldTab
+from TkTeleportTab import TkTeleportTab
 
 def createUiElements():
     
@@ -15,11 +16,13 @@ def createUiElements():
     inventoryTab = TkInventoryTab(itemIdLoader, inventoryLoader)
     settingsTab = TkSettingsTab(inventoryTab)
     worldTab = TkWorldTab(savefileLoader)
+    teleportTab = TkTeleportTab(savefileLoader)
     saveFileTab = TkSaveLoadTab(savefileLoader, inventoryTab, worldTab)
     
     tabsystem.add(saveFileTab, text="saveFile")
     tabsystem.add(worldTab, text="World")
     tabsystem.add(inventoryTab, text="Inventory")
+    tabsystem.add(teleportTab, text="Teleport")
     tabsystem.add(settingsTab, text="Settings")
     
     tabsystem.pack(expand=1, fill="both")

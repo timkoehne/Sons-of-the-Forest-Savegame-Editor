@@ -51,7 +51,8 @@ class SavefileLoader:
         with open(playerPath, "r") as file:
             self.playerStateSaveDataContent = json.loads(file.read())
             self.playerStateSaveData = self.playerStateSaveDataContent["Data"]
-            self.playerState = json.loads(self.playerStateSaveData["PlayerState"])
+            self.playerStateWrapper = json.loads(self.playerStateSaveData["PlayerState"])
+            self.playerState = self.playerStateWrapper["_entries"]
         
         self.inventoryLoader.loadInventory(saveFolderPath + INVENTORYFILE)
         saveTestdata(self.actors, self.gamestate, 
@@ -89,7 +90,8 @@ class SavefileLoader:
             file.write(json.dumps(self.weatherSystemSaveDataContent))
             
         with open(playerPath, "w") as file:
-            self.playerStateSaveData["PlayerState"] = json.dumps(self.playerState)
+            self.playerStateWrapper["_entries"] = self.playerState
+            self.playerStateSaveData["PlayerState"] = json.dumps(self.playerStateWrapper)
             self.playerStateSaveDataContent["Data"] = self.playerStateSaveData
             file.write(json.dumps(self.playerStateSaveDataContent))
             
@@ -140,15 +142,20 @@ class SavefileLoader:
         if self.gamestate["IsVirginiaDead"] == True or virginiaActor["State"] == 6 or virginiaActor["Stats"]["Health"] < 1:
             return False
         return True
+
+    def findPlayerSetting(self, name):
+        for setting in self.playerState:
+            if setting["Name"] == name:
+                return setting
        
-    def _findGameSetupSetting(self, settingTitle: str):
+    def findGameSetupSetting(self, settingTitle: str):
         for entry in self.gameSetupSettings:
             if entry["Name"] == SETTINGS[settingTitle].name:
                 return entry
         return None
     
-    def _findGameSetupSettingOrCreate(self, settingTitle: str):
-        setting = self._findGameSetupSetting(settingTitle)
+    def findGameSetupSettingOrCreate(self, settingTitle: str):
+        setting = self.findGameSetupSetting(settingTitle)
         if setting is None:
             
             if settingTitle == "EnemySpawn":
@@ -178,11 +185,11 @@ class SavefileLoader:
             return self.gamestate["CrashSite"]
         
         elif settingsFile == "gameSetupFile":
-            setting = self._findGameSetupSetting(settingTitle)
+            setting = self.findGameSetupSetting(settingTitle)
             if setting is None:
                 return SETTINGS[settingTitle].default
             
-            relevantValue = getRelevantSettingsValue(setting)
+            relevantValue = self.getRelevantSettingsValue(setting)
             
             if settingTitle == "EnemySpawn":
                 return "Enabled" if relevantValue else "Disabled"
@@ -239,6 +246,22 @@ class SavefileLoader:
                     actor["Stats"]["Health"] = 0.0
                     break
             print("Kelvin was killed")
+
+    def setKelvinPosition(self, posDict):
+        for actor in self.actors:
+            if actor["TypeId"] == 9:
+                actor["Position"] = posDict
+                break
+            
+    def getKelvinPosition(self):
+        for actor in self.actors:
+            if actor["TypeId"] == 9:
+                return [actor["Position"]["x"], actor["Position"]["y"], actor["Position"]["z"]]
+            
+    def getVirginiaPosition(self):
+        for actor in self.actors:
+            if actor["TypeId"] == 10:
+                return [actor["Position"]["x"], actor["Position"]["y"], actor["Position"]["z"]]
         
     def setVirginiaStatus(self, value):
         if value == "alive": 
@@ -256,6 +279,12 @@ class SavefileLoader:
                     actor["State"] = 6
                     actor["Stats"]["Health"] = 0.0
             print("Virginia was killed")
+
+    def setVirginiaPosition(self, posDict):
+        for actor in self.actors:
+            if actor["TypeId"] == 10:
+                actor["Position"] = posDict
+                break
         
     def setSetting(self, settingTitle: str, value: str):
         print(f"Setting {settingTitle} to {value}")
@@ -270,19 +299,19 @@ class SavefileLoader:
         
         elif settingTitle == "Difficulty":
             self.gamestate["GameType"] = value
-            setting = self._findGameSetupSettingOrCreate(settingTitle)
+            setting = self.findGameSetupSettingOrCreate(settingTitle)
             setting["StringValue"] = value
             
         elif settingsFile == "gameStateFile":
             self.gamestate["CrashSite"] = value
             
         elif settingsFile == "gameSetupFile":
-            setting = self._findGameSetupSettingOrCreate(settingTitle)
+            setting = self.findGameSetupSettingOrCreate(settingTitle)
         
             if settingTitle == "EnemySpawn":
                 value = True if value == "Enabled" else False
             
-            setRelevantSettingsValue(setting, value)
+            self.setRelevantSettingsValue(setting, value)
             
         elif settingsFile == "weatherSystem":
             if settingTitle == "CurrentSeason":
@@ -291,22 +320,26 @@ class SavefileLoader:
             elif settingTitle == "IsRaining":
                 self.setRaining(settingTitle, value)
     
-def getRelevantSettingsValue(setting):
-    if setting["SettingType"] == 0:
-        return bool(setting["BoolValue"])
-    elif setting["SettingType"] == 1:
-        return int(setting["IntValue"])
-    elif setting["SettingType"] == 2:
-        return float(setting["FloatValue"])
-    elif setting["SettingType"] == 3:
-        return str(setting["StringValue"])
-    
-def setRelevantSettingsValue(setting, value):
-    if setting["SettingType"] == 0:
-        setting["BoolValue"] = bool(value)
-    elif setting["SettingType"] == 1:
-        setting["IntValue"] = int(value)
-    elif setting["SettingType"] == 2:
-        setting["FloatValue"] = float(value)
-    elif setting["SettingType"] == 3:
-        setting["StringValue"] = str(value)
+    def getRelevantSettingsValue(setting):
+        if setting["SettingType"] == 0:
+            return bool(setting["BoolValue"])
+        elif setting["SettingType"] == 1:
+            return int(setting["IntValue"])
+        elif setting["SettingType"] == 2:
+            return float(setting["FloatValue"])
+        elif setting["SettingType"] == 3:
+            return str(setting["StringValue"])
+        elif setting["SettingType"] == 4:
+            return setting["FloatArrayValue"]
+        
+    def setRelevantSettingsValue(setting, value):
+        if setting["SettingType"] == 0:
+            setting["BoolValue"] = bool(value)
+        elif setting["SettingType"] == 1:
+            setting["IntValue"] = int(value)
+        elif setting["SettingType"] == 2:
+            setting["FloatValue"] = float(value)
+        elif setting["SettingType"] == 3:
+            setting["StringValue"] = str(value)
+        elif setting["SettingType"] == 4:
+            setting["FloatArrayValue"] = value

@@ -41,16 +41,14 @@
         "name": "3dPrintedGrapplingHook",
         "max": 10,
         "manuallyVerified": true,
-        "UniqueItems": {
-        }
+        "UniqueItems": {}
     },
     {
         "id": "427",
         "name": "3dPrintedKnife",
         "max": 1,
         "manuallyVerified": false,
-        "UniqueItems": {
-        }
+        "UniqueItems": {}
     },
     {
         "id": "428",
@@ -1230,6 +1228,13 @@
         "UniqueItems": {}
     },
     {
+        "id": "626",
+        "name": "HangGlider",
+        "max": 1,
+        "manuallyVerified": false,
+        "UniqueItems": {}
+    },
+    {
         "id": "455",
         "name": "HealthMix",
         "max": 1,
@@ -1469,10 +1474,24 @@
         "UniqueItems": {}
     },
     {
+        "id": "627",
+        "name": "MrPufftonTableCard",
+        "max": 1,
+        "manuallyVerified": false,
+        "UniqueItems": {}
+    },
+    {
         "id": "438",
         "name": "MrePack",
         "max": 6,
         "manuallyVerified": true,
+        "UniqueItems": {}
+    },
+    {
+        "id": "628",
+        "name": "MrsPufftonTableCard",
+        "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
@@ -1757,7 +1776,6 @@
         "max": 2,
         "manuallyVerified": true,
         "UniqueItems": {
-            
             "Modules": [
                 {
                     "SourceActorType": 12,
