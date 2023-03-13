@@ -4,10 +4,10 @@ import json
 from Misc import *
 from TkImageViewer import CanvasImage
 from HeightMap import HeightMap
+import numbers
 
 
 class TkTeleportTab(tk.Frame):
-    
     
     def __init__(self, saveFileLoader: SavefileLoader):
         super().__init__()
@@ -29,11 +29,22 @@ class TkTeleportTab(tk.Frame):
         self.virginiaCheckbutton = tk.Checkbutton(leftFrame, text="Virginia", variable=self.virginiaSelectedVar, fg="green")
         self.virginiaCheckbutton.pack()
         
-        tk.Label(leftFrame, text="Height:").pack()
-        self.heightVar = tk.IntVar(self)
-        tk.Entry(leftFrame, textvariable=self.heightVar).pack(fill="x", expand=True)
+        self.heightLabelVar = tk.IntVar(self)
+        self.heightLabelVar.set("estimated Height: 0")
+        tk.Label(leftFrame, textvariable=self.heightLabelVar).pack()
+    
+        self.heightOffsetVar = tk.StringVar(self)
+        tk.Label(leftFrame, text="Offset: ").pack()
+        offsetEntry = tk.Entry(leftFrame, textvariable=self.heightOffsetVar)
+        offsetEntry.pack(fill="x", expand=True)
         
-        self.canvasMap = CanvasImage(self, "map.png", self.onMapRightClick)
+        #  #TODO wann wird das ausgeführt????
+        offsetEntry.bind("<KeyRelease>", self.onOffsetEntry)
+        
+        
+        
+        
+        self.canvasMap = CanvasImage(self, "heightmap.png", self.onMapRightClick)
         self.canvasMap.grid(row=0, column=1)
         
         self.heightMap = HeightMap()
@@ -82,6 +93,30 @@ class TkTeleportTab(tk.Frame):
         posDict = self.createPositionDict(ingamePos)
         self.saveFileLoader.setVirginiaPosition(posDict)
         
+    def onOffsetEntry(self, event):
+        
+        offset = 0
+        try:
+            offset = int(self.heightOffsetVar.get())
+        except ValueError:
+            pass
+        
+        if self.playerSelectedVar.get():
+            pos = self.getPlayerPos()
+            height = round(self.getHeight((pos[0], pos[2])), 2)
+            pos[1] = height + offset
+            self.setPlayerPos(pos)
+        if self.kelvinSelectedVar.get():
+            pos = self.saveFileLoader.getKelvinPosition()
+            height = round(self.getHeight((pos[0], pos[2])), 2)
+            pos[1] = height + offset
+            self.setKelvinPos(pos)
+        if self.virginiaSelectedVar.get():
+            pos = self.saveFileLoader.getVirginiaPosition()
+            height = round(self.getHeight((pos[0], pos[2])), 2)
+            pos[1] = height + offset
+            self.setVirginiaPos(pos)
+        
     def onMapRightClick(self, imagePos):
         bboxMap = self.canvasMap.getImageBBox()
         coordX, coordZ = transformCoordinatesystemToIngame(imagePos, bboxMap)
@@ -89,8 +124,16 @@ class TkTeleportTab(tk.Frame):
         # print("image coords", self.transformCoordinatesystemToImage(coordX, coordZ), bboxMap)
 
         height = round(self.getHeight((coordX, coordZ)), 2)
+        self.heightLabelVar.set(f"estimated Height: {height}")
+        
+        
+        try:
+            offset = int(self.heightOffsetVar.get())
+            height += offset
+        except ValueError:
+            pass
         newPos = (coordX, height, coordZ)
-        self.heightVar.set(height)
+        
         if self.playerSelectedVar.get():
             self.setPlayerPos(newPos)
         if self.kelvinSelectedVar.get():
@@ -99,8 +142,7 @@ class TkTeleportTab(tk.Frame):
             self.setVirginiaPos(newPos)
         
     def getHeight(self, ingamePos) -> float:
-        # small offset to place ontop of the ground
-        return self.heightMap.getHeight(ingamePos) + 5
+        return self.heightMap.getHeight(ingamePos)
      
     def createPositionDict(self, ingamePos):
         return {
