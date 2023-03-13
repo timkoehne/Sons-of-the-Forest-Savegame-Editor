@@ -199,7 +199,7 @@ class CanvasImage:
                 image = self.__pyramid[max(0, self.__curr_img)].crop(  # crop current img from pyramid
                                     (int(x1 / self.__scale), int(y1 / self.__scale),
                                      int(x2 / self.__scale), int(y2 / self.__scale)))
-            #
+            
             imagetk = ImageTk.PhotoImage(image.resize((int(x2 - x1), int(y2 - y1)), self.__filter))
             imageid = self.canvas.create_image(max(box_canvas[0], box_img_int[0]),
                                                max(box_canvas[1], box_img_int[1]),
@@ -298,6 +298,25 @@ class CanvasImage:
         y = self.canvas.canvasy(event.y)
         if(not self.outside(x, y)):
             self.onImageRightClick((x, y))
+
+    def switchImages(self):
+        pass
+        
+        
+
+    def deleteOtherMarks(self):
+        if hasattr(self, "otherMarks"):
+            for mark in self.otherMarks:
+                self.canvas.delete(mark)
+
+    def markPos(self, pos, iconSize, color="yellow"):
+        size = iconSize * self.imscale
+        
+        if not hasattr(self, "otherMarks"):
+            self.otherMarks = []
+
+        markedPos = self.canvas.create_rectangle(pos[0]-size/2, pos[1]-size/2, pos[0]+size/2, pos[1]+size/2, fill=color)
+        self.otherMarks.append(markedPos)
         
     def markPlayerPos(self, pos, iconSize, color="red"):
         size = iconSize * self.imscale
@@ -311,7 +330,7 @@ class CanvasImage:
             self.canvas.delete(self.kelvin)
         self.kelvin = self.canvas.create_rectangle(pos[0]-size/2, pos[1]-size/2, pos[0]+size/2, pos[1]+size/2, fill=color)
         
-    def markVirginiaPos(self, pos, iconSize, color="yellow"):
+    def markVirginiaPos(self, pos, iconSize, color="green"):
         size = iconSize * self.imscale
         if hasattr(self, "virginia"): 
             self.canvas.delete(self.virginia)

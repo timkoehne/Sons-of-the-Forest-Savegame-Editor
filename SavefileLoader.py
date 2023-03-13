@@ -319,6 +319,14 @@ class SavefileLoader:
                 
             elif settingTitle == "IsRaining":
                 self.setRaining(settingTitle, value)
+   
+    def getPositiondataForActorId(self, typeids):
+        positionData = []
+        for actor in self.actors:
+            if actor["TypeId"] in typeids:
+                posDict = actor["Position"]
+                positionData.append([posDict["x"], posDict["y"], posDict["z"]])
+        return positionData
     
     def getRelevantSettingsValue(setting):
         if setting["SettingType"] == 0:

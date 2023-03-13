@@ -2,6 +2,11 @@ import os
 from tkinter import filedialog as tkfiledialog
 import json
 
+
+ICONSIZE = 50
+MAPIMAGESIZE = 4096
+imageToIngameScalingFactor = 0.9765
+
 jsonFiletypes = (
     ('json file', '*.json'),
     ('All files', '*.*')
@@ -84,7 +89,48 @@ def createGameSetupSettingsEntry(name, settingType: int):
         "IsSet": False
     }
     
-def countNumActors(self, actors):
+def transformCoordinatesystemToIngame(mapPos, bboxMap):
+    #image coordinate system is (0,0) in the top left and positive x,y to right and bottom
+    #ingame coordinate system is (0,0) in the center of the map, north is z positive, east is x positive
+    width = bboxMap[2] - bboxMap[0]
+    height = bboxMap[3] - bboxMap[1]
+    percentX = (mapPos[0] - bboxMap[0]) / width
+    percentY = (mapPos[1] - bboxMap[1]) / height
+    
+    coordX = percentX - 0.5
+    coordY = (percentY - 0.5) * -1
+    
+    coordX = coordX * imageToIngameScalingFactor * MAPIMAGESIZE
+    coordY = coordY * imageToIngameScalingFactor * MAPIMAGESIZE
+    
+    return coordX, coordY
+    
+def transformCoordinatesystemToImage(ingamePos, bboxMap):
+    #image coordinate system is (0,0) in the top left and positive x,y to right and bottom
+    #ingame coordinate system is (0,0) in the center of the map, north is z positive, east is x positive
+    width = bboxMap[2] - bboxMap[0]
+    height = bboxMap[3] - bboxMap[1]
+    
+    if len(ingamePos) == 2:
+        xIngame = ingamePos[0]
+        yIngame = ingamePos[1]
+    elif len(ingamePos) == 3: 
+        xIngame = ingamePos[0]
+        yIngame = ingamePos[2]
+    
+    
+    xIngame = xIngame / imageToIngameScalingFactor / MAPIMAGESIZE
+    yIngame = yIngame / imageToIngameScalingFactor / MAPIMAGESIZE
+    
+    percentX = xIngame + 0.5
+    percentY = -yIngame + 0.5
+    
+    xMap = (percentX * width) + bboxMap[0]
+    yMap = (percentY * height) + bboxMap[1]
+    
+    return xMap, yMap
+
+def countNumActors(actors):
     typeIds = {}
     for actor in actors:
         if not actor["TypeId"] in typeIds:
@@ -93,8 +139,7 @@ def countNumActors(self, actors):
 
     typeIds = dict(sorted(typeIds.items()))
     for key, value in typeIds.items():
-        print(f'{key} exists {value} times')
-        
+        print(f'{key} exists {value} times') 
 
 def saveTestdata(actors, gamestate, gameSetupSettings, weatherSystem, playerState):
     with open("actors.json", "w") as file:

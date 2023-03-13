@@ -14,10 +14,10 @@ def createUiElements():
     tabsystem = ttk.Notebook(window)
     
     inventoryTab = TkInventoryTab(itemIdLoader, inventoryLoader)
-    settingsTab = TkSettingsTab(inventoryTab)
     worldTab = TkWorldTab(savefileLoader)
     teleportTab = TkTeleportTab(savefileLoader)
     saveFileTab = TkSaveLoadTab(savefileLoader, inventoryTab, worldTab)
+    settingsTab = TkSettingsTab(inventoryTab, savefileLoader, teleportTab)
     
     tabsystem.add(saveFileTab, text="saveFile")
     tabsystem.add(worldTab, text="World")
