@@ -18,33 +18,31 @@ class TkTeleportTab(tk.Frame):
         self.columnconfigure(1, weight=6)
     
         leftFrame = tk.Frame(self)
-        leftFrame.grid(row=0, column=0)
+        leftFrame.grid(row=0, column=0, sticky="nesw")
         self.playerSelectedVar = tk.BooleanVar()
         self.playerCheckbutton = tk.Checkbutton(leftFrame, text="Player", variable=self.playerSelectedVar, fg="red")
-        self.playerCheckbutton.pack()
+        self.playerCheckbutton.pack(side="top")
         self.kelvinSelectedVar = tk.BooleanVar()
         self.kelvinCheckbutton = tk.Checkbutton(leftFrame, text="Kelvin", variable=self.kelvinSelectedVar, fg="blue")
-        self.kelvinCheckbutton.pack()
+        self.kelvinCheckbutton.pack(side="top")
         self.virginiaSelectedVar = tk.BooleanVar()
         self.virginiaCheckbutton = tk.Checkbutton(leftFrame, text="Virginia", variable=self.virginiaSelectedVar, fg="green")
-        self.virginiaCheckbutton.pack()
+        self.virginiaCheckbutton.pack(side="top")
+    
+        offsetFrame = tk.Frame(leftFrame)
+        offsetFrame.pack(side="bottom")
+        self.heightOffsetVar = tk.StringVar(self)
+        tk.Label(offsetFrame, text="Offset: ").pack(side="left")
+        offsetEntry = tk.Entry(offsetFrame, textvariable=self.heightOffsetVar, width=8)
+        offsetEntry.pack(side="left")
+        offsetEntry.bind("<KeyRelease>", self.onOffsetEntry)
         
         self.heightLabelVar = tk.IntVar(self)
         self.heightLabelVar.set("estimated Height: 0")
-        tk.Label(leftFrame, textvariable=self.heightLabelVar).pack()
+        tk.Label(leftFrame, textvariable=self.heightLabelVar, width=20).pack(side="bottom")
     
-        self.heightOffsetVar = tk.StringVar(self)
-        tk.Label(leftFrame, text="Offset: ").pack()
-        offsetEntry = tk.Entry(leftFrame, textvariable=self.heightOffsetVar)
-        offsetEntry.pack(fill="x", expand=True)
-        
-        #  #TODO wann wird das ausgeführt????
-        offsetEntry.bind("<KeyRelease>", self.onOffsetEntry)
-        
-        
-        
-        
-        self.canvasMap = CanvasImage(self, "heightmap.png", self.onMapRightClick)
+    
+        self.canvasMap = CanvasImage(self, "../res/map.png", self.onMapRightClick)
         self.canvasMap.grid(row=0, column=1)
         
         self.heightMap = HeightMap()
@@ -71,7 +69,8 @@ class TkTeleportTab(tk.Frame):
         
     def getPlayerPos(self):
         playerPosSetting = self.saveFileLoader.findPlayerSetting("player.position")
-        return SavefileLoader.getRelevantSettingsValue(playerPosSetting)
+        pos = SavefileLoader.getRelevantSettingsValue(playerPosSetting)
+        return [pos[0], pos[1], pos[2]]
     
     def setKelvinPos(self, ingamePos):
         print("Setting Kelvin position to" , ingamePos)

@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from TkInventoryTab import TkInventoryTab
-import HeightMap
+import HeightMap as HeightMap
 from SavefileLoader import SavefileLoader
 from HeightMap import HeightMap
 from TkTeleportTab import TkTeleportTab
@@ -53,4 +53,5 @@ class TkSettingsTab(tk.Frame):
         
     def generateHeightmap(self):
         positionData = self.savefileLoader.getPositiondataForActorId(HeightMap.ACTORSFORHEIGHTMAP)
-        self.tkTeleportTab.heightMap = HeightMap.generateHeightmap(positionData, self.selectedHeightmapMethod.get())
+        HeightMap.generateHeightmap(positionData, self.selectedHeightmapMethod.get())
+        self.tkTeleportTab.heightMap = HeightMap()

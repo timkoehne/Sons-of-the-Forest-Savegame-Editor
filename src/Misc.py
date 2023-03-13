@@ -142,17 +142,17 @@ def countNumActors(actors):
         print(f'{key} exists {value} times') 
 
 def saveTestdata(actors, gamestate, gameSetupSettings, weatherSystem, playerState):
-    with open("actors.json", "w") as file:
+    with open("../test/actors.json", "w") as file:
         file.write(json.dumps(actors, indent=4))
         
-    with open("gameState.json", "w") as file:
+    with open("../test/gameState.json", "w") as file:
         file.write(json.dumps(gamestate, indent=4))
         
-    with open("gameSetup.json", "w") as file:
+    with open("../test/gameSetup.json", "w") as file:
         file.write(json.dumps(gameSetupSettings, indent=4))
         
-    with open("weatherSystem.json", "w") as file:
+    with open("../test/weatherSystem.json", "w") as file:
         file.write(json.dumps(weatherSystem, indent=4))
         
-    with open("playerState.json", "w") as file:
+    with open("../test/playerState.json", "w") as file:
         file.write(json.dumps(playerState, indent=4))

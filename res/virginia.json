@@ -1,0 +1,35 @@
+{
+    "UniqueId": 8536,
+    "TypeId": 10,
+    "FamilyId": 0,
+    "Position": {
+        "x": -1013.73834,
+        "y": 90.21058,
+        "z": 756.9554
+    },
+    "Rotation": {
+        "x": 0.0,
+        "y": -0.7696093,
+        "z": 0.0,
+        "w": -0.6385151
+    },
+    "SpawnerId": -1797797444,
+    "ActorSeed": -1202765008,
+    "VariationId": 0,
+    "State": 2,
+    "GraphMask": 1,
+    "EquippedItems": null,
+    "OutfitId": -1,
+    "NextGiftTime": 0.0,
+    "LastVisitTime": 10.0149841,
+    "Stats": {
+        "Health": 120.0,
+        "Anger": 0.0,
+        "Fear": 0.0,
+        "Fullness": 100,
+        "Hydration": 100,
+        "Energy": 100,
+        "Affection": 0.0
+    },
+    "StateFlags": 0
+}

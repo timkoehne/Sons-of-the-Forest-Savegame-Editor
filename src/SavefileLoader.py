@@ -134,15 +134,24 @@ class SavefileLoader:
         return True
 
     def isVirginiaAlive(self) -> bool:
+        virginiaActor = None
         for actor in self.actors:
             if actor["TypeId"] == 10:
                 virginiaActor = actor
                 break
         
+        if virginiaActor is None:
+            self.createVirginia()
+        
         if self.gamestate["IsVirginiaDead"] == True or virginiaActor["State"] == 6 or virginiaActor["Stats"]["Health"] < 1:
             return False
         return True
-
+    
+    def createVirginia(self):
+        with open("../res/virginia.json") as file:
+            virginiaActor = json.loads(file.read())[0]
+            self.actors.append(virginiaActor)
+    
     def findPlayerSetting(self, name):
         for setting in self.playerState:
             if setting["Name"] == name:

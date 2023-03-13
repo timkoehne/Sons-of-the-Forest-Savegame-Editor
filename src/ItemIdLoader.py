@@ -9,7 +9,7 @@ class ItemIdLoader:
         self.itemIds = []
 
     def loadIdsFromFile(self):
-        with open("itemIds.json", "r") as file:
+        with open("../res/itemIds.json", "r") as file:
             self.itemIds = json.loads(file.read())
 
     def loadIdsFromGamefiles(self, sotfInstallDir=None):
@@ -47,7 +47,7 @@ class ItemIdLoader:
         print(f"Done. Found {len(self.itemIds)} Ids.")
          
     def loadIds(self, sotfInstallDir=None):
-        if sotfInstallDir is None and os.path.exists("itemIds.json"):
+        if sotfInstallDir is None and os.path.exists("../res/itemIds.json"):
             self.loadIdsFromFile()
             if self.itemIds == []:
                 self.loadIdsFromGamefiles(sotfInstallDir)
@@ -56,7 +56,7 @@ class ItemIdLoader:
             
     def saveIds(self, sotfInstallDir=None):
         self.itemIds.sort(key=lambda item: item["name"])
-        with open("itemIds.json", "w") as file:
+        with open("../res/itemIds.json", "w") as file:
             file.write(json.dumps(self.itemIds, indent=4))
             print("Save complete.")
     

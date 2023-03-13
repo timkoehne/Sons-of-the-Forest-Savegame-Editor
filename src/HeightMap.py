@@ -5,6 +5,7 @@ from scipy import interpolate
 import numpy as np
 from Misc import *
 
+FILEPATH = "../res/heightmap.png"
 
 class HeightMap:
     
@@ -13,14 +14,12 @@ class HeightMap:
     ACTORSFORHEIGHTMAP = [28, 29, 37]
     
     def __init__(self):
-        self.heightmapImg = Image.open("heightmap.png")
+        self.heightmapImg = Image.open(FILEPATH)
         
     def getHeight(self, ingamePos) -> float:
         bboxMap = (0, 0, MAPIMAGESIZE, MAPIMAGESIZE)
         pixelPos = transformCoordinatesystemToImage(ingamePos, bboxMap)
         return self.heightmapImg.getpixel(pixelPos) / 255 * HeightMap.MAXHEIGHT
-
-
         
     def generateHeightmap(heightData, interpolationMethod):
             bbox = (0, 0, MAPIMAGESIZE, MAPIMAGESIZE)
@@ -60,4 +59,4 @@ class HeightMap:
             heightMapArr = interpolate.griddata((xArr, zArr), yArr, (X, Z), method=interpolationMethod)
             heightMapArr = heightMapArr.astype(np.uint8)
             newImage = Image.fromarray(heightMapArr, "L")
-            newImage.save("heightmap.png")
+            newImage.save(FILEPATH)
