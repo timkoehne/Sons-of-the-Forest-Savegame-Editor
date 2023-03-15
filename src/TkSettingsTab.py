@@ -44,7 +44,7 @@ class TkSettingsTab(tk.Frame):
         
         if self.showPositions.get():
             bboxMap = self.tkTeleportTab.canvasMap.getImageBBox()
-            positionData = self.savefileLoader.getPositiondataForActorId(HeightMap.ACTORSFORHEIGHTMAP)
+            positionData = self.getPositionData()
             for position in positionData:
                 imagePos = transformCoordinatesystemToImage(position, bboxMap)
                 self.tkTeleportTab.canvasMap.markPos(imagePos, ICONSIZE, color="yellow")
@@ -52,6 +52,21 @@ class TkSettingsTab(tk.Frame):
             self.tkTeleportTab.canvasMap.deleteOtherMarks()
         
     def generateHeightmap(self):
-        positionData = self.savefileLoader.getPositiondataForActorId(HeightMap.ACTORSFORHEIGHTMAP)
+        
+        positionData = self.getPositionData()
         HeightMap.generateHeightmap(positionData, self.selectedHeightmapMethod.get())
         self.tkTeleportTab.heightMap = HeightMap()
+        
+    def getPositionData(self):
+        positionData = self.savefileLoader.getPositiondataForActorId(HeightMap.ACTORSFORHEIGHTMAP)
+                
+        knownHeights = ""
+        with open("../res/knownHeightValues.json") as file:
+            knownHeights = json.loads(file.read())
+        
+        for entry in knownHeights:
+            try:
+                positionData.append(entry["FloatArrayValue"])
+            except KeyError:
+                pass
+        return positionData

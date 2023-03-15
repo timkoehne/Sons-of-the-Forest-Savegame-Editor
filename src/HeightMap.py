@@ -10,7 +10,7 @@ FILEPATH = "../res/heightmap.png"
 class HeightMap:
     
     MINHEIGHT = 0
-    MAXHEIGHT = 300
+    MAXHEIGHT = 750
     ACTORSFORHEIGHTMAP = [28, 29, 37]
     
     def __init__(self):
@@ -26,10 +26,10 @@ class HeightMap:
         
             # # cant really use data dependent min and max
             # # because thats not saved inside the image
-            # minHeight = min(heightData, key=lambda value: value[1])[1]
-            # maxHeight = max(heightData, key=lambda value: value[1])[1]
-            # print("min y in data", minHeight)
-            # print("max y in data", maxHeight)
+            minHeight = min(heightData, key=lambda value: value[1])[1]
+            maxHeight = max(heightData, key=lambda value: value[1])[1]
+            print("min y in data", minHeight)
+            print("max y in data", maxHeight)
             
             #convert known points to pixel positions
             for pos in heightData:
