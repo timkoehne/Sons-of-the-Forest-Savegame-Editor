@@ -128,7 +128,7 @@ def transformCoordinatesystemToImage(ingamePos, bboxMap):
     xMap = (percentX * width) + bboxMap[0]
     yMap = (percentY * height) + bboxMap[1]
     
-    return xMap, yMap
+    return int(xMap), int(yMap)
 
 def countNumActors(actors):
     typeIds = {}

@@ -198,7 +198,7 @@ class SavefileLoader:
             if setting is None:
                 return SETTINGS[settingTitle].default
             
-            relevantValue = self.getRelevantSettingsValue(setting)
+            relevantValue = SavefileLoader.getRelevantSettingsValue(setting)
             
             if settingTitle == "EnemySpawn":
                 return "Enabled" if relevantValue else "Disabled"

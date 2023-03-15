@@ -37,6 +37,31 @@ class TkSettingsTab(tk.Frame):
         showHeightmapBox = tk.Checkbutton(heightmapFrame, text="Show Positions for generating heightmap", variable=self.showPositions, command=self.toggleHeightmapActors)
         showHeightmapBox.grid(row=1, column=0, columnspan=2, ipadx=5, ipady=5, padx=5, pady=5)
         
+        saveKnownItemsButton = tk.Button(heightmapFrame, text="Save Actor Ids", command=self.saveActorIds)
+        saveKnownItemsButton.grid(row=2, column=0, columnspan=2, ipadx=5, ipady=5, padx=5, pady=5)
+        
+    def saveActorIds(self):
+        posDict = []
+        
+        with open("../res/knownActorPositions.json", "r") as file:
+            posDict = json.loads(file.read())
+        
+        positionData = self.savefileLoader.getPositiondataForActorId(HeightMap.ACTORSFORHEIGHTMAP)
+        for pos in positionData:
+            posDict.append(
+                {
+                    "FloatArrayValue": [
+                        pos[0],
+                        pos[1],
+                        pos[2]
+                    ]
+                }
+            )
+        
+        with open("../res/knownActorPositions.json", "w") as file:
+            file.write(json.dumps(posDict, indent=4))
+        
+        
     def toggleHeightmapActors(self):
         
         #test
@@ -58,10 +83,12 @@ class TkSettingsTab(tk.Frame):
         self.tkTeleportTab.heightMap = HeightMap()
         
     def getPositionData(self):
-        positionData = self.savefileLoader.getPositiondataForActorId(HeightMap.ACTORSFORHEIGHTMAP)
+        positionData = []
+        # positionData = self.savefileLoader.getPositiondataForActorId(HeightMap.ACTORSFORHEIGHTMAP)
+        numActorPositions = len(positionData)
                 
         knownHeights = ""
-        with open("../res/knownHeightValues.json") as file:
+        with open("../res/knownActorPositions.json") as file:
             knownHeights = json.loads(file.read())
         
         for entry in knownHeights:
@@ -69,4 +96,7 @@ class TkSettingsTab(tk.Frame):
                 positionData.append(entry["FloatArrayValue"])
             except KeyError:
                 pass
+        print(f"There are {numActorPositions} positions from actors")
+        print(f"There are {len(positionData) - numActorPositions} manually added positions")
+        print(f"For a total of {len(positionData)} positions")
         return positionData

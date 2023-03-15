@@ -1,5 +1,5 @@
 from Misc import *
-from PIL import Image
+import png
 import math
 from scipy import interpolate
 import numpy as np
@@ -11,15 +11,21 @@ class HeightMap:
     
     MINHEIGHT = 0
     MAXHEIGHT = 750
+    HEIGHTDIFF = MAXHEIGHT - MINHEIGHT
     ACTORSFORHEIGHTMAP = [28, 29, 37]
+    BITDEPTH = 16
     
     def __init__(self):
-        self.heightmapImg = Image.open(FILEPATH)
+        
+        pngdata = png.Reader(FILEPATH).read_flat()
+        self.heightmapImg = np.array(pngdata[2]).reshape((pngdata[1], pngdata[0], -1))
         
     def getHeight(self, ingamePos) -> float:
         bboxMap = (0, 0, MAPIMAGESIZE, MAPIMAGESIZE)
         pixelPos = transformCoordinatesystemToImage(ingamePos, bboxMap)
-        return self.heightmapImg.getpixel(pixelPos) / 255 * HeightMap.MAXHEIGHT
+        print(f"raw value {self.heightmapImg[pixelPos[0]][pixelPos[1]][0]}")
+        height = (self.heightmapImg[pixelPos[0]][pixelPos[1]][0] / pow(2,HeightMap.BITDEPTH) * HeightMap.HEIGHTDIFF) + HeightMap.MINHEIGHT
+        return height
         
     def generateHeightmap(heightData, interpolationMethod):
             bbox = (0, 0, MAPIMAGESIZE, MAPIMAGESIZE)
@@ -35,16 +41,16 @@ class HeightMap:
             for pos in heightData:
                 x, y = transformCoordinatesystemToImage((pos[0], pos[2]), bbox)
                 pos[0], pos[2] = x, y
-                col = (((pos[1] - HeightMap.MINHEIGHT) / (HeightMap.MAXHEIGHT - HeightMap.MINHEIGHT)) * 255)
+                col = (((pos[1] - HeightMap.MINHEIGHT) / (HeightMap.HEIGHTDIFF)) * pow(2,HeightMap.BITDEPTH))
                 pos[1] = col
                 # print(f"pixel {int(x)}, {int(y)} has the color {col}")
             
             #add border values
-            #assuming the water at the map border is at height = 0
+            #assuming the water at the map border is at height = HeightMap.MINHEIGHT
             for x in range(0, MAPIMAGESIZE):
                 for y in range(0, MAPIMAGESIZE):
                     if x == 0 or y == 0 or x == MAPIMAGESIZE-1 or y ==MAPIMAGESIZE-1:
-                        heightData.append([x, 0, y])
+                        heightData.append([x, HeightMap.MINHEIGHT, y])
             
             #interpolate missing data
             xArr = [pos[0] for pos in heightData]
@@ -57,6 +63,8 @@ class HeightMap:
             X, Z = np.meshgrid(x, z)
             
             heightMapArr = interpolate.griddata((xArr, zArr), yArr, (X, Z), method=interpolationMethod)
-            heightMapArr = heightMapArr.astype(np.uint8)
-            newImage = Image.fromarray(heightMapArr, "L")
-            newImage.save(FILEPATH)
+            heightMapArr = heightMapArr.astype(np.uint16)
+            
+            with open(FILEPATH, "wb") as file:
+                w = png.Writer(MAPIMAGESIZE, MAPIMAGESIZE, greyscale=True, bitdepth=HeightMap.BITDEPTH)
+                w.write(file, heightMapArr)
