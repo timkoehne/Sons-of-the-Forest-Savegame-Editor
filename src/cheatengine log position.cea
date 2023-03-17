@@ -1,0 +1,32 @@
+[ENABLE]
+{$lua}
+--used in conjunction with this 
+--https://fearlessrevolution.com/viewtopic.php?t=23641
+--to find playerposition in memory
+
+local file = io.open("output.json", "w")
+
+-- player coordinates memory address
+-- this changes at each gamestart
+local player = 0x1DC0A855620
+
+-- write positions as json
+file:write("[\n")
+local length = 500
+for i = 1, length do
+    local x = readFloat(player+0x150)
+    local y = readFloat(player+0x154)
+    local z = readFloat(player+0x158)
+    file:write("\t{\n\t\t\"FloatArrayValue\": [\n\t\t\t" .. x .. ",\n\t\t\t" .. y .. ",\n\t\t\t"  .. z .. "\n\t\t]\n\t}")
+
+    if i < length then
+      file:write(",\n")
+      end
+    print(i)
+    sleep(1000)
+end
+
+file:write("\n]")
+file:close()
+{$asm}
+[DISABLE]
