@@ -1,0 +1,238 @@
+import tkinter as tk
+from ttkwidgets import TickScale
+from SavefileLoader import SavefileLoader
+import json
+
+class Stat():
+    def __init__(self, name, minValue: int, maxValue: int):
+        self.name = name
+        self.minValue = minValue
+        self.maxValue = maxValue
+        self.value = tk.IntVar()
+
+class NPC():
+    def __init__(self, name):
+        self.name = name
+        self.stats = []
+        self.stats.append(Stat("Health", 0, 100))
+        self.stats.append(Stat("Anger", 0, 100))
+        self.stats.append(Stat("Fear", 0, 100))
+        self.stats.append(Stat("Fullness", 0, 100))
+        self.stats.append(Stat("Hydration", 0, 100))
+        self.stats.append(Stat("Energy", 0, 100))
+        self.stats.append(Stat("Affection", 0, 100))
+        
+    def setStat(self, name, value):
+        for stat in self.stats:
+            if stat.name == name:
+                if value == "min":
+                    value = stat.minValue
+                elif value == "max":
+                    value = stat.maxValue
+                
+                stat.value.set(int(value))
+                
+    def getStat(self, name):
+        for stat in self.stats:
+            if stat.name == name:
+                return stat
+
+class Kelvin(NPC):
+    def __init__(self):
+        super().__init__("Kelvin")
+        
+class Virginia(NPC):
+    def __init__(self):
+        super().__init__("Virginia")
+        for stat in self.stats:
+            if stat.name == "Health":
+                stat.maxValue = 120
+                break
+
+class TkNPCTab(tk.Frame):
+    def __init__(self, savefileLoader: SavefileLoader):
+        super().__init__()
+        self.savefileLoader = savefileLoader
+        
+        self.initializeKelvin()
+        self.initializeVirginia()
+        
+    def initializeKelvin(self):
+        kelvinFrame = tk.Frame(self, highlightthickness=2, highlightbackground="lightblue")
+        kelvinFrame.pack(side="left", expand=True, fill="x", padx=10, pady=10)
+        kelvinFrame.grid_rowconfigure(0, minsize=30)
+        kelvinFrame.grid_columnconfigure(0, weight=0)
+        kelvinFrame.grid_columnconfigure(1, weight=1)
+        
+        self.kelvin = Kelvin()
+        tk.Label(kelvinFrame, text=self.kelvin.name, anchor="center", bg="lightblue").grid(row=0, column=0, columnspan=2, sticky="new")
+        tk.Label(kelvinFrame, text="Status", anchor="w").grid(row=1, column=0, sticky="nesw")
+        self.kelvinStatusVar = tk.StringVar(self)
+        tk.Button(kelvinFrame, textvariable=self.kelvinStatusVar, anchor="w", 
+                  command=lambda event=None, npcName="Kelvin": self.onButton(npcName)).grid(row=1, column=1, sticky="nsw")
+        tk.Label(kelvinFrame, text="Position", anchor="w").grid(row=2, column=0, sticky="nesw")
+        self.kelvinPositionVar = tk.StringVar(self)
+        tk.Label(kelvinFrame, textvariable=self.kelvinPositionVar, anchor="w").grid(row=2, column=1, sticky="nesw")
+        
+        for index, stat in enumerate(self.kelvin.stats):
+            tk.Label(kelvinFrame, text=stat.name, anchor="w").grid(row=index+3, column=0, sticky="nesw")
+            
+            scale = tk.Scale(kelvinFrame, from_=stat.minValue, to=stat.maxValue, 
+                             variable=stat.value, orient="horizontal", resolution=1,
+                             command=lambda event=None, npcName="Kelvin", statIndex=index, statValue=stat.value: 
+                                 self.onStatChange(npcName, statIndex, statValue.get()))
+            scale.grid(row=index+3, column=1, sticky="nesw")
+        
+        for actor in self.savefileLoader.actors:
+            if actor["TypeId"] == 9:
+                self.kelvinActor = actor
+                break
+        self.readStats("Kelvin")
+
+    def initializeVirginia(self):
+        virginiaFrame = tk.Frame(self, highlightthickness=2, highlightbackground="lightblue")
+        virginiaFrame.pack(side="left", expand=True, fill="x", padx=10, pady=10)
+        virginiaFrame.grid_rowconfigure(0, minsize=30)
+        virginiaFrame.grid_columnconfigure(0, weight=0)
+        virginiaFrame.grid_columnconfigure(1, weight=1)
+        
+        self.virginia = Virginia()
+        tk.Label(virginiaFrame, text=self.virginia.name, anchor="center", bg="lightblue").grid(row=0, column=0, columnspan=2, sticky="new")
+        tk.Label(virginiaFrame, text="Status", anchor="w").grid(row=1, column=0, sticky="nesw")
+        self.virginiaStatusVar = tk.StringVar(self)
+        tk.Button(virginiaFrame, textvariable=self.virginiaStatusVar, anchor="w",
+                  command=lambda event=None, npcName="Virginia": self.onButton(npcName)).grid(row=1, column=1, sticky="nsw")
+        tk.Label(virginiaFrame, text="Position", anchor="w").grid(row=2, column=0, sticky="nesw")
+        self.virginiaPositionVar = tk.StringVar(self)
+        tk.Label(virginiaFrame, textvariable=self.virginiaPositionVar, anchor="w").grid(row=2, column=1, sticky="nesw")
+        
+        for index, stat in enumerate(self.virginia.stats):
+            tk.Label(virginiaFrame, text=stat.name, anchor="w").grid(row=index+3, column=0, sticky="nesw")
+            
+            scale = tk.Scale(virginiaFrame, from_=stat.minValue, to=stat.maxValue, 
+                             variable=stat.value, orient="horizontal", resolution=1,
+                             command=lambda event=None, npcName="Virginia", statIndex=index, statValue=stat.value: 
+                                 self.onStatChange(npcName, statIndex, statValue.get()))
+            scale.grid(row=index+3, column=1, sticky="nesw")
+    
+        for actor in self.savefileLoader.actors:
+            if actor["TypeId"] == 10:
+                self.virginiaActor = actor
+                break
+        if self.virginiaActor is None:
+            self.createVirginia()
+            
+        self.readStats("Virginia")
+
+    def onButton(self, npcName):
+        if self.isAlive(npcName):
+            self.setStatus(npcName, "dead")
+            print(f"{npcName} was killed")
+            self.kelvin.setStat("Health", "min")
+        else:
+            self.setStatus(npcName, "alive")
+            self.kelvin.setStat("Health", "max")
+            print(f"{npcName} was revived")
+        self.statusVarRefresh(npcName)
+
+    def positionRefresh(self, npcName):
+        posVar = self._findPositionVar(npcName)
+        pos = self.getPosition(npcName)
+        posVar.set(f"x: {int(pos[0])}, y: {int(pos[1])}, z: {int(pos[2])}")
+        
+    def statusVarRefresh(self, npcName):
+        statusVar = self._findStatusVar(npcName)
+        statusVar.set("Alive" if self.isAlive(npcName) else "Dead")
+        
+    def onStatChange(self, npcName, statIndex: int, value):
+        npc = self._findNpc(npcName)
+        actor = self._findActor(npcName)
+        
+        statName = npc.stats[statIndex].name
+        stats = actor["Stats"]
+        stats[statName] = float(value)
+        
+        if statName == "Health":
+            self.setStatus(npcName, "alive" if value > 0 else "Dead")
+            self.statusVarRefresh(npcName)
+        
+        print(f"Setting {npcName} {statName} to {value}")
+        
+    def readStats(self, npcName):
+        npc = self._findNpc(npcName)
+        actor = self._findActor(npcName)
+        
+        self.statusVarRefresh(npcName)
+        self.positionRefresh(npcName)
+        
+        stats = actor["Stats"]
+        for name, value in stats.items():
+            npc.setStat(name, value)
+        
+    def getPosition(self, npcName):
+        actor = self._findActor(npcName)
+        
+        return [actor["Position"]["x"], actor["Position"]["y"], actor["Position"]["z"]]
+
+    def setStatus(self, npcName, value):
+        actor = self._findActor(npcName)
+        gamestateName = self._findGamestateName(npcName)
+        statusVar = self._findStatusVar(npcName)
+    
+        if value == "alive": 
+            self.savefileLoader.gamestate[gamestateName] = False
+            actor["State"] = 2
+            actor["Stats"]["Health"] = 100
+            statusVar.set("Alive")
+        else: 
+            self.savefileLoader.gamestate[gamestateName] = True
+            actor["State"] = 6
+            actor["Stats"]["Health"] = 0.0
+            statusVar.set("Dead")
+
+    def setPosition(self, npcName, posDict):
+        self._findActor(npcName)["Position"] = posDict
+        self.positionRefresh(npcName)
+    
+    def isAlive(self, npcName) -> bool:
+        gamestateName = self._findGamestateName(npcName)
+        actor = self._findActor(npcName)
+    
+        if self.savefileLoader.gamestate[gamestateName] == True or actor["State"] == 6 or actor["Stats"]["Health"] < 1:
+            return False
+        return True
+    
+    def createVirginia(self):
+        with open("../res/virginia.json") as file:
+            self.virginiaActor = json.loads(file.read())[0]
+            self.savefileLoader.actors.append(self.virginiaActor)
+
+    def _findActor(self, npcName):
+        if npcName == "Kelvin":
+            return self.kelvinActor
+        elif npcName == "Virginia":
+            return self.virginiaActor
+    
+    def _findGamestateName(self, npcName):
+        if npcName == "Kelvin":
+            return "IsRobbyDead"
+        elif npcName == "Virginia":
+            return "IsVirginiaDead"
+        
+    def _findNpc(self, npcName):
+        if npcName == "Kelvin":
+            return self.kelvin
+        elif npcName == "Virginia":
+            return self.virginia
+        
+    def _findStatusVar(self, npcName):
+        if npcName == "Kelvin":
+            return self.kelvinStatusVar
+        elif npcName == "Virginia":
+            return self.virginiaStatusVar
+        
+    def _findPositionVar(self, npcName):
+        if npcName == "Kelvin":
+            return self.kelvinPositionVar
+        elif npcName == "Virginia":
+            return self.virginiaPositionVar

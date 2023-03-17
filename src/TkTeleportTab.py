@@ -4,14 +4,15 @@ import json
 from Misc import *
 from TkImageViewer import CanvasImage
 from HeightMap import HeightMap
-import numbers
+from TkNPCTab import TkNPCTab
 
 
 class TkTeleportTab(tk.Frame):
     
-    def __init__(self, saveFileLoader: SavefileLoader):
+    def __init__(self, saveFileLoader: SavefileLoader, npcTab):
         super().__init__()
         self.saveFileLoader = saveFileLoader
+        self.npcTab = npcTab
         
         self.rowconfigure(0, weight=1)  # make the CanvasImage widget expandable
         self.columnconfigure(0, weight=4)
@@ -52,9 +53,9 @@ class TkTeleportTab(tk.Frame):
     def setKnownPositions(self):
         playerPos = self.getPlayerPos()
         self.setPlayerPos(playerPos)
-        kelvinPos = self.saveFileLoader.getKelvinPosition()
+        kelvinPos = self.npcTab.getPosition("Kelvin")
         self.setKelvinPos(kelvinPos)
-        virginiaPos = self.saveFileLoader.getVirginiaPosition()
+        virginiaPos = self.npcTab.getPosition("Virginia")
         self.setVirginiaPos(virginiaPos)
                 
     def setPlayerPos(self, ingamePos):
@@ -80,7 +81,7 @@ class TkTeleportTab(tk.Frame):
         self.canvasMap.markKelvinPos(imagePos, ICONSIZE, color=self.kelvinCheckbutton["fg"])
         
         posDict = self.createPositionDict(ingamePos)
-        self.saveFileLoader.setKelvinPosition(posDict)
+        self.npcTab.setPosition("Kelvin", posDict)
 
     def setVirginiaPos(self, ingamePos):
         print("Setting Virginia position to" , ingamePos)
@@ -90,7 +91,7 @@ class TkTeleportTab(tk.Frame):
         self.canvasMap.markVirginiaPos(imagePos, ICONSIZE, color=self.virginiaCheckbutton["fg"])
         
         posDict = self.createPositionDict(ingamePos)
-        self.saveFileLoader.setVirginiaPosition(posDict)
+        self.npcTab.setPosition("Virginia", posDict)
         
     def onOffsetEntry(self, event):
         

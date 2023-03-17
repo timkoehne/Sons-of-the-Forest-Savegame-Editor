@@ -8,6 +8,7 @@ from TkSaveLoadTab import TkSaveLoadTab
 from TkSettingsTab import TkSettingsTab
 from TkWorldTab import TkWorldTab
 from TkTeleportTab import TkTeleportTab
+from TkNPCTab import TkNPCTab
 
 def createUiElements():
     
@@ -15,14 +16,16 @@ def createUiElements():
     
     inventoryTab = TkInventoryTab(itemIdLoader, inventoryLoader)
     worldTab = TkWorldTab(savefileLoader)
-    teleportTab = TkTeleportTab(savefileLoader)
     saveFileTab = TkSaveLoadTab(savefileLoader, inventoryTab, worldTab)
+    npcTab = TkNPCTab(savefileLoader)
+    teleportTab = TkTeleportTab(savefileLoader, npcTab)
     settingsTab = TkSettingsTab(inventoryTab, savefileLoader, teleportTab)
     
     tabsystem.add(saveFileTab, text="saveFile")
     tabsystem.add(worldTab, text="World")
     tabsystem.add(inventoryTab, text="Inventory")
     tabsystem.add(teleportTab, text="Teleport")
+    tabsystem.add(npcTab, text="NPCs")
     tabsystem.add(settingsTab, text="Settings")
     
     tabsystem.pack(expand=1, fill="both")
@@ -36,7 +39,7 @@ inventoryLoader = savefileLoader.inventoryLoader
 
 window = tk.Tk()
 window.title("SotF Inventory Editor")
-window.geometry("600x350")
+window.geometry("600x450")
 createUiElements()
 
 

@@ -122,36 +122,7 @@ class SavefileLoader:
         hour = self.gamestate["GameHours"]
         minute = self.gamestate["GameMinutes"]
         callback(day, hour, minute)
-
-    def isKelvinAlive(self) -> bool:
-        for actor in self.actors:
-            if actor["TypeId"] == 9:
-                kelvinActor = actor
-                break
-        
-        if self.gamestate["IsRobbyDead"] == True or kelvinActor["State"] == 6 or kelvinActor["Stats"]["Health"] < 1:
-            return False
-        return True
-
-    def isVirginiaAlive(self) -> bool:
-        virginiaActor = None
-        for actor in self.actors:
-            if actor["TypeId"] == 10:
-                virginiaActor = actor
-                break
-        
-        if virginiaActor is None:
-            self.createVirginia()
-        
-        if self.gamestate["IsVirginiaDead"] == True or virginiaActor["State"] == 6 or virginiaActor["Stats"]["Health"] < 1:
-            return False
-        return True
-    
-    def createVirginia(self):
-        with open("../res/virginia.json") as file:
-            virginiaActor = json.loads(file.read())[0]
-            self.actors.append(virginiaActor)
-    
+   
     def findPlayerSetting(self, name):
         for setting in self.playerState:
             if setting["Name"] == name:
@@ -179,15 +150,8 @@ class SavefileLoader:
     def getSetting(self, settingTitle: str) -> str:
         
         settingsFile = SETTINGS[settingTitle].file
-        if settingTitle == "KelvinAlive":
-            status = self.isKelvinAlive()
-            return "alive" if status else "dead"
-        
-        elif settingTitle == "VirginiaAlive":
-            status = self.isVirginiaAlive()
-            return "alive" if status else "dead"
-        
-        elif settingTitle == "Difficulty":
+
+        if settingTitle == "Difficulty":
             return self.gamestate["GameType"]
         
         elif settingsFile == "gameStateFile":
@@ -237,76 +201,13 @@ class SavefileLoader:
         else:
             newValue = False
         self.weatherSystem[setting] = newValue
-    
-    def setKelvinStatus(self, value):
-        if value == "alive": 
-            self.gamestate["IsRobbyDead"] = False
-            for actor in self.actors:
-                if actor["TypeId"] == 9:
-                    actor["State"] = 2
-                    actor["Stats"]["Health"] = 100
-                    break
-            print("Kelvin was revived")
-        else: 
-            self.gamestate["IsRobbyDead"] = True
-            for actor in self.actors:
-                if actor["TypeId"] == 9:
-                    actor["State"] = 6
-                    actor["Stats"]["Health"] = 0.0
-                    break
-            print("Kelvin was killed")
-
-    def setKelvinPosition(self, posDict):
-        for actor in self.actors:
-            if actor["TypeId"] == 9:
-                actor["Position"] = posDict
-                break
-            
-    def getKelvinPosition(self):
-        for actor in self.actors:
-            if actor["TypeId"] == 9:
-                return [actor["Position"]["x"], actor["Position"]["y"], actor["Position"]["z"]]
-            
-    def getVirginiaPosition(self):
-        for actor in self.actors:
-            if actor["TypeId"] == 10:
-                return [actor["Position"]["x"], actor["Position"]["y"], actor["Position"]["z"]]
-        
-    def setVirginiaStatus(self, value):
-        if value == "alive": 
-            self.gamestate["IsVirginiaDead"] = False
-            for actor in self.actors:
-                if actor["TypeId"] == 10:
-                    actor["State"] = 2
-                    actor["Stats"]["Health"] = 100
-                    break
-            print("Virginia was revived")
-        else: 
-            self.gamestate["IsVirginiaDead"] = True
-            for actor in self.actors:
-                if actor["TypeId"] == 10:
-                    actor["State"] = 6
-                    actor["Stats"]["Health"] = 0.0
-            print("Virginia was killed")
-
-    def setVirginiaPosition(self, posDict):
-        for actor in self.actors:
-            if actor["TypeId"] == 10:
-                actor["Position"] = posDict
-                break
-        
+           
     def setSetting(self, settingTitle: str, value: str):
         print(f"Setting {settingTitle} to {value}")
         
         settingsFile = SETTINGS[settingTitle].file
-        
-        if settingTitle == "KelvinAlive":
-            self.setKelvinStatus(value)
-        
-        elif settingTitle == "VirginiaAlive":
-            self.setVirginiaStatus(value)
-        
-        elif settingTitle == "Difficulty":
+
+        if settingTitle == "Difficulty":
             self.gamestate["GameType"] = value
             setting = self.findGameSetupSettingOrCreate(settingTitle)
             setting["StringValue"] = value

@@ -15,3 +15,5 @@ Select the Multiplayer, MultiplayerClient or SinglePlayer subfolder in the dialo
 ![GUI Screenshot](res/screenshot2.png)
 
 ![GUI Screenshot](res/screenshot3.png)
+
+![GUI Screenshot](res/screenshot4.png)
