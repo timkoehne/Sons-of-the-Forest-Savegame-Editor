@@ -51,23 +51,30 @@ class TkSettingsTab(tk.Frame):
             self.tkTeleportTab.canvasMap.deleteOtherMarks()
         
     def generateHeightmap(self):
-        
         positionData = self.getPositionData()
+        
         HeightMap.generateHeightmap(positionData, self.selectedHeightmapMethod.get())
         self.tkTeleportTab.heightMap = HeightMap()
         
     def getPositionData(self):
         positionData = []
-        numActorPositions = len(positionData)
                 
         knownHeights = ""
         with open("../res/knownHeightValues.json") as file:
             knownHeights = json.loads(file.read())
-        
+            
         for entry in knownHeights:
             try:
                 positionData.append(entry["FloatArrayValue"])
             except KeyError:
                 pass
+            
+        for poi in self.tkTeleportTab.pointsOfInterestJson:
+            for pos in poi["Positions"]:
+                try:
+                    positionData.append(pos)
+                except KeyError:
+                    pass
+            
         print(f"Position data contains {len(positionData)} positions")
         return positionData

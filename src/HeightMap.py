@@ -12,7 +12,6 @@ class HeightMap:
     MINHEIGHT = 0
     MAXHEIGHT = 750
     HEIGHTDIFF = MAXHEIGHT - MINHEIGHT
-    ACTORSFORHEIGHTMAP = [28, 29, 37]
     BITDEPTH = 16
     
     def __init__(self):
@@ -23,7 +22,6 @@ class HeightMap:
     def getHeight(self, ingamePos) -> float:
         bboxMap = (0, 0, MAPIMAGESIZE, MAPIMAGESIZE)
         pixelPos = transformCoordinatesystemToImage(ingamePos, bboxMap)
-        print(f"raw value {self.heightmapImg[pixelPos[0]][pixelPos[1]][0]}")
         height = (self.heightmapImg[pixelPos[0]][pixelPos[1]][0] / pow(2,HeightMap.BITDEPTH) * HeightMap.HEIGHTDIFF) + HeightMap.MINHEIGHT
         return height
         
@@ -37,7 +35,7 @@ class HeightMap:
             print("min y in data", minHeight)
             print("max y in data", maxHeight)
             
-            #convert known points to pixel positions
+            #convert ingame positions to pixel positions
             for pos in heightData:
                 x, y = transformCoordinatesystemToImage((pos[0], pos[2]), bbox)
                 pos[0], pos[2] = x, y

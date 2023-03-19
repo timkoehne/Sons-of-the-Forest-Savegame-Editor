@@ -28,6 +28,8 @@ class CanvasImage:
     def __init__(self, placeholder, path, onImageRightClick):
         self.onImageRightClick = onImageRightClick
     
+        self.pointsOfInterest = {}
+    
         """ Initialize the ImageFrame """
         self.imscale = 1.0  # scale for the canvas image zoom, public for outer classes
         self.__delta = 1.3  # zoom magnitude
@@ -299,11 +301,6 @@ class CanvasImage:
         if(not self.outside(x, y)):
             self.onImageRightClick((x, y))
 
-    def switchImages(self):
-        pass
-        
-        
-
     def deleteOtherMarks(self):
         if hasattr(self, "otherMarks"):
             for mark in self.otherMarks:
@@ -336,3 +333,15 @@ class CanvasImage:
             self.canvas.delete(self.virginia)
         self.virginia = self.canvas.create_rectangle(pos[0]-size/2, pos[1]-size/2, pos[0]+size/2, pos[1]+size/2, fill=color)
         
+    def togglePointsOfInterest(self, filter: str):
+        try:
+            for pos in self.pointsOfInterest[filter]:
+                self.canvas.delete(pos)
+            del self.pointsOfInterest[filter]
+        except KeyError:
+            self.pointsOfInterest[filter] = []
+    
+    def addPointOfInterest(self, filter: str, pos, iconSize, color="pink"):
+        size = iconSize * self.imscale
+        self.pointsOfInterest[filter].append(
+                self.canvas.create_rectangle(pos[0]-size/2, pos[1]-size/2, pos[0]+size/2, pos[1]+size/2, fill=color))

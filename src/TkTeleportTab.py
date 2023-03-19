@@ -19,18 +19,24 @@ class TkTeleportTab(tk.Frame):
         self.columnconfigure(1, weight=6)
     
         leftFrame = tk.Frame(self)
-        leftFrame.grid(row=0, column=0, sticky="nesw")
+        leftFrame.grid(row=0, column=0, sticky="nesw", padx=5, pady=5)
+        
+        leftTopFrame = tk.Frame(leftFrame)
+        leftTopFrame.pack()
+        leftBottomFrame = tk.Frame(leftFrame)
+        leftBottomFrame.pack(fill="y", expand=True)
+        
         self.playerSelectedVar = tk.BooleanVar()
-        self.playerCheckbutton = tk.Checkbutton(leftFrame, text="Player", variable=self.playerSelectedVar, fg="red")
+        self.playerCheckbutton = tk.Checkbutton(leftTopFrame, text="Player", variable=self.playerSelectedVar, fg="red")
         self.playerCheckbutton.pack(side="top")
         self.kelvinSelectedVar = tk.BooleanVar()
-        self.kelvinCheckbutton = tk.Checkbutton(leftFrame, text="Kelvin", variable=self.kelvinSelectedVar, fg="blue")
+        self.kelvinCheckbutton = tk.Checkbutton(leftTopFrame, text="Kelvin", variable=self.kelvinSelectedVar, fg="blue")
         self.kelvinCheckbutton.pack(side="top")
         self.virginiaSelectedVar = tk.BooleanVar()
-        self.virginiaCheckbutton = tk.Checkbutton(leftFrame, text="Virginia", variable=self.virginiaSelectedVar, fg="green")
+        self.virginiaCheckbutton = tk.Checkbutton(leftTopFrame, text="Virginia", variable=self.virginiaSelectedVar, fg="green")
         self.virginiaCheckbutton.pack(side="top")
     
-        offsetFrame = tk.Frame(leftFrame)
+        offsetFrame = tk.Frame(leftBottomFrame)
         offsetFrame.pack(side="bottom")
         self.heightOffsetVar = tk.StringVar(self)
         tk.Label(offsetFrame, text="Offset: ").pack(side="left")
@@ -40,8 +46,9 @@ class TkTeleportTab(tk.Frame):
         
         self.heightLabelVar = tk.IntVar(self)
         self.heightLabelVar.set("estimated Height: 0")
-        tk.Label(leftFrame, textvariable=self.heightLabelVar, width=20).pack(side="bottom")
+        tk.Label(leftBottomFrame, textvariable=self.heightLabelVar, width=20).pack(side="bottom")
     
+        self.initializePointsOfInterest(leftBottomFrame)
     
         self.canvasMap = CanvasImage(self, "../res/map.png", self.onMapRightClick)
         self.canvasMap.grid(row=0, column=1)
@@ -49,6 +56,37 @@ class TkTeleportTab(tk.Frame):
         self.heightMap = HeightMap()
         
         self.setKnownPositions()
+    
+    def initializePointsOfInterest(self, frame):
+        with open("../res/pointsOfInterest.json", "r") as file:
+            self.pointsOfInterestJson = json.loads(file.read())
+            
+            
+        for category in self.pointsOfInterestJson:
+            poiCategoryVar = tk.BooleanVar()
+            poiCategoryCheckbox = tk.Checkbutton(frame, text=f"Show {category['Name']}", fg=category["Color"],
+                                    variable=poiCategoryVar, command=lambda poiVar=poiCategoryVar, category=category['Name']: 
+                                    self.showPointsOfInterest(poiVar, category))
+            poiCategoryCheckbox.pack(side="bottom")
+     
+    def getPointsOfInterestAndColor(self, filter: str):
+        positions = []
+        color = "pink"
+        for poi in self.pointsOfInterestJson:
+            if filter in poi["Name"]:
+                color = poi["Color"]
+                for pos in poi["Positions"]:
+                    positions.append([pos[0], pos[1], pos[2]])
+        return positions, color
+    
+    def showPointsOfInterest(self, checkboxVar: tk.BooleanVar, filter: str):
+        self.canvasMap.togglePointsOfInterest(filter)
+        if checkboxVar.get():
+            bboxMap = self.canvasMap.getImageBBox()
+            positionData, color = self.getPointsOfInterestAndColor(filter)
+            for position in positionData:
+                imagePos = transformCoordinatesystemToImage(position, bboxMap)
+                self.canvasMap.addPointOfInterest(filter, imagePos, ICONSIZE, color=color)
     
     def setKnownPositions(self):
         playerPos = self.getPlayerPos()
