@@ -1,0 +1,17 @@
+[
+    {
+        "Name": "None",
+        "ItemId": 0,
+        "Armourpoints": 0
+    },
+    {
+        "Name": "TechArmour",
+        "ItemId": 554,
+        "Armourpoints": 80
+    },
+    {
+        "Name": "CreepyArmour",
+        "ItemId": 593,
+        "Armourpoints": 40
+    }
+]

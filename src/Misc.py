@@ -139,7 +139,7 @@ def countNumActors(actors):
     for key, value in typeIds.items():
         print(f'{key} exists {value} times') 
 
-def saveTestdata(actors, gamestate, gameSetupSettings, weatherSystem, playerState):
+def saveTestdata(actors, gamestate, gameSetupSettings, weatherSystem, playerState, armourPieces, clothing):
     with open("../test/actors.json", "w") as file:
         file.write(json.dumps(actors, indent=4))
         
@@ -154,3 +154,9 @@ def saveTestdata(actors, gamestate, gameSetupSettings, weatherSystem, playerStat
         
     with open("../test/playerState.json", "w") as file:
         file.write(json.dumps(playerState, indent=4))
+        
+    with open("../test/armourPieces.json", "w") as file:
+        file.write(json.dumps(armourPieces, indent=4))
+        
+    with open("../test/clothing.json", "w") as file:
+        file.write(json.dumps(clothing, indent=4))

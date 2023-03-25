@@ -9,6 +9,7 @@ from TkSettingsTab import TkSettingsTab
 from TkWorldTab import TkWorldTab
 from TkTeleportTab import TkTeleportTab
 from TkNPCTab import TkNPCTab
+from TkPlayerTab import TkPlayerTab
 
 def createUiElements():
     
@@ -18,11 +19,13 @@ def createUiElements():
     worldTab = TkWorldTab(savefileLoader)
     saveFileTab = TkSaveLoadTab(savefileLoader, inventoryTab, worldTab)
     npcTab = TkNPCTab(savefileLoader)
-    teleportTab = TkTeleportTab(savefileLoader, npcTab)
+    playerTab = TkPlayerTab(savefileLoader)
+    teleportTab = TkTeleportTab(savefileLoader, npcTab, playerTab)
     settingsTab = TkSettingsTab(inventoryTab, savefileLoader, teleportTab)
     
     tabsystem.add(saveFileTab, text="saveFile")
     tabsystem.add(worldTab, text="World")
+    tabsystem.add(playerTab, text="Player")
     tabsystem.add(inventoryTab, text="Inventory")
     tabsystem.add(teleportTab, text="Teleport")
     tabsystem.add(npcTab, text="NPCs")

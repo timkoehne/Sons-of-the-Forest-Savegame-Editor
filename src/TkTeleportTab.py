@@ -9,10 +9,11 @@ from TkNPCTab import TkNPCTab
 
 class TkTeleportTab(tk.Frame):
     
-    def __init__(self, saveFileLoader: SavefileLoader, npcTab):
+    def __init__(self, saveFileLoader: SavefileLoader, npcTab, playerTab):
         super().__init__()
         self.saveFileLoader = saveFileLoader
         self.npcTab = npcTab
+        self.playerTab = playerTab
         
         self.rowconfigure(0, weight=1)  # make the CanvasImage widget expandable
         self.columnconfigure(0, weight=4)
@@ -103,11 +104,11 @@ class TkTeleportTab(tk.Frame):
         imagePos = transformCoordinatesystemToImage(ingamePos, bboxMap)
         self.canvasMap.markPlayerPos(imagePos, ICONSIZE, color=self.playerCheckbutton["fg"])
         
-        playerPosSetting = self.saveFileLoader.findPlayerSetting("player.position")
+        playerPosSetting = self.playerTab.findPlayerSetting("player.position")
         SavefileLoader.setRelevantSettingsValue(playerPosSetting, ingamePos)
         
     def getPlayerPos(self):
-        playerPosSetting = self.saveFileLoader.findPlayerSetting("player.position")
+        playerPosSetting = self.playerTab.findPlayerSetting("player.position")
         pos = SavefileLoader.getRelevantSettingsValue(playerPosSetting)
         return [pos[0], pos[1], pos[2]]
     

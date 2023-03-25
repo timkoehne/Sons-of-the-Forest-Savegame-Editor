@@ -9,6 +9,8 @@ SAVEDATAFILE = "/SaveData.json"
 INVENTORYFILE = "/PlayerInventorySaveData.json"
 WEATHERFILE = "/WeatherSystemSaveData.json"
 PLAYERFILE = "/PlayerStateSaveData.json"
+ARMORFILE = "/PlayerArmourSystemSaveData.json"
+CLOTHINGFILE = "/PlayerClothingSystemSaveData.json"
 
 
 class SavefileLoader:
@@ -25,6 +27,8 @@ class SavefileLoader:
         gameSetupPath = saveFolderPath + GAMESETUPFILE
         weatherPath = saveFolderPath + WEATHERFILE
         playerPath = saveFolderPath + PLAYERFILE
+        armourPath = saveFolderPath + ARMORFILE
+        clothingPath = saveFolderPath + CLOTHINGFILE
         
         with open(gameStatePath, "r") as file:
             self.gameStateContent = json.loads(file.read())
@@ -47,16 +51,27 @@ class SavefileLoader:
             self.weatherData = self.weatherSystemSaveDataContent["Data"]
             self.weatherSystem = json.loads(self.weatherData["WeatherSystem"])
             
-            
         with open(playerPath, "r") as file:
             self.playerStateSaveDataContent = json.loads(file.read())
             self.playerStateSaveData = self.playerStateSaveDataContent["Data"]
             self.playerStateWrapper = json.loads(self.playerStateSaveData["PlayerState"])
             self.playerState = self.playerStateWrapper["_entries"]
+            
+        with open(armourPath, "r") as file:
+            self.armourSystemSaveData = json.loads(file.read())
+            self.armourData = self.armourSystemSaveData["Data"]
+            self.playerArmourSystem = json.loads(self.armourData["PlayerArmourSystem"])
+            self.armourPieces = self.playerArmourSystem["ArmourPieces"]
+            
+        with open(clothingPath, "r") as file:
+            self.clothingSystemSaveData = json.loads(file.read())
+            self.clothingData = self.clothingSystemSaveData["Data"]
+            self.playerClothingSystem = json.loads(self.clothingData["PlayerClothingSystem"])
+            self.clothing = self.playerClothingSystem["Clothing"]
         
         self.inventoryLoader.loadInventory(saveFolderPath + INVENTORYFILE)
-        saveTestdata(self.actors, self.gamestate, 
-                     self.gameSetupSettings, self.weatherSystem, self.playerState)
+        saveTestdata(self.actors, self.gamestate, self.gameSetupSettings, 
+                     self.weatherSystem, self.playerState, self.armourPieces, self.clothing)
 
     def save(self, saveFolderPath=None):
         if saveFolderPath is None:
@@ -67,6 +82,8 @@ class SavefileLoader:
         gameSetupPath = saveFolderPath + GAMESETUPFILE
         weatherPath = saveFolderPath + WEATHERFILE
         playerPath = saveFolderPath + PLAYERFILE
+        armourPath = saveFolderPath + ARMORFILE
+        clothingPath = saveFolderPath + CLOTHINGFILE
         
         with open(gameStatePath, "w") as file:
             self.gameStateContent["Data"]["GameState"] = json.dumps(self.gamestate)
@@ -95,7 +112,20 @@ class SavefileLoader:
             self.playerStateSaveDataContent["Data"] = self.playerStateSaveData
             file.write(json.dumps(self.playerStateSaveDataContent))
             
-        saveTestdata(self.actors, self.gamestate, self.gameSetupSettings, self.weatherSystem, self.playerState)
+        with open(armourPath, "w") as file:
+            self.playerArmourSystem["ArmourPieces"] = self.armourPieces
+            self.armourData["PlayerArmourSystem"] = json.dumps(self.playerArmourSystem)
+            self.armourSystemSaveData["Data"] = self.armourData
+            file.write(json.dumps(self.armourSystemSaveData))
+            
+        with open(clothingPath, "w") as file:
+            self.playerClothingSystem["Clothing"] = self.clothing
+            self.clothingData["PlayerClothingSystem"] = json.dumps(self.playerClothingSystem)
+            self.clothingSystemSaveData["Data"] = self.clothingData
+            file.write(json.dumps(self.clothingSystemSaveData))
+            
+        saveTestdata(self.actors, self.gamestate, self.gameSetupSettings, 
+                     self.weatherSystem, self.playerState, self.armourPieces, self.clothing)
         
         self.inventoryLoader.saveInventory(saveFolderPath + INVENTORYFILE)
 
@@ -123,11 +153,6 @@ class SavefileLoader:
         minute = self.gamestate["GameMinutes"]
         callback(day, hour, minute)
    
-    def findPlayerSetting(self, name):
-        for setting in self.playerState:
-            if setting["Name"] == name:
-                return setting
-       
     def findGameSetupSetting(self, settingTitle: str):
         for entry in self.gameSetupSettings:
             if entry["Name"] == SETTINGS[settingTitle].name:
