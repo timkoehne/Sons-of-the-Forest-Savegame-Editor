@@ -1,0 +1,38 @@
+[
+    {
+        "Name": "None",
+        "ItemId": 0
+    },
+    {
+        "Name": "TacticalJacket",
+        "ItemId": 495
+    },
+    {
+        "Name": "SilkPyjamas",
+        "ItemId": 487
+    },
+    {
+        "Name": "GoldenArmour",
+        "ItemId": 572
+    },
+    {
+        "Name": "OldJacket",
+        "ItemId": 491
+    },
+    {
+        "Name": "Hoodie",
+        "ItemId": 490
+    },
+    {
+        "Name": "PuffyJacket",
+        "ItemId": 500
+    },
+    {
+        "Name": "Tuxedo",
+        "ItemId": 492
+    },
+    {
+        "Name": "LeatherJacket",
+        "ItemId": 493
+    }
+]

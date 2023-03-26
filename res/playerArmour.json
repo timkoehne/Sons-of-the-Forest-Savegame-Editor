@@ -1,0 +1,37 @@
+[
+    {
+        "Name": "None",
+        "ItemId": 0,
+        "Armourpoints": 0
+    },
+    {
+        "Name": "TechArmour",
+        "ItemId": 554,
+        "Armourpoints": 80
+    },
+    {
+        "Name": "CreepyArmour",
+        "ItemId": 593,
+        "Armourpoints": 40
+    },
+    {
+        "Name": "DeerHideArmour",
+        "ItemId": 519,
+        "Armourpoints": 20
+    },
+    {
+        "Name": "BoneArmour",
+        "ItemId": 494,
+        "Armourpoints": 35
+    },
+    {
+        "Name": "LeafArmour",
+        "ItemId": 473,
+        "Armourpoints": 10
+    },
+    {
+        "Name": "GoldenArmour",
+        "ItemId": 572,
+        "Armourpoints": 0
+    }
+]

@@ -22,7 +22,6 @@ class Player(NPC):
                     value = stat.minValue
                 elif value == "max":
                     value = stat.maxValue
-
                 stat.value.set(int(value))
 
     def getStat(self, name) -> Stat:
@@ -36,17 +35,24 @@ class TkPlayerTab(tk.Frame):
         super().__init__()
         self.saveFileLoader = saveFileLoader
         
-        with open("../res/armour.json", "r") as file:
+        with open("../res/playerArmour.json", "r") as file:
             self.possibleArmourItems = json.loads(file.read())
+            
+        with open("../res/playerClothing.json", "r") as file:
+            self.possibleClothingItems = json.loads(file.read())
         
         self.initializePlayerStats()
-        self.initializeArmour()
-
-    def initializeArmour(self):
-        armourFrame = tk.Frame(self)
-        armourFrame.pack(side="left", expand=True, fill="both")
         
-        tk.Label(armourFrame, text="Armour").pack(padx=5, pady=5)
+        armourClothingFrame = tk.Frame(self)
+        armourClothingFrame.pack(side="right", expand=True, fill="both")
+        self.initializeArmour(armourClothingFrame)
+        self.initializeClothing(armourClothingFrame)
+
+    def initializeArmour(self, armourClothingFrame):
+        armourFrame = tk.Frame(armourClothingFrame)
+        armourFrame.pack(side="top", expand=True, fill="both")
+        
+        tk.Label(armourFrame, text="Armour Slots").pack(padx=5, pady=5)
         
         self.selectedArmourVars = {}
         possibleArmourNames = [item["Name"] for item in self.possibleArmourItems]
@@ -111,6 +117,75 @@ class TkPlayerTab(tk.Frame):
 
         self.readStats()
 
+    def initializeClothing(self, armourClothingFrame):
+        clothingFrame = tk.Frame(armourClothingFrame)
+        clothingFrame.pack(side="bottom", expand=True, fill="both")
+        tk.Label(clothingFrame, text="Clothing").pack(side="top")
+        
+        possibleClothingNames = [item["Name"] for item in self.possibleClothingItems]
+        self.clothingVar = tk.StringVar(clothingFrame)
+        box = ttk.Combobox(clothingFrame, textvariable=self.clothingVar, 
+                           values=possibleClothingNames, state="readonly")
+        box.bind("<<ComboboxSelected>>", lambda event=None: self.onClothingSelected())
+        box.pack(padx=5, pady=5)
+        
+        if len(self.saveFileLoader.clothing) == 0:
+           currentlyEquipedClothsName = "None"
+        else:
+            currentlyEquipedClothsName = self.getClothingNameFromId(self.saveFileLoader.clothing[0])
+            if currentlyEquipedClothsName == "GoldenArmour":
+                self.equipGoldenArmour()
+        self.clothingVar.set(currentlyEquipedClothsName)
+        
+    def onClothingSelected(self):
+        clothingItem = self.findClothingByName(self.clothingVar.get())
+        print(f"equiped clothing item {clothingItem['Name']}")
+        
+        if clothingItem["Name"] == "GoldenArmour":
+            self.equipGoldenArmour()
+        else:
+            if self.hasGoldenArmourEquiped():
+                self.unequipGoldenArmour()
+            self.setClothing(clothingItem["ItemId"])
+            self.clothingVar.set(clothingItem["Name"])
+
+    def setClothing(self, itemId):
+        if itemId == 0 or itemId == None: #None is equiped
+            self.saveFileLoader.clothing = []
+        else:
+            self.saveFileLoader.clothing = [itemId]
+        
+    def hasGoldenArmourEquiped(self):
+        goldenArmour = self.findArmourByName("GoldenArmour")
+        if self.saveFileLoader.clothing == [goldenArmour["ItemId"]]:
+            return True
+        return False
+    
+    def unequipGoldenArmour(self):
+        for armourSlot in self.playerNpc.armourSlots:
+            if self.selectedArmourVars[armourSlot].get() == "GoldenArmour":
+                self.selectedArmourVars[armourSlot].set("None")
+        self.setClothing(None)
+        self.clothingVar.set("None")
+
+    def equipGoldenArmour(self):
+        goldenArmour = self.findArmourByName("GoldenArmour")
+        for armourSlot in self.playerNpc.armourSlots:
+            self.deleteArmorPiece(armourSlot)
+            self.selectedArmourVars[armourSlot].set("GoldenArmour")
+        self.setClothing(goldenArmour["ItemId"])
+        self.clothingVar.set("GoldenArmour")
+
+    def findArmourByName(self, name):
+        for item in self.possibleArmourItems:
+            if item["Name"] == name:
+                return item
+
+    def findClothingByName(self, name):
+        for item in self.possibleClothingItems:
+            if item["Name"] == name:
+                return item
+
     def onArmourSelected(self, armourSlot):
         selectedArmourName = self.selectedArmourVars[armourSlot].get()
         print(f"selected {selectedArmourName} on index {armourSlot}")
@@ -118,9 +193,14 @@ class TkPlayerTab(tk.Frame):
         for item in self.possibleArmourItems:
             if selectedArmourName == item["Name"]:
                 
+                if self.hasGoldenArmourEquiped():
+                    print("unequip golden armour")
+                    self.unequipGoldenArmour()
+                
                 if item["Name"] == "None":
-                    print("delete")
                     self.deleteArmorPiece(armourSlot)
+                elif item["Name"] == "GoldenArmour":
+                    self.equipGoldenArmour()
                 else:
                     self.setArmourInSlot(armourSlot, item["ItemId"], item["Armourpoints"])
                 
@@ -135,6 +215,11 @@ class TkPlayerTab(tk.Frame):
         #slot not in file yet
         entry = {"ItemId": itemId, "Slot": slot, "RemainingArmourpoints": armourPoints}
         self.saveFileLoader.armourPieces.append(entry)
+
+    def getClothingNameFromId(self, itemId):
+        for item in self.possibleClothingItems:
+            if itemId == item["ItemId"]:
+                return item["Name"]
 
     def getArmourNameFromSlot(self, slot) -> str:
         for entry in self.saveFileLoader.armourPieces:

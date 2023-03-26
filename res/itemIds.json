@@ -288,6 +288,13 @@
         "UniqueItems": {}
     },
     {
+        "id": "629",
+        "name": "BlueprintRainCatcher",
+        "max": 1,
+        "manuallyVerified": false,
+        "UniqueItems": {}
+    },
+    {
         "id": "622",
         "name": "BlueprintRockPath",
         "max": 1,
@@ -311,6 +318,13 @@
     {
         "id": "591",
         "name": "BlueprintSmallLogCabin",
+        "max": 1,
+        "manuallyVerified": false,
+        "UniqueItems": {}
+    },
+    {
+        "id": "632",
+        "name": "BlueprintSpringTrap",
         "max": 1,
         "manuallyVerified": false,
         "UniqueItems": {}
@@ -715,6 +729,13 @@
     {
         "id": "384",
         "name": "CrossbowQuiverMod",
+        "max": 1,
+        "manuallyVerified": false,
+        "UniqueItems": {}
+    },
+    {
+        "id": "633",
+        "name": "CultPamphlet",
         "max": 1,
         "manuallyVerified": false,
         "UniqueItems": {}
@@ -1544,6 +1565,13 @@
         "UniqueItems": {}
     },
     {
+        "id": "631",
+        "name": "NovelF",
+        "max": 1,
+        "manuallyVerified": false,
+        "UniqueItems": {}
+    },
+    {
         "id": "611",
         "name": "NumbersPrintout",
         "max": 1,
@@ -1961,6 +1989,13 @@
         "name": "SmallRock",
         "max": 30,
         "manuallyVerified": true,
+        "UniqueItems": {}
+    },
+    {
+        "id": "630",
+        "name": "SmallRock",
+        "max": 1,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {
