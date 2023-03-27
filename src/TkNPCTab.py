@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 from ttkwidgets import TickScale
 from SavefileLoader import SavefileLoader
 import json
@@ -65,6 +66,12 @@ class TkNPCTab(tk.Frame):
         kelvinFrame.grid_columnconfigure(1, weight=1)
         
         self.kelvin = Kelvin()
+                
+        for actor in self.savefileLoader.actors:
+            if actor["TypeId"] == 9:
+                self.kelvinActor = actor
+                break
+        
         tk.Label(kelvinFrame, text=self.kelvin.name, anchor="center", bg="lightblue").grid(row=0, column=0, columnspan=2, sticky="new")
         tk.Label(kelvinFrame, text="Status", anchor="w").grid(row=1, column=0, sticky="nesw")
         self.kelvinStatusVar = tk.StringVar(self)
@@ -74,6 +81,7 @@ class TkNPCTab(tk.Frame):
         self.kelvinPositionVar = tk.StringVar(self)
         tk.Label(kelvinFrame, textvariable=self.kelvinPositionVar, anchor="w").grid(row=2, column=1, sticky="nesw")
         
+        #scales
         for index, stat in enumerate(self.kelvin.stats):
             tk.Label(kelvinFrame, text=stat.name, anchor="w").grid(row=index+3, column=0, sticky="nesw")
             
@@ -82,12 +90,20 @@ class TkNPCTab(tk.Frame):
                              command=lambda event=None, npcName="Kelvin", statIndex=index, statValue=stat.value: 
                                  self.onStatChange(npcName, statIndex, statValue.get()))
             scale.grid(row=index+3, column=1, sticky="nesw")
-        
-        for actor in self.savefileLoader.actors:
-            if actor["TypeId"] == 9:
-                self.kelvinActor = actor
-                break
         self.readStats("Kelvin")
+        
+        #clothing
+        tk.Label(kelvinFrame, text="Clothing").grid(row=index+3+len(self.kelvin.stats), column=0)
+        with open("../res/kelvinClothing.json", "r") as file:
+            self.possibleKelvinClothingItems = json.loads(file.read())
+            
+        possibleKelvinClothingNames = [item["Name"] for item in self.possibleKelvinClothingItems]
+        self.kelvinClothingVar = tk.StringVar(kelvinFrame)
+        self.kelvinClothingVar.set(self.getClothingNameFromId("Kelvin", self.kelvinActor["OutfitId"]))
+        box = ttk.Combobox(kelvinFrame, textvariable=self.kelvinClothingVar, 
+                           values=possibleKelvinClothingNames, state="readonly")
+        box.bind("<<ComboboxSelected>>", lambda event=None, npcName="Kelvin": self.onClothingSelected(npcName))
+        box.grid(row=index+3+len(self.kelvin.stats), column=1, sticky="w", padx=10, pady=10)
 
     def initializeVirginia(self):
         virginiaFrame = tk.Frame(self, highlightthickness=2, highlightbackground="lightblue")
@@ -97,6 +113,14 @@ class TkNPCTab(tk.Frame):
         virginiaFrame.grid_columnconfigure(1, weight=1)
         
         self.virginia = Virginia()
+        
+        for actor in self.savefileLoader.actors:
+            if actor["TypeId"] == 10:
+                self.virginiaActor = actor
+                break
+        if self.virginiaActor is None:
+            self.createVirginia()
+        
         tk.Label(virginiaFrame, text=self.virginia.name, anchor="center", bg="lightblue").grid(row=0, column=0, columnspan=2, sticky="new")
         tk.Label(virginiaFrame, text="Status", anchor="w").grid(row=1, column=0, sticky="nesw")
         self.virginiaStatusVar = tk.StringVar(self)
@@ -106,6 +130,7 @@ class TkNPCTab(tk.Frame):
         self.virginiaPositionVar = tk.StringVar(self)
         tk.Label(virginiaFrame, textvariable=self.virginiaPositionVar, anchor="w").grid(row=2, column=1, sticky="nesw")
         
+        #scales
         for index, stat in enumerate(self.virginia.stats):
             tk.Label(virginiaFrame, text=stat.name, anchor="w").grid(row=index+3, column=0, sticky="nesw")
             
@@ -114,16 +139,41 @@ class TkNPCTab(tk.Frame):
                              command=lambda event=None, npcName="Virginia", statIndex=index, statValue=stat.value: 
                                  self.onStatChange(npcName, statIndex, statValue.get()))
             scale.grid(row=index+3, column=1, sticky="nesw")
-    
-        for actor in self.savefileLoader.actors:
-            if actor["TypeId"] == 10:
-                self.virginiaActor = actor
-                break
-        if self.virginiaActor is None:
-            self.createVirginia()
-            
         self.readStats("Virginia")
+        
+        #clothing
+        tk.Label(virginiaFrame, text="Clothing").grid(row=index+3+len(self.virginia.stats), column=0)
+        with open("../res/virginiaClothing.json", "r") as file:
+            self.possibleVirginiaClothingItems = json.loads(file.read())
+            
+        possibleVirginiaClothingNames = [item["Name"] for item in self.possibleVirginiaClothingItems]
+        self.virginiaClothingVar = tk.StringVar(virginiaFrame)
+        self.virginiaClothingVar.set(self.getClothingNameFromId("Virginia", self.virginiaActor["OutfitId"]))
+        box = ttk.Combobox(virginiaFrame, textvariable=self.virginiaClothingVar, 
+                           values=possibleVirginiaClothingNames, state="readonly")
+        box.bind("<<ComboboxSelected>>", lambda event=None, npcName="Virginia": self.onClothingSelected(npcName))
+        box.grid(row=index+3+len(self.virginia.stats), column=1, sticky="w", padx=10, pady=10)
+        
+    def findClothingByName(self, npcName, clothingName):
+        possibleClothingItems = self._findPossibleClothing(npcName)
+        for item in possibleClothingItems:
+            if item["Name"] == clothingName:
+                return item
 
+    def onClothingSelected(self, npcName):
+        clothingVar = self._findClothingVar(npcName)
+        clothingItem = self.findClothingByName(npcName, clothingVar.get())
+        print(f"{clothingItem['Name']} selected for {npcName}")
+        
+        npc = self._findActor(npcName)
+        npc["OutfitId"] = clothingItem["ItemId"]
+    
+    def getClothingNameFromId(self, npcName, itemId):
+        possibleClothingItems = self._findPossibleClothing(npcName)
+        for item in possibleClothingItems:
+            if itemId == item["ItemId"]:
+                return item["Name"]
+    
     def onButton(self, npcName):
         if self.isAlive(npcName):
             self.setStatus(npcName, "dead")
@@ -236,3 +286,15 @@ class TkNPCTab(tk.Frame):
             return self.kelvinPositionVar
         elif npcName == "Virginia":
             return self.virginiaPositionVar
+        
+    def _findPossibleClothing(self, npcName):
+        if npcName == "Kelvin":
+            return self.possibleKelvinClothingItems
+        elif npcName == "Virginia":
+            return self.possibleVirginiaClothingItems
+        
+    def _findClothingVar(self, npcName):
+        if npcName == "Kelvin":
+            return self.kelvinClothingVar
+        elif npcName == "Virginia":
+            return self.virginiaClothingVar

@@ -42,7 +42,7 @@ inventoryLoader = savefileLoader.inventoryLoader
 
 window = tk.Tk()
 window.title("SotF Inventory Editor")
-window.geometry("600x450")
+window.geometry("600x460")
 createUiElements()
 
 

@@ -1,0 +1,22 @@
+[
+    {
+        "Name": "VirginiaSwimSuit",
+        "ItemId": 0
+    },
+    {
+        "Name": "VirginiaTrackSuit",
+        "ItemId": 1
+    },
+    {
+        "Name": "VirginiaLeatherSuit",
+        "ItemId": 2
+    },
+    {
+        "Name": "VirginiaCamoSuit",
+        "ItemId": 3
+    },
+    {
+        "Name": "VirginiaDress",
+        "ItemId": 4
+    }
+]

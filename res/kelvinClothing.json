@@ -1,0 +1,26 @@
+[
+    {
+        "Name": "TacticalJacket",
+        "ItemId": 0
+    },
+    {
+        "Name": "Tuxedo",
+        "ItemId": 1
+    },
+    {
+        "Name": "SilkPyjamas",
+        "ItemId": 2
+    },
+    {
+        "Name": "LeatherJacket",
+        "ItemId": 3
+    },
+    {
+        "Name": "Hoodie",
+        "ItemId": 4
+    },
+    {
+        "Name": "OldJacket",
+        "ItemId": 6
+    }
+]
