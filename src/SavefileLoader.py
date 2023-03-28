@@ -39,6 +39,7 @@ class SavefileLoader:
             self.savedata = self.gameSaveContent["Data"]
             self.vailworldsim = json.loads(self.savedata["VailWorldSim"])
             self.actors = self.vailworldsim["Actors"]
+            self.influenceMemory = self.vailworldsim["InfluenceMemory"]
             
         with open(gameSetupPath, "r") as file:
             self.gameSetupContent = json.loads(file.read())
@@ -71,7 +72,7 @@ class SavefileLoader:
         
         self.inventoryLoader.loadInventory(saveFolderPath + INVENTORYFILE)
         saveTestdata(self.actors, self.gamestate, self.gameSetupSettings, 
-                     self.weatherSystem, self.playerState, self.armourPieces, self.clothing)
+                     self.weatherSystem, self.playerState, self.armourPieces, self.clothing, self.vailworldsim)
 
     def save(self, saveFolderPath=None):
         if saveFolderPath is None:
@@ -90,6 +91,7 @@ class SavefileLoader:
             file.write(json.dumps(self.gameStateContent))
 
         with open(gameSavePath, "w") as file:
+            self.vailworldsim["InfluenceMemory"] = self.influenceMemory
             self.vailworldsim["Actors"] = self.actors
             self.savedata["VailWorldSim"] = json.dumps(self.vailworldsim)
             self.gameSaveContent["Data"] = self.savedata
@@ -125,7 +127,7 @@ class SavefileLoader:
             file.write(json.dumps(self.clothingSystemSaveData))
             
         saveTestdata(self.actors, self.gamestate, self.gameSetupSettings, 
-                     self.weatherSystem, self.playerState, self.armourPieces, self.clothing)
+                     self.weatherSystem, self.playerState, self.armourPieces, self.clothing, self.vailworldsim)
         
         self.inventoryLoader.saveInventory(saveFolderPath + INVENTORYFILE)
 

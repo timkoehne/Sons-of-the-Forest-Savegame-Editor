@@ -1,8 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
-from ttkwidgets import TickScale
 from SavefileLoader import SavefileLoader
 import json
+from TkVerticalScrolledFrame import TkVerticalScrolledFrame
 
 class Stat():
     def __init__(self, name, minValue: int, maxValue: int):
@@ -22,6 +22,9 @@ class NPC():
         self.stats.append(Stat("Hydration", 0, 100))
         self.stats.append(Stat("Energy", 0, 100))
         self.stats.append(Stat("Affection", 0, 100))
+        self.stats.append(Stat("Sentiment Influence", 0, 100))
+        self.stats.append(Stat("Anger Influence", 0, 100))
+        self.stats.append(Stat("Fear Influence", 0, 100))
         
     def setStat(self, name, value):
         for stat in self.stats:
@@ -55,12 +58,16 @@ class TkNPCTab(tk.Frame):
         super().__init__()
         self.savefileLoader = savefileLoader
         
-        self.initializeKelvin()
-        self.initializeVirginia()
+        containerExterior = TkVerticalScrolledFrame(self)
+        container = containerExterior.interior
+        containerExterior.pack(expand=True, fill="both")
+    
+        self.initializeKelvin(container)
+        self.initializeVirginia(container)
         
-    def initializeKelvin(self):
-        kelvinFrame = tk.Frame(self, highlightthickness=2, highlightbackground="lightblue")
-        kelvinFrame.pack(side="left", expand=True, fill="x", padx=10, pady=10)
+    def initializeKelvin(self, container):
+        kelvinFrame = tk.Frame(container, highlightthickness=2, highlightbackground="lightblue")
+        kelvinFrame.pack(side="left", expand=True, fill="both", padx=10, pady=10)
         kelvinFrame.grid_rowconfigure(0, minsize=30)
         kelvinFrame.grid_columnconfigure(0, weight=0)
         kelvinFrame.grid_columnconfigure(1, weight=1)
@@ -105,8 +112,8 @@ class TkNPCTab(tk.Frame):
         box.bind("<<ComboboxSelected>>", lambda event=None, npcName="Kelvin": self.onClothingSelected(npcName))
         box.grid(row=index+3+len(self.kelvin.stats), column=1, sticky="w", padx=10, pady=10)
 
-    def initializeVirginia(self):
-        virginiaFrame = tk.Frame(self, highlightthickness=2, highlightbackground="lightblue")
+    def initializeVirginia(self, container):
+        virginiaFrame = tk.Frame(container, highlightthickness=2, highlightbackground="lightblue")
         virginiaFrame.pack(side="left", expand=True, fill="x", padx=10, pady=10)
         virginiaFrame.grid_rowconfigure(0, minsize=30)
         virginiaFrame.grid_columnconfigure(0, weight=0)
@@ -199,13 +206,19 @@ class TkNPCTab(tk.Frame):
         actor = self._findActor(npcName)
         
         statName = npc.stats[statIndex].name
-        stats = actor["Stats"]
-        stats[statName] = float(value)
         
-        if statName == "Health":
-            self.setStatus(npcName, "alive" if value > 0 else "Dead")
-            self.statusVarRefresh(npcName)
-        
+        if "Influence" in statName:
+            influenceName = str(npc.stats[statIndex].name).removesuffix(" Influence")
+            self.setInfluenceTowards(npcName, influenceName, value)
+        else:
+            #regular actors stats
+            stats = actor["Stats"]
+            stats[statName] = float(value)
+            
+            if statName == "Health":
+                self.setStatus(npcName, "alive" if value > 0 else "Dead")
+                self.statusVarRefresh(npcName)
+            
         print(f"Setting {npcName} {statName} to {value}")
         
     def readStats(self, npcName):
@@ -218,6 +231,12 @@ class TkNPCTab(tk.Frame):
         stats = actor["Stats"]
         for name, value in stats.items():
             npc.setStat(name, value)
+            
+        for stat in self._findNpc(npcName).stats:
+            if "Influence" in stat.name:
+                influenceName = str(stat.name).removesuffix(" Influence")
+                influenceValue = self.getInfluenceTowards(npcName, influenceName)
+                npc.setStat(stat.name, influenceValue)
         
     def getPosition(self, npcName):
         actor = self._findActor(npcName)
@@ -256,6 +275,22 @@ class TkNPCTab(tk.Frame):
         with open("../res/virginia.json") as file:
             self.virginiaActor = json.loads(file.read())[0]
             self.savefileLoader.actors.append(self.virginiaActor)
+
+    def getInfluenceTowards(self, npcName, influenceName, towards="Player"):
+        uniqueId = self._findUniqueId(npcName)
+        for source in self.savefileLoader.influenceMemory:
+            if source["UniqueId"] == uniqueId:
+                for target in source["Influences"]:
+                    if target["TypeId"] == towards:
+                        return target[influenceName]
+
+    def setInfluenceTowards(self, npcName, influenceName, value, towards="Player"):
+        uniqueId = self._findUniqueId(npcName)
+        for source in self.savefileLoader.influenceMemory:
+            if source["UniqueId"] == uniqueId:
+                for target in source["Influences"]:
+                    if target["TypeId"] == towards:
+                        target[influenceName] = value
 
     def _findActor(self, npcName):
         if npcName == "Kelvin":
@@ -298,3 +333,9 @@ class TkNPCTab(tk.Frame):
             return self.kelvinClothingVar
         elif npcName == "Virginia":
             return self.virginiaClothingVar
+        
+    def _findUniqueId(self, npcName):
+        if npcName == "Kelvin":
+            return self.kelvinActor["UniqueId"]
+        elif npcName == "Virginia":
+            return self.virginiaActor["UniqueId"]
