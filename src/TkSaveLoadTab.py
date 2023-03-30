@@ -3,15 +3,16 @@ from TkSearchableCombobox import TkSearchableCombobox
 from SavefileLoader import SavefileLoader
 from TkInventoryTab import TkInventoryTab
 from TkWorldTab import TkWorldTab
+from TkPlayerTab import TkPlayerTab
+from TkNPCTab import TkNPCTab
 
 
 class TkSaveLoadTab(tk.Frame):
-    def __init__(self, saveFileLoader: SavefileLoader, inventoryTab: TkInventoryTab, worldTab: TkWorldTab):
+    def __init__(self, saveFileLoader, createUiFunction):
         super().__init__()
         
         self.saveFileLoader = saveFileLoader
-        self.inventoryTab = inventoryTab
-        self.worldTab = worldTab
+        self.createUiFunction = createUiFunction
         
         saveLoadFrame = tk.Frame(self)
         saveLoadFrame.pack(padx=5, pady=5)
@@ -22,8 +23,8 @@ class TkSaveLoadTab(tk.Frame):
         
     def loadSavefile(self):
         self.saveFileLoader.load()
-        self.inventoryTab.refreshInventoryList()
-        self.worldTab.refreshSettings()
+        self.createUiFunction()
+        
 
     def saveSavefile(self):
         self.saveFileLoader.save()

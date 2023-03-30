@@ -13,15 +13,18 @@ from TkPlayerTab import TkPlayerTab
 
 def createUiElements():
     
+    for child in window.winfo_children():
+        child.destroy()
+
     tabsystem = ttk.Notebook(window)
     
     inventoryTab = TkInventoryTab(itemIdLoader, inventoryLoader)
     worldTab = TkWorldTab(savefileLoader)
-    saveFileTab = TkSaveLoadTab(savefileLoader, inventoryTab, worldTab)
     npcTab = TkNPCTab(savefileLoader)
     playerTab = TkPlayerTab(savefileLoader)
     teleportTab = TkTeleportTab(savefileLoader, npcTab, playerTab)
     settingsTab = TkSettingsTab(inventoryTab, savefileLoader, teleportTab)
+    saveFileTab = TkSaveLoadTab(savefileLoader, createUiElements)
     
     tabsystem.add(saveFileTab, text="saveFile")
     tabsystem.add(worldTab, text="World")

@@ -100,7 +100,7 @@ class TkNPCTab(tk.Frame):
         self.readStats("Kelvin")
         
         #clothing
-        tk.Label(kelvinFrame, text="Clothing").grid(row=index+3+len(self.kelvin.stats), column=0)
+        tk.Label(kelvinFrame, text="Clothing", anchor="w").grid(row=index+3+len(self.kelvin.stats), column=0, sticky="nesw")
         with open("../res/kelvinClothing.json", "r") as file:
             self.possibleKelvinClothingItems = json.loads(file.read())
             
@@ -125,7 +125,7 @@ class TkNPCTab(tk.Frame):
             if actor["TypeId"] == 10:
                 self.virginiaActor = actor
                 break
-        if self.virginiaActor is None:
+        if not hasattr(self, "virginiaActor"):
             self.createVirginia()
         
         tk.Label(virginiaFrame, text=self.virginia.name, anchor="center", bg="lightblue").grid(row=0, column=0, columnspan=2, sticky="new")
@@ -149,7 +149,7 @@ class TkNPCTab(tk.Frame):
         self.readStats("Virginia")
         
         #clothing
-        tk.Label(virginiaFrame, text="Clothing").grid(row=index+3+len(self.virginia.stats), column=0)
+        tk.Label(virginiaFrame, text="Clothing", anchor="w").grid(row=index+3+len(self.virginia.stats), column=0, sticky="nesw")
         with open("../res/virginiaClothing.json", "r") as file:
             self.possibleVirginiaClothingItems = json.loads(file.read())
             
@@ -221,7 +221,13 @@ class TkNPCTab(tk.Frame):
             
         print(f"Setting {npcName} {statName} to {value}")
         
-    def readStats(self, npcName):
+    def readStats(self, npcName=None):
+        
+        if npcName == None:
+            self.readStats("Kelvin")
+            self.readStats("Virginia")
+            return
+        
         npc = self._findNpc(npcName)
         actor = self._findActor(npcName)
         
@@ -273,8 +279,14 @@ class TkNPCTab(tk.Frame):
     
     def createVirginia(self):
         with open("../res/virginia.json") as file:
-            self.virginiaActor = json.loads(file.read())[0]
+            self.virginiaActor = json.loads(file.read())
             self.savefileLoader.actors.append(self.virginiaActor)
+            
+        uniqueId = self._findUniqueId("Virginia")
+        with open("../res/influenceMemory.json") as file:
+            influenceMemory = json.loads(file.read())
+            influenceMemory["UniqueId"] = uniqueId
+            self.savefileLoader.influenceMemory.append(influenceMemory)
 
     def getInfluenceTowards(self, npcName, influenceName, towards="Player"):
         uniqueId = self._findUniqueId(npcName)

@@ -1,0 +1,23 @@
+        {
+            "UniqueId": 0,
+            "Influences": [
+                {
+                    "TypeId": "Player",
+                    "Sentiment": 0,
+                    "Anger": 0,
+                    "Fear": 0
+                },
+                {
+                    "TypeId": "Cannibal",
+                    "Sentiment": 0,
+                    "Anger": 0,
+                    "Fear": 0
+                },
+                {
+                    "TypeId": "Creepy",
+                    "Sentiment": 0,
+                    "Anger": 0,
+                    "Fear": 0
+                }
+            ]
+        }
