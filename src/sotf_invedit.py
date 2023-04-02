@@ -12,11 +12,8 @@ from TkNPCTab import TkNPCTab
 from TkPlayerTab import TkPlayerTab
 
 def createUiElements():
-    
-    for child in window.winfo_children():
-        child.destroy()
-
-    tabsystem = ttk.Notebook(window)
+    for tab in tabsystem.tabs()[1:]:
+        tabsystem.forget(tab)
     
     inventoryTab = TkInventoryTab(itemIdLoader, inventoryLoader)
     worldTab = TkWorldTab(savefileLoader)
@@ -24,31 +21,30 @@ def createUiElements():
     playerTab = TkPlayerTab(savefileLoader)
     teleportTab = TkTeleportTab(savefileLoader, npcTab, playerTab)
     settingsTab = TkSettingsTab(inventoryTab, savefileLoader, teleportTab)
-    saveFileTab = TkSaveLoadTab(savefileLoader, createUiElements)
-    
-    tabsystem.add(saveFileTab, text="saveFile")
     tabsystem.add(worldTab, text="World")
     tabsystem.add(playerTab, text="Player")
     tabsystem.add(inventoryTab, text="Inventory")
     tabsystem.add(teleportTab, text="Teleport")
     tabsystem.add(npcTab, text="NPCs")
     tabsystem.add(settingsTab, text="Settings")
-    
-    tabsystem.pack(expand=1, fill="both")
 
 itemIdLoader = ItemIdLoader()
 itemIdLoader.loadIds()
 
-savefileLoader = SavefileLoader(itemIdLoader, 
-                                "C:/Users/Tim/AppData/LocalLow/Endnight/SonsOfTheForest/Saves/76561198042133385/SinglePlayer/0863039748")
+savefileLoader = SavefileLoader(itemIdLoader)
 inventoryLoader = savefileLoader.inventoryLoader
 
 window = tk.Tk()
 window.title("SotF Inventory Editor")
 window.geometry("600x460")
-createUiElements()
 
 
+tabsystem = ttk.Notebook(window)
+saveFileTab = TkSaveLoadTab(savefileLoader, createUiElements)
+
+tabsystem.add(saveFileTab, text="saveFile")
+
+tabsystem.pack(expand=1, fill="both")
 
 
 window.mainloop()

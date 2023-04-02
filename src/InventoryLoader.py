@@ -1,7 +1,6 @@
 import json
-import os
-from tkinter import filedialog as tkfiledialog
 from ItemIdLoader import ItemIdLoader
+import copy
 
 jsonFiletypes = (
     ('json file', '*.json'),
@@ -15,6 +14,7 @@ class InventoryLoader:
         self.entireInventoryData = []
         self.itemIdLoader = itemIdLoader
         self.playerdataFilepath = ""
+        self.backup = {}
     
     def loadInventory(self, savefilePath):
         self.playerdataFilepath = savefilePath
@@ -25,6 +25,7 @@ class InventoryLoader:
         self.entireInventoryData = json.loads(self.playerSaveData["Data"]["PlayerInventory"])
         self.inventory = sorted(self.entireInventoryData["ItemInstanceManagerData"]["ItemBlocks"], 
                                 key=lambda item: self.itemIdLoader.findNameFromId(item["ItemId"]))
+        self.backup["inventory"] = copy.deepcopy(self.inventory)
         print("loaded", len(self.inventory), "items")
         
     def saveInventory(self, savefilePath):
@@ -34,12 +35,18 @@ class InventoryLoader:
         
         with open(savefilePath, "w") as file:
             file.write(strPlayerSaveData)
+            self.backup["inventory"] = copy.deepcopy(self.inventory)
             print("Inventory saved")
 
     def listInventory(self):
         for item in self.inventory:
             print("Item %s exists %d times" %(item["ItemId"], item["TotalCount"]))
-            
+
+    def hasAnythingChanged(self) -> bool:
+        if self.inventory != self.backup["inventory"]:
+            return True
+        return False
+
     def setAmount(self, selectedItem, amount):
         
         if selectedItem in [item["name"] for item in self.itemIdLoader.getIds()]: 
