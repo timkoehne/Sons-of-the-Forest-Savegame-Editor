@@ -49,7 +49,7 @@ SETTINGS = {
     "ConsumableEffects": Setting("gameSetupFile", "GameSetting.Survival.ConsumableEffects", ["High", "Normal"], "Normal"),
     "PlayerStatsDamage": Setting("gameSetupFile", "GameSetting.Survival.PlayerStatsDamage", ["Hard", "Normal", "Off"], "Off"),
     "CurrentSeason": Setting("weatherSystem", "_currentSeason", ["Spring", "Summer", "Autumn", "Winter"], "Summer"),
-    "IsRaining": Setting("weatherSystem", "_isRaining", [True, False], False)
+    #"IsRaining": Setting("weatherSystem", "_isRaining", [True, False], False)
 }
 
 def seasonStart(season: str, seasonLength: str) -> int:
@@ -139,7 +139,7 @@ def countNumActors(actors):
     for key, value in typeIds.items():
         print(f'{key} exists {value} times') 
 
-def saveTestdata(actors, gamestate, gameSetupSettings, weatherSystem, playerState, armourPieces, clothing, vailworldsim):
+def saveTestdata(actors, gamestate, gameSetupSettings, weatherSystem, playerState, armourPieces, clothing, vailworldsim, inventory):
     with open("../test/actors.json", "w") as file:
         file.write(json.dumps(actors, indent=4))
         
@@ -163,3 +163,6 @@ def saveTestdata(actors, gamestate, gameSetupSettings, weatherSystem, playerStat
         
     with open("../test/vailworldsim.json", "w") as file:
         file.write(json.dumps(vailworldsim, indent=4))
+        
+    with open("../test/inventory.json", "w") as file:
+        file.write(json.dumps(inventory, indent=4))

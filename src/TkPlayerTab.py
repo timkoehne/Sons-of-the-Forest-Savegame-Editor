@@ -223,7 +223,11 @@ class TkPlayerTab(tk.Frame):
 
     def getArmourNameFromSlot(self, slot) -> str:
         for entry in self.saveFileLoader.armourPieces:
-            if entry["Slot"] == slot:
+            
+            if "Slot" not in list(entry.keys()):
+                if slot == 0:
+                    return self.getArmourNameFromItemId(entry["ItemId"])
+            elif  entry["Slot"] == slot:
                 return self.getArmourNameFromItemId(entry["ItemId"])
         return "None"
 

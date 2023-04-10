@@ -82,7 +82,7 @@ class SavefileLoader:
         
         self.inventoryLoader.loadInventory(saveFolderPath + INVENTORYFILE)
         saveTestdata(self.actors, self.gamestate, self.gameSetupSettings, 
-                     self.weatherSystem, self.playerState, self.armourPieces, self.clothing, self.vailworldsim)
+                     self.weatherSystem, self.playerState, self.armourPieces, self.clothing, self.vailworldsim, self.inventoryLoader.inventory)
 
     def hasAnythingChanged(self) -> bool:
         if self.gameStateContent != self.backup["gameStateContent"]:
@@ -186,7 +186,7 @@ class SavefileLoader:
             self.backup["clothingSystemSaveData"] = copy.deepcopy(self.clothingSystemSaveData)
             
         saveTestdata(self.actors, self.gamestate, self.gameSetupSettings, 
-                     self.weatherSystem, self.playerState, self.armourPieces, self.clothing, self.vailworldsim)
+                     self.weatherSystem, self.playerState, self.armourPieces, self.clothing, self.vailworldsim, self.inventoryLoader.inventory)
         
         self.inventoryLoader.saveInventory(saveFolderPath + INVENTORYFILE)
         return True

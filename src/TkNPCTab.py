@@ -23,8 +23,6 @@ class NPC():
         self.stats.append(Stat("Energy", 0, 100))
         self.stats.append(Stat("Affection", 0, 100))
         self.stats.append(Stat("Sentiment Influence", 0, 100))
-        self.stats.append(Stat("Anger Influence", 0, 100))
-        self.stats.append(Stat("Fear Influence", 0, 100))
         
     def setStat(self, name, value):
         for stat in self.stats:
@@ -182,13 +180,14 @@ class TkNPCTab(tk.Frame):
                 return item["Name"]
     
     def onButton(self, npcName):
+        print(npcName)
         if self.isAlive(npcName):
             self.setStatus(npcName, "dead")
             print(f"{npcName} was killed")
-            self.kelvin.setStat("Health", "min")
+            self._findNpc(npcName).setStat("Health", "min")
         else:
             self.setStatus(npcName, "alive")
-            self.kelvin.setStat("Health", "max")
+            self._findNpc(npcName).setStat("Health", "max")
             print(f"{npcName} was revived")
         self.statusVarRefresh(npcName)
 
@@ -273,7 +272,8 @@ class TkNPCTab(tk.Frame):
         gamestateName = self._findGamestateName(npcName)
         actor = self._findActor(npcName)
     
-        if self.savefileLoader.gamestate[gamestateName] == True or actor["State"] == 6 or actor["Stats"]["Health"] < 1:
+        #self.savefileLoader.gamestate[gamestateName] == True or 
+        if actor["State"] == 6 or actor["Stats"]["Health"] < 1:
             return False
         return True
     

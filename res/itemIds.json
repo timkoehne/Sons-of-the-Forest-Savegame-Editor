@@ -1403,6 +1403,13 @@
         "UniqueItems": {}
     },
     {
+        "id": "635",
+        "name": "LightBulb",
+        "max": 8,
+        "manuallyVerified": false,
+        "UniqueItems": {}
+    },
+    {
         "id": "395",
         "name": "LogPlank",
         "max": 1,
@@ -2003,6 +2010,13 @@
         "name": "Snowberries",
         "max": 20,
         "manuallyVerified": true,
+        "UniqueItems": {}
+    },
+    {
+        "id": "634",
+        "name": "SolarPanel",
+        "max": 3,
+        "manuallyVerified": false,
         "UniqueItems": {}
     },
     {

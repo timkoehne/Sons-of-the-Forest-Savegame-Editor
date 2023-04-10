@@ -56,8 +56,10 @@ class InventoryLoader:
             
         allUniqueItems = []
         singleUniqueItem = self.itemIdLoader.findEntryFromId(itemId)["UniqueItems"]
-        for x in range(0, amount):                
-            allUniqueItems.append(singleUniqueItem)
+        print(singleUniqueItem)
+        if not singleUniqueItem == {}:
+            for x in range(0, amount):                
+                allUniqueItems.append(singleUniqueItem)
             
         print(f"Setting item {self.itemIdLoader.findNameFromId(itemId)} (id {itemId}) to amount {amount}")
         found = False
